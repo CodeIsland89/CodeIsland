@@ -19,5 +19,3 @@ const doc = {
 }
 
 void swaggerAutogen(outputFile, endpointsFiles, doc)
-
-// test commit
