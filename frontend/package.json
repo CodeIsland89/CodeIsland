@@ -16,9 +16,11 @@
   },
   "dependencies": {
     "next": "13.1.1",
+    "prismjs": "^1.29.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-markdown": "8.0.4",
+    "react-simple-code-editor": "^0.13.1",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
