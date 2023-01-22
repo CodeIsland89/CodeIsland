@@ -4,25 +4,27 @@ import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/themes/prism.css';
+
 import styled from 'styled-components';
 
-const hightlightWithLineNumbers = (input, language) =>
-  highlight(input, language)
-    .split("\n")
-    .map((line, i) => `<span class='editorLineNumber'>${i + 1}</span>${line}`)
-    .join("\n");
+const hightlightWithLineNumbers = (input, language) => highlight(input, language)
+  .split('\n')
+  .map((line, i) => `<span class='editorLineNumber'>${i + 1}</span>${line}`)
+  .join('\n');
 
-function CodeEditor({className=''}) {
+type CodeEditorProps = { className?: string };
+
+function CodeEditor({ className = '' }: CodeEditorProps) {
   const [code, setCode] = React.useState(
-    `function add(a, b) {\n  return a + b;\n}`
+    'function add(a, b) {\n  return a + b;\n}',
   );
 
   return (
     <div className={className}>
       <Editor
         value={code}
-        onValueChange={code => setCode(code)}
-        highlight={code => hightlightWithLineNumbers(code, languages.js)}
+        onValueChange={(value) => setCode(value)}
+        highlight={(value) => hightlightWithLineNumbers(value, languages.js)}
         padding={10}
         textareaId="codeArea"
         className="editor"
