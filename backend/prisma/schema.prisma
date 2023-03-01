@@ -7,8 +7,86 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model Member {
+  member_id      Int     @id @default(autoincrement())
+  email          String  @unique
+  password       String
+  is_enabled     Boolean @default(true)
+  is_admin       Boolean @default(false)
+  is_vip         Boolean @default(false)
+  continuous_day Int     @default(0)
+  exp            Int     @default(0)
+  gem            Int     @default(0)
+  nickname       String
+  source_url     String?
+  MemberIsland   MemberIsland[]
+}
+
+model Island {
+  island_id   Int       @id @default(autoincrement())
+  island_name String    @unique
+  source_url  String?   @unique
+  Chapter     Chapter[]
+  MemberIsland MemberIsland[]
+}
+
+model MemberIsland {
+  member_id   Int
+  island_id   Int
+  member      Member @relation(fields: [member_id], references: [member_id])
+  island      Island @relation(fields: [island_id], references: [island_id])
+  island_status String @default("0-0")
+  @@id([member_id, island_id])
+}
+
+model Chapter {
+  chapter_id     Int    @id @default(autoincrement())
+  chapter_name   String @unique
+  chapter_detail String @unique
+  chapter_order  Int 
+  island         Island @relation(fields: [island_id], references: [island_id])
+  island_id      Int
+  Lesson     Lesson[]
+  @@unique([chapter_name, chapter_order])
+}
+
+model Lesson {
+  lesson_id     Int      @id @default(autoincrement())
+  lesson_name   String   @unique
+  lesson_order  Int
+  chapter       Chapter  @relation(fields: [chapter_id], references: [chapter_id])
+  chapter_id    Int
+  Quiz      Quiz[]
+  @@unique([lesson_name, lesson_order])
+}
+
+enum QuizType {
+  TESTSET
+  OPTION
+}
+model Quiz {
+  quiz_id     Int     @id @default(autoincrement())
+  quiz_describe   String 
+  quiz_type QuizType
+  lesson     Lesson  @relation(fields: [lesson_id], references: [lesson_id])
+  lesson_id  Int
+  TestSet    TestSet[]
+  Option     Option[]
+}
+
+model TestSet {
+  testset_id     Int     @id @default(autoincrement())
+  input          String
+  output         String
+  quiz      Quiz  @relation(fields: [quiz_id], references: [quiz_id])
+  quiz_id   Int
+  @@unique([input, output])
+}
+
+model Option {
+  option_id     Int     @id @default(autoincrement())
+  option_describe   String
+  is_answer    Boolean
+  quiz      Quiz  @relation(fields: [quiz_id], references: [quiz_id])
+  quiz_id   Int
 }
