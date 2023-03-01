@@ -7,6 +7,7 @@
     "start": "ts-node app.ts",
     "seed": "ts-node prisma/seed.ts",
     "swagger-autogen": "ts-node swagger.ts",
+    "lint-staged": "lint-staged",
     "eslintInit": "eslint --init"
   },
   "dependencies": {
@@ -30,6 +31,8 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.6.0",
     "eslint-plugin-promise": "^6.1.1",
+    "husky": "^4.3.8",
+    "lint-staged": "^13.1.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.2",
     "prisma": "4.8.0",
