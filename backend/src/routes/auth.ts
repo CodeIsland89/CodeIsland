@@ -22,11 +22,12 @@ export default (ctx: Ctx, app: Express): expressRouter => {
     body('email')
       .isEmail()
       .withMessage('Email is not valid format')
-      .custom(async ({ req }) => {
+      .custom(async (value) => {
         const isExist = await checkDataExistInDatabase(ctx, 'member', {
-          email: req.body.email
+          email: value
         })
-        return isExist
+        if (isExist) throw new Error('Email is already exists')
+        return true
       })
       .withMessage('Email is already exists'),
     body('password')

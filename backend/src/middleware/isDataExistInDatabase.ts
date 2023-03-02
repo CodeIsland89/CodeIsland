@@ -21,7 +21,7 @@ export default async function isDataExistInDatabase (
 ): Promise<boolean> {
   const { prisma } = ctx
   // @ts-expect-error
-  const record = await prisma[tableName].findUnique(where)
+  const record = await prisma[tableName].findUnique({ where })
   if (record === null) return false
   return true
 }
