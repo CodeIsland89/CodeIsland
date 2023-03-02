@@ -12,8 +12,8 @@ const doc = {
   basePath: '/api',
   tags: [
     {
-      name: 'user',
-      description: 'user router'
+      name: 'auth',
+      description: 'auth router'
     }
   ]
 }

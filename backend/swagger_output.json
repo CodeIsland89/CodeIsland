@@ -9,18 +9,18 @@
   "basePath": "/api",
   "tags": [
     {
-      "name": "user",
-      "description": "user router"
+      "name": "auth",
+      "description": "auth router"
     }
   ],
   "schemes": [
     "http"
   ],
   "paths": {
-    "/user/": {
+    "/user/sendRegisterEmail": {
       "post": {
         "tags": [
-          "user"
+          "auth"
         ],
         "description": "",
         "parameters": [
@@ -32,6 +32,12 @@
               "properties": {
                 "email": {
                   "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                },
+                "nickname": {
+                  "example": "any"
                 }
               }
             }
@@ -41,41 +47,8 @@
           "200": {
             "description": "OK"
           },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "user"
-        ],
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/user/{id}": {
-      "get": {
-        "tags": [
-          "user"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
