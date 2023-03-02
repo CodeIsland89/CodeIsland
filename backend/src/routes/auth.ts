@@ -100,5 +100,53 @@ export default (ctx: Ctx, app: Express): expressRouter => {
     }
   })
 
+  router.post(
+    '/login',
+    body('email').isEmail().withMessage('Email is not valid format'),
+    body('password')
+      .isLength({ min: 8 })
+      .withMessage('Password must be at least 8 characters'),
+    async (req, res) => {
+      try {
+        const { email, password } = req.body
+        const member = await prisma.member.findUnique({
+          where: {
+            email: email as string
+          }
+        })
+
+        if (member == null) {
+          return res.status(400).json({
+            message: 'Member not found',
+            error: ''
+          })
+        }
+
+        if (member.password !== hashString(password as string)) {
+          return res.status(400).json({
+            message: 'Password is incorrect',
+            error: ''
+          })
+        }
+
+        const token = jwt.sign(
+          { id: member.member_id },
+          process.env.JWT_SECRET as string
+        )
+
+        return res.status(200).json({
+          message: 'Login success',
+          error: '',
+          token
+        })
+      } catch (error) {
+        return res.status(500).json({
+          message: 'Internal Server Error',
+          error: getErrorMessage(error)
+        })
+      }
+    }
+  )
+
   return router
 }
