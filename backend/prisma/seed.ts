@@ -2,29 +2,44 @@ import { PrismaClient, Prisma } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-const userData: Prisma.UserCreateInput[] = [
-  {
-    name: 'Alice',
-    email: 'alice@prisma.io'
-  },
-  {
-    name: 'Nilu',
-    email: 'nilu@prisma.io'
-  },
-  {
-    name: 'Mahmoud',
-    email: 'mahmoud@prisma.io'
+async function createJavaScriptCourse (): Promise<void> {
+  const JavaScriptIslandData: Prisma.TestSetCreateInput = {
+    input: '[1,2,3]',
+    output: '6',
+    quiz: {
+      create: {
+        quiz_describe: 'JavaScript_Quiz1_description',
+        quiz_type: 'TESTSET',
+        lesson: {
+          create: {
+            lesson_name: 'JavaScript_Lesson1',
+            lesson_order: 0,
+            chapter: {
+              create: {
+                chapter_name: 'JavaScript_Chapter1',
+                chapter_detail: 'JavaScript_Chapter1_description',
+                chapter_order: 0,
+                island: {
+                  create: {
+                    island_name: 'JavaScript'
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
-]
+
+  await prisma.testSet.create({
+    data: JavaScriptIslandData
+  })
+}
 
 async function main (): Promise<void> {
   console.log('Start seeding ...')
-  for (const u of userData) {
-    const user = await prisma.user.create({
-      data: u
-    })
-    console.log(`Created user with id: ${user.id}`)
-  }
+  await createJavaScriptCourse()
   console.log('Seeding finished.')
 }
 
