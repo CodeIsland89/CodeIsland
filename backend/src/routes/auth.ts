@@ -37,8 +37,23 @@ export default (ctx: Ctx, app: Express): expressRouter => {
       .isLength({ min: 2 })
       .withMessage('Nickname must be at least 2 characters'),
     async (req, res) => {
+      /*
+        #swagger.summary = '發送註冊信到使用者的信箱，點擊信件中的連結來完成註冊'
+        #swagger.parameters['obj'] = {
+          in: 'body',
+          description: 'Email 要是符合 Email的格式,\n Password 至少要有8個字母長,\n nickname 至少要有2個字母長',
+          required: true,
+          schema: {
+              email: "user@gmail.com",
+              password: "12342312312",
+              nickname: "user"
+          }
+        }
+      */
+
       const errors = validationResult(req)
       if (!errors.isEmpty()) {
+        // #swagger.responses[400] = { description: '輸入的資料有誤'}
         return res.status(400).json({ errors: errors.array()[0].msg })
       }
 
@@ -58,17 +73,19 @@ export default (ctx: Ctx, app: Express): expressRouter => {
         )
         await sendEmail({
           to: email,
-          subject: 'Test Email',
+          subject: 'CodeIsland 註冊信',
           html: `
             <h1>感謝您註冊CodeIsland</h1><br>
           <a href=${hostURL}/api/auth/createMember?token=${createMemberToken}>請點擊這個連結來完成註冊</a>`
         })
 
+        // #swagger.responses[200] = { description: '成功發送信件'}
         return res.status(200).json({
           message: 'Email sent',
           error: ''
         })
       } catch (error) {
+        // #swagger.responses[500] = { description: '發送信件失敗,因為伺服器端的不明問題導致失敗'}
         return res.status(500).json({
           message: 'Internal Server Error',
           error: getErrorMessage(error)

@@ -17,7 +17,75 @@
     "http"
   ],
   "paths": {
-    "/user/sendRegisterEmail": {
+    "/auth/sendRegisterEmail": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "發送註冊信到使用者的信箱，點擊信件中的連結來完成註冊",
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Email 要是符合 Email的格式,\n Password 至少要有8個字母長,\n nickname 至少要有2個字母長",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "user@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "12342312312"
+                },
+                "nickname": {
+                  "type": "string",
+                  "example": "user"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功發送信件"
+          },
+          "400": {
+            "description": "輸入的資料有誤"
+          },
+          "500": {
+            "description": "發送信件失敗,因為伺服器端的不明問題導致失敗"
+          }
+        }
+      }
+    },
+    "/auth/createMember": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/login": {
       "post": {
         "tags": [
           "auth"
@@ -35,9 +103,6 @@
                 },
                 "password": {
                   "example": "any"
-                },
-                "nickname": {
-                  "example": "any"
                 }
               }
             }
@@ -46,6 +111,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"
