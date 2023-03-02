@@ -15,7 +15,7 @@ type createMemberRequestBody = {
 
 export default (ctx: Ctx, app: Express): expressRouter => {
   const router = expressRouter()
-  // const { prisma } = ctx
+  const { prisma } = ctx
 
   router.post(
     '/sendRegisterEmail',
@@ -75,6 +75,30 @@ export default (ctx: Ctx, app: Express): expressRouter => {
       }
     }
   )
+
+  router.get('/createMember', async (req, res) => {
+    try {
+      const { token } = req.query
+      const { createMemberJSON } = jwt.verify(
+        token as string,
+        process.env.JWT_SECRET as string
+      ) as { createMemberJSON: createMemberRequestBody }
+
+      await prisma.member.create({
+        data: createMemberJSON
+      })
+
+      return res.status(200).json({
+        message: 'Member created',
+        error: ''
+      })
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Internal Server Error',
+        error: getErrorMessage(error)
+      })
+    }
+  })
 
   return router
 }
