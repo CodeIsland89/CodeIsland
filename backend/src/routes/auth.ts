@@ -159,9 +159,20 @@ export default (ctx: Ctx, app: Express): expressRouter => {
           process.env.JWT_SECRET as string
         ) as { createMemberJSON: createMemberRequestBody }
 
-        await prisma.member.create({
+        const newMember = await prisma.member.create({
           data: createMemberJSON
         })
+        const isLands = await prisma.island.findMany()
+        await Promise.all(
+          isLands.map(async (island) => {
+            await prisma.memberIsland.create({
+              data: {
+                island_id: island.island_id,
+                member_id: newMember.member_id
+              }
+            })
+          })
+        )
         /*
        #swagger.responses[200] = {
          description: '創建會員資訊成功!',
