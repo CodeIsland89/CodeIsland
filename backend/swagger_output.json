@@ -150,6 +150,21 @@
               }
             }
           },
+          "400": {
+            "description": "輸入的資料有誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "string",
+                  "example": "Email is not valid format"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
           "500": {
             "description": "創建會員失敗,因為伺服器端的不明問題導致失敗",
             "schema": {

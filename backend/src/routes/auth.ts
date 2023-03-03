@@ -1,8 +1,8 @@
 import { Ctx } from '../types/context'
-import { Router as expressRouter, Express } from 'express'
+import { Router as expressRouter, Express, Request } from 'express'
 import getErrorMessage from '../utils/getErrorMessage'
 import sendEmail from '../utils/sendEmail'
-import { body, validationResult } from 'express-validator'
+import { body, query, validationResult } from 'express-validator'
 import checkDataExistInDatabase from '../middleware/isDataExistInDatabase'
 import hashString from '../utils/hashString'
 import jwt from 'jsonwebtoken'
@@ -11,6 +11,10 @@ type createMemberRequestBody = {
   email: string
   password: string
   nickname: string
+}
+
+interface RequestWithTokenInParams extends Request {
+  token?: string
 }
 
 export default (ctx: Ctx, app: Express): expressRouter => {
@@ -117,8 +121,15 @@ export default (ctx: Ctx, app: Express): expressRouter => {
     }
   )
 
-  router.get('/createMember', async (req, res) => {
-    /*
+  router.get(
+    '/createMember',
+    query('token')
+      .notEmpty()
+      .withMessage('Token in query is empty')
+      .isJWT()
+      .withMessage('Token is not valid format'),
+    async (req: RequestWithTokenInParams, res) => {
+      /*
         #swagger.summary = '會員點擊信件中的連結後會觸發這個API來完成註冊'
         #swagger.parameters['token'] = {
           in: 'query',
@@ -129,17 +140,29 @@ export default (ctx: Ctx, app: Express): expressRouter => {
           }
         }
      */
-    try {
-      const { token } = req.query
-      const { createMemberJSON } = jwt.verify(
-        token as string,
-        process.env.JWT_SECRET as string
-      ) as { createMemberJSON: createMemberRequestBody }
+      try {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+          /*
+             #swagger.responses[400] = {
+               description: '輸入的資料有誤',
+               schema: {
+                  errors: 'Email is not valid format'
+               }
+             }
+            */
+          return res.status(400).json({ errors: errors.array()[0].msg })
+        }
+        const { token } = req.query
+        const { createMemberJSON } = jwt.verify(
+          token as string,
+          process.env.JWT_SECRET as string
+        ) as { createMemberJSON: createMemberRequestBody }
 
-      await prisma.member.create({
-        data: createMemberJSON
-      })
-      /*
+        await prisma.member.create({
+          data: createMemberJSON
+        })
+        /*
        #swagger.responses[200] = {
          description: '創建會員資訊成功!',
          schema: {
@@ -148,12 +171,12 @@ export default (ctx: Ctx, app: Express): expressRouter => {
          }
        }
       */
-      return res.status(200).json({
-        message: 'Member created',
-        error: ''
-      })
-    } catch (error) {
-      /*
+        return res.status(200).json({
+          message: 'Member created',
+          error: ''
+        })
+      } catch (error) {
+        /*
        #swagger.responses[500] = {
          description: '創建會員失敗,因為伺服器端的不明問題導致失敗',
          schema: {
@@ -162,12 +185,13 @@ export default (ctx: Ctx, app: Express): expressRouter => {
          }
        }
       */
-      return res.status(500).json({
-        message: 'Internal Server Error',
-        error: getErrorMessage(error)
-      })
+        return res.status(500).json({
+          message: 'Internal Server Error',
+          error: getErrorMessage(error)
+        })
+      }
     }
-  })
+  )
 
   router.post(
     '/login',
