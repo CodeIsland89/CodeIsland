@@ -274,6 +274,7 @@ export default (ctx: Ctx, app: Express): expressRouter => {
             schema: {
                 message: 'Login success',
                 error: '',
+                token: 'JWT token here'
             }
           }
         */

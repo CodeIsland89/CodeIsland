@@ -228,6 +228,10 @@
                 "error": {
                   "type": "string",
                   "example": ""
+                },
+                "token": {
+                  "type": "string",
+                  "example": "JWT token here"
                 }
               },
               "xml": {
