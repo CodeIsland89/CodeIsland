@@ -1,11 +1,12 @@
 import { Ctx } from '../types/context'
-import { Router as expressRouter, Express, Request } from 'express'
+import { Router as expressRouter, Express, Request, Response } from 'express'
 import getErrorMessage from '../utils/getErrorMessage'
-import sendEmail from '../utils/sendEmail'
 import { body, query, validationResult } from 'express-validator'
-import checkDataExistInDatabase from '../middleware/isDataExistInDatabase'
 import hashString from '../utils/hashString'
 import jwt from 'jsonwebtoken'
+import authController from '../controllers/auth.controller'
+import valdationResultMiddleware from '../middleware/validationResult.middleware'
+import sendRegister from '../validations/sendRegister.validation'
 
 type createMemberRequestBody = {
   email: string
@@ -23,24 +24,10 @@ export default (ctx: Ctx, app: Express): expressRouter => {
 
   router.post(
     '/sendRegisterEmail',
-    body('email')
-      .isEmail()
-      .withMessage('Email is not valid format')
-      .custom(async (value) => {
-        const isExist = await checkDataExistInDatabase(ctx, 'member', {
-          email: value
-        })
-        if (isExist) throw new Error('Email is already exists')
-        return true
-      })
-      .withMessage('Email is already exists'),
-    body('password')
-      .isLength({ min: 8 })
-      .withMessage('Password must be at least 8 characters'),
-    body('nickname')
-      .isLength({ min: 2 })
-      .withMessage('Nickname must be at least 2 characters'),
-    async (req, res) => {
+    sendRegister(ctx),
+    valdationResultMiddleware,
+    async (req: Request, res: Response) => {
+      await authController.sendRegisterEmail(req, res)
       /*
         #swagger.summary = '發送註冊信到使用者的信箱，點擊信件中的連結來完成註冊'
         #swagger.parameters['obj'] = {
@@ -55,69 +42,30 @@ export default (ctx: Ctx, app: Express): expressRouter => {
         }
       */
 
-      const errors = validationResult(req)
-      if (!errors.isEmpty()) {
-        /*
-         #swagger.responses[400] = {
-           description: '輸入的資料有誤',
-           schema: {
-              errors: 'Email is not valid format'
-           }
-         }
-        */
-        return res.status(400).json({ errors: errors.array()[0].msg })
-      }
-
-      try {
-        const { email, password, nickname } = req.body
-        const hostURL = process.env.HOST_URL as string
-
-        const createMemberJSON: createMemberRequestBody = {
-          email,
-          password: hashString(password),
-          nickname
-        }
-        const createMemberToken = jwt.sign(
-          { createMemberJSON },
-          process.env.JWT_SECRET as string,
-          { expiresIn: '1h' }
-        )
-        await sendEmail({
-          to: email,
-          subject: 'CodeIsland 註冊信',
-          html: `
-            <h1>感謝您註冊CodeIsland</h1><br>
-          <a href=${hostURL}/api/auth/createMember?token=${createMemberToken}>請點擊這個連結來完成註冊</a>`
-        })
-
-        /*
-          #swagger.responses[200] = {
-            description: '成功發送信件',
-            schema: {
-              message: 'Email sent',
-              error: ''
-            }
-          }
-        */
-        return res.status(200).json({
+      /*
+      #swagger.responses[200] = {
+        description: '成功發送信件',
+        schema: {
           message: 'Email sent',
           error: ''
-        })
-      } catch (error) {
-        /*
-         #swagger.responses[500] = {
-           description: '發送信件失敗,因為伺服器端的不明問題導致失敗',
-           schema: {
-              message: 'Internal Server Error',
-              error: 'Error Reason Here'
-           }
-         }
-        */
-        return res.status(500).json({
-          message: 'Internal Server Error',
-          error: getErrorMessage(error)
-        })
+        }
       }
+
+      #swagger.responses[400] = {
+        description: '輸入的資料有誤',
+        schema: {
+           errors: 'Email is not valid format'
+        }
+      }
+
+      #swagger.responses[500] = {
+        description: '因為伺服器的問題，無法發送信件',
+        schema: {
+           errors: 'Internal Server Error',
+           message: 'Error message here
+        }
+      }
+     */
     }
   )
 
@@ -224,6 +172,11 @@ export default (ctx: Ctx, app: Express): expressRouter => {
       }
      */
       try {
+        const result = validationResult(req)
+        if (!result.isEmpty()) {
+          return res.json({ errors: result.array() })
+        }
+
         const { email, password } = req.body
         const member = await prisma.member.findUnique({
           where: {
