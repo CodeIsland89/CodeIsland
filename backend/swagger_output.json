@@ -51,13 +51,57 @@
         ],
         "responses": {
           "200": {
-            "description": "成功發送信件"
+            "description": "成功發送信件",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Email sent"
+                },
+                "error": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
-            "description": "輸入的資料有誤"
+            "description": "輸入的資料有誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "string",
+                  "example": "Email is not valid format"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "發送信件失敗,因為伺服器端的不明問題導致失敗"
+            "description": "發送信件失敗,因為伺服器端的不明問題導致失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Internal Server Error"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Error Reason Here"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -67,20 +111,63 @@
         "tags": [
           "auth"
         ],
+        "summary": "會員點擊信件中的連結後會觸發這個API來完成註冊",
         "description": "",
         "parameters": [
           {
             "name": "token",
             "in": "query",
-            "type": "string"
+            "description": "這個token是在發送註冊信的時候產生的",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...."
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "創建會員資訊成功!",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Member created"
+                },
+                "error": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "創建會員失敗,因為伺服器端的不明問題導致失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Internal Server Error"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Error Reason Here"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -90,19 +177,24 @@
         "tags": [
           "auth"
         ],
+        "summary": "會員登入,成功登入後會回傳一個token",
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "obj",
             "in": "body",
+            "description": "Email 要是符合 Email的格式,\n Password 至少要有8個字母長,\n nickname 至少要有2個字母長",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "YourEmail@gmail.com"
                 },
                 "password": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "YourPassword"
                 }
               }
             }
@@ -110,13 +202,61 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "登入成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Login success"
+                },
+                "error": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "密碼錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": ""
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Password is incorrect"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "登入失敗,因為伺服器端的不明問題導致失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Internal Server Error"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Error Reason here"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
