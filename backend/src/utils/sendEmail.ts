@@ -1,29 +1,15 @@
-import nodemailer from 'nodemailer'
+import { Transporter } from './../init/transporter'
 
 type SendEmailProps = {
   to: string
   subject: string
   html: string
 }
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD
-  }
-})
 
-transporter.verify(function (error, success) {
-  if (error != null) {
-    console.error(error)
-  } else {
-    console.log('Email Server is ready to send emails')
-  }
-})
-
-export default async function sendEmail (info: SendEmailProps): Promise<void> {
+export default async function sendEmail (
+  info: SendEmailProps,
+  transporter: Transporter
+): Promise<void> {
   if (!validateEmail(info.to)) throw new Error("Email isn't valid format")
   transporter
     .sendMail({

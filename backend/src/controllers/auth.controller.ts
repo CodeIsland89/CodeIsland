@@ -6,12 +6,13 @@ import sendRegisterEmailHandler from '../handler/sendRegisterEmail.handler'
 import getErrorMessage from '../utils/getErrorMessage'
 import createMemberHandler from '../handler/createMembr.handler'
 
-async function sendRegisterEmail (req: Request, res: Response): Promise<void> {
+async function sendRegisterEmail (req: Request, res: Response, ctx: Ctx): Promise<void> {
   try {
     const { email, password, nickname } = req.body
+    const { transporter } = ctx
     res
       .status(200)
-      .json(await sendRegisterEmailHandler({ email, password, nickname }))
+      .json(await sendRegisterEmailHandler({ email, password, nickname, transporter }))
   } catch (err) {
     res.status(500).json({
       message: 'Internal Server Error',

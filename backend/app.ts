@@ -5,11 +5,13 @@ import app from './src/init/express'
 import prisma from './src/init/prisma'
 import config from './src/configs'
 import routes from './src/routes'
+import transporter from './src/init/transporter'
 
 // Context Settings
 const ctx: Ctx = {
   prisma,
-  config
+  config,
+  transporter
 }
 
 // Register routes
@@ -23,3 +25,5 @@ app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 app.listen(ctx.config.port, () => {
   console.info(`🚀 Server ready at: http://localhost:${ctx.config.port}`)
 })
+
+export default app

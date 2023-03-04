@@ -15,7 +15,7 @@ export default (ctx: Ctx, app: Express): expressRouter => {
     sendRegisterValidation(ctx),
     valdationResultMiddleware,
     async (req: Request, res: Response) => {
-      await authController.sendRegisterEmail(req, res)
+      await authController.sendRegisterEmail(req, res, ctx)
       /*
         #swagger.summary = '發送註冊信到使用者的信箱，點擊信件中的連結來完成註冊'
         #swagger.parameters['obj'] = {
