@@ -27,7 +27,7 @@ export default async function sendRegisterEmailHandler ({
   nickname,
   transporter
 }: sendRegisterEmailProps): Promise<sendRegisterEmailResponse> {
-  const hostURL = process.env.HOST_URL as string
+  const hostURL = process.env.HOST_URL ?? process.env.RENDER_EXTERNAL_URL as string
 
   const createMemberJSON: createMemberRequestBody = {
     email,
