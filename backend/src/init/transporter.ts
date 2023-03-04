@@ -14,7 +14,7 @@ transporter.verify(function (error) {
   if (error != null) {
     console.error(error)
   } else {
-    console.log('Email Server is ready to send emails')
+    console.info('Email Server is ready to send emails')
   }
 })
 
