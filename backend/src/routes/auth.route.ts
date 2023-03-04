@@ -1,18 +1,14 @@
 import { RequestWithTokenInParams } from './../types/createMemberType'
 import { Ctx } from '../types/context'
 import { Router as expressRouter, Express, Request, Response } from 'express'
-import getErrorMessage from '../utils/getErrorMessage'
-import { body, validationResult } from 'express-validator'
-import hashString from '../utils/hashString'
-import jwt from 'jsonwebtoken'
 import authController from '../controllers/auth.controller'
 import valdationResultMiddleware from '../middleware/validationResult.middleware'
 import sendRegisterValidation from '../validations/sendRegister.validation'
 import createMemberValidation from '../validations/createMember.validation'
+import loginValidation from '../validations/login.validation'
 
 export default (ctx: Ctx, app: Express): expressRouter => {
   const router = expressRouter()
-  const { prisma } = ctx
 
   router.post(
     '/sendRegisterEmail',
@@ -107,103 +103,58 @@ export default (ctx: Ctx, app: Express): expressRouter => {
 
   router.post(
     '/login',
-    body('email').isEmail().withMessage('Email is not valid format'),
-    body('password')
-      .isLength({ min: 8 })
-      .withMessage('Password must be at least 8 characters'),
-    async (req, res) => {
+    loginValidation(ctx),
+    valdationResultMiddleware,
+    async (req: Request, res: Response) => {
+      res.locals = req.locals
+      await authController.Login(res)
       /*
-      #swagger.summary = '會員登入,成功登入後會回傳一個token'
-      #swagger.parameters['obj'] = {
-        in: 'body',
-        description: 'Email 要是符合 Email的格式,\n Password 至少要有8個字母長,\n nickname 至少要有2個字母長',
-        required: true,
-        schema: {
-          email: 'YourEmail@gmail.com',
-          password: 'YourPassword'
-        }
-      }
-     */
-      try {
-        const result = validationResult(req)
-        if (!result.isEmpty()) {
-          return res.json({ errors: result.array() })
-        }
-
-        const { email, password } = req.body
-        const member = await prisma.member.findUnique({
-          where: {
-            email: email as string
+        #swagger.summary = '會員登入,成功登入後會回傳一個token'
+        #swagger.parameters['obj'] = {
+          in: 'body',
+          description: 'Email 要是符合 Email的格式,\n Password 至少要有8個字母長,\n nickname 至少要有2個字母長',
+          required: true,
+          schema: {
+            email: 'YourEmail@gmail.com',
+            password: 'YourPassword'
           }
-        })
+        }
+      */
+      /*
 
-        /*
-         #swagger.responses[400] = {
-           description: '會員不存在',
-           schema: {
-              message: 'Member not found',
-              error: ''
-           }
-         }
-        */
-        if (member == null) {
-          return res.status(400).json({
+        #swagger.responses[200] = {
+          description: '登入成功',
+          schema: {
+              message: 'Login success',
+              error: '',
+              token: 'JWT token here'
+          }
+        }
+
+        #swagger.responses[400] = {
+          description: '會員不存在',
+          schema: {
             message: 'Member not found',
             error: ''
-          })
+          }
         }
 
-        /*
-          #swagger.responses[400] = {
-            description: '密碼錯誤',
-            schema: {
-                message: '',
-                error: 'Password is incorrect'
-            }
+        #swagger.responses[400] = {
+          description: '密碼錯誤',
+          schema: {
+              message: '',
+              error: 'Password is incorrect'
           }
-        */
-        if (member.password !== hashString(password as string)) {
-          return res.status(400).json({
-            message: '',
-            error: 'Password is incorrect'
-          })
         }
 
-        const token = jwt.sign(
-          { id: member.member_id },
-          process.env.JWT_SECRET as string
-        )
-
-        /*
-          #swagger.responses[200] = {
-            description: '登入成功',
-            schema: {
-                message: 'Login success',
-                error: '',
-                token: 'JWT token here'
-            }
+        #swagger.responses[500] = {
+          description: '登入失敗,因為伺服器端的不明問題導致失敗',
+          schema: {
+              message: 'Internal Server Error',
+              error: 'Error Reason here'
           }
-        */
-        return res.status(200).json({
-          message: 'Login success',
-          error: '',
-          token
-        })
-      } catch (error) {
-        /*
-          #swagger.responses[500] = {
-            description: '登入失敗,因為伺服器端的不明問題導致失敗',
-            schema: {
-                message: 'Internal Server Error',
-                error: 'Error Reason here'
-            }
-          }
-        */
-        return res.status(500).json({
-          message: 'Internal Server Error',
-          error: getErrorMessage(error)
-        })
-      }
+        }
+      */
     }
   )
 

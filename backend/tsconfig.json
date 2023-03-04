@@ -9,6 +9,9 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "strictFunctionTypes": true
-  }
+    "strictFunctionTypes": true,
+    "project": "./tsconfig.json"
+  },
+  "files": ["index.d.ts"],
+  "include": ["src/**/*", ".eslintrc.js", "swagger.ts"]
 }

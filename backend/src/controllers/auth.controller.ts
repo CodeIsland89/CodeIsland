@@ -1,6 +1,6 @@
+import { Ctx } from './../types/context'
 import { createMemberRequestBody } from './../types/createMemberType'
 import jwt from 'jsonwebtoken'
-import { Ctx } from './../types/context'
 import { Request, Response } from 'express'
 import sendRegisterEmailHandler from '../handler/sendRegisterEmail.handler'
 import getErrorMessage from '../utils/getErrorMessage'
@@ -43,7 +43,29 @@ async function createMember (
   }
 }
 
+async function Login (res: Response): Promise<void> {
+  try {
+    const { member } = res.locals
+    const token = jwt.sign(
+      { id: member.member_id },
+      process.env.JWT_SECRET as string
+    )
+
+    res.status(200).json({
+      message: 'Login success',
+      error: '',
+      token
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: 'Internal Server Error',
+      error: getErrorMessage(error)
+    })
+  }
+}
+
 export default {
   sendRegisterEmail,
-  createMember
+  createMember,
+  Login
 }
