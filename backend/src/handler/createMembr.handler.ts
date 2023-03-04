@@ -3,6 +3,7 @@ import {
   CreateMemberResponse
 } from './../types/createMemberType'
 import { Ctx } from '../types/context'
+import hashString from '../utils/hashString'
 
 export default async function createMemberHandler (
   createMemberJSON: createMemberRequestBody,
@@ -10,7 +11,11 @@ export default async function createMemberHandler (
 ): Promise<CreateMemberResponse> {
   const { prisma } = ctx
   const newMember = await prisma.member.create({
-    data: createMemberJSON
+    data: {
+      email: createMemberJSON.email,
+      password: hashString(createMemberJSON.password),
+      nickname: createMemberJSON.nickname
+    }
   })
   const isLands = await prisma.island.findMany()
   await Promise.all(
