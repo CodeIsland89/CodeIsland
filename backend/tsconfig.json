@@ -13,5 +13,5 @@
     "project": "./tsconfig.json"
   },
   "files": ["index.d.ts"],
-  "include": ["src/**/*", ".eslintrc.js", "swagger.ts"]
+  "include": ["src/**/*", "tests/**/*", "app.ts", ".eslintrc.js", "swagger.ts"]
 }
