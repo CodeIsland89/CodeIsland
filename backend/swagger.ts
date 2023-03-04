@@ -10,7 +10,7 @@ const outputFile = './swagger_output.json' // output json name
 const endpointsFiles = ['./src/routes/index.ts']
 
 const doc = {
-  host: process.env.HOST_URL ?? process.env.RENDER_EXTERNAL_URL,
+  host: process.env.RENDER_EXTERNAL_HOSTNAME ?? 'localhost:3001',
   basePath: '/api',
   tags: [
     {
