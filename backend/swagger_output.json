@@ -85,7 +85,23 @@
             }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "因為伺服器的問題，無法發送信件",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Internal Server Error"
+                },
+                "errors": {
+                  "type": "string",
+                  "example": "Error message here"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -108,7 +124,7 @@
               "properties": {
                 "token": {
                   "type": "string",
-                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...."
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVNZW1iZXJKU09OIjp7ImVtYWlsIjoicmdvazMwNzA4NTY2NkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IjAzNjI3OTViMmVlNzIzNWIzYjRkMjhmMDY5OGE4NTM2NjcwM2VhY2YwYmE0MDg1Nzk2ZmZkOTgwZDc2NTMzMzciLCJuaWNrbmFtZSI6InN0cmluZyJ9LCJpYXQiOjE2Nzc5MDc2NTEsImV4cCI6MTY3NzkxMTI1MX0.ebvQ-0j4_VCMQI3biQrElGDvevYef3mkg4lxpeMPmFM"
                 }
               }
             }

@@ -2,7 +2,7 @@ import { checkSchema, ValidationChain } from 'express-validator'
 import checkDataExistInDatabase from '../helpers/isDataExistInDatabase'
 import { Ctx } from '../types/context'
 
-export default function sendRegister (ctx: Ctx): ValidationChain[] {
+export default function sendRegisterValidation (ctx: Ctx): ValidationChain[] {
   return checkSchema({
     email: {
       isEmail: {

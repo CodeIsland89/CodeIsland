@@ -1,22 +1,14 @@
+import { RequestWithTokenInParams } from './../types/createMemberType'
 import { Ctx } from '../types/context'
 import { Router as expressRouter, Express, Request, Response } from 'express'
 import getErrorMessage from '../utils/getErrorMessage'
-import { body, query, validationResult } from 'express-validator'
+import { body, validationResult } from 'express-validator'
 import hashString from '../utils/hashString'
 import jwt from 'jsonwebtoken'
 import authController from '../controllers/auth.controller'
 import valdationResultMiddleware from '../middleware/validationResult.middleware'
-import sendRegister from '../validations/sendRegister.validation'
-
-type createMemberRequestBody = {
-  email: string
-  password: string
-  nickname: string
-}
-
-interface RequestWithTokenInParams extends Request {
-  token?: string
-}
+import sendRegisterValidation from '../validations/sendRegister.validation'
+import createMemberValidation from '../validations/createMember.validation'
 
 export default (ctx: Ctx, app: Express): expressRouter => {
   const router = expressRouter()
@@ -24,7 +16,7 @@ export default (ctx: Ctx, app: Express): expressRouter => {
 
   router.post(
     '/sendRegisterEmail',
-    sendRegister(ctx),
+    sendRegisterValidation(ctx),
     valdationResultMiddleware,
     async (req: Request, res: Response) => {
       await authController.sendRegisterEmail(req, res)
@@ -61,8 +53,8 @@ export default (ctx: Ctx, app: Express): expressRouter => {
       #swagger.responses[500] = {
         description: '因為伺服器的問題，無法發送信件',
         schema: {
-           errors: 'Internal Server Error',
-           message: 'Error message here
+          message: 'Internal Server Error',
+           errors: 'Error message here'
         }
       }
      */
@@ -71,12 +63,10 @@ export default (ctx: Ctx, app: Express): expressRouter => {
 
   router.get(
     '/createMember',
-    query('token')
-      .notEmpty()
-      .withMessage('Token in query is empty')
-      .isJWT()
-      .withMessage('Token is not valid format'),
-    async (req: RequestWithTokenInParams, res) => {
+    createMemberValidation(ctx),
+    valdationResultMiddleware,
+    async (req: RequestWithTokenInParams, res: Response) => {
+      await authController.createMember(req, res, ctx)
       /*
         #swagger.summary = '會員點擊信件中的連結後會觸發這個API來完成註冊'
         #swagger.parameters['token'] = {
@@ -84,71 +74,34 @@ export default (ctx: Ctx, app: Express): expressRouter => {
           description: '這個token是在發送註冊信的時候產生的',
           required: true,
           schema: {
-              token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9....',
+              token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVNZW1iZXJKU09OIjp7ImVtYWlsIjoicmdvazMwNzA4NTY2NkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IjAzNjI3OTViMmVlNzIzNWIzYjRkMjhmMDY5OGE4NTM2NjcwM2VhY2YwYmE0MDg1Nzk2ZmZkOTgwZDc2NTMzMzciLCJuaWNrbmFtZSI6InN0cmluZyJ9LCJpYXQiOjE2Nzc5MDc2NTEsImV4cCI6MTY3NzkxMTI1MX0.ebvQ-0j4_VCMQI3biQrElGDvevYef3mkg4lxpeMPmFM',
           }
         }
-     */
-      try {
-        const errors = validationResult(req)
-        if (!errors.isEmpty()) {
-          /*
-             #swagger.responses[400] = {
-               description: '輸入的資料有誤',
-               schema: {
-                  errors: 'Email is not valid format'
-               }
-             }
-            */
-          return res.status(400).json({ errors: errors.array()[0].msg })
-        }
-        const { token } = req.query
-        const { createMemberJSON } = jwt.verify(
-          token as string,
-          process.env.JWT_SECRET as string
-        ) as { createMemberJSON: createMemberRequestBody }
-
-        const newMember = await prisma.member.create({
-          data: createMemberJSON
-        })
-        const isLands = await prisma.island.findMany()
-        await Promise.all(
-          isLands.map(async (island) => {
-            await prisma.memberIsland.create({
-              data: {
-                island_id: island.island_id,
-                member_id: newMember.member_id
-              }
-            })
-          })
-        )
-        /*
-       #swagger.responses[200] = {
-         description: '創建會員資訊成功!',
-         schema: {
-           message: 'Member created',
-           error: ''
-         }
-       }
       */
-        return res.status(200).json({
-          message: 'Member created',
-          error: ''
-        })
-      } catch (error) {
-        /*
-       #swagger.responses[500] = {
-         description: '創建會員失敗,因為伺服器端的不明問題導致失敗',
-         schema: {
+      /*
+        #swagger.responses[400] = {
+          description: '輸入的資料有誤',
+          schema: {
+            errors: 'Email is not valid format'
+          }
+        }
+
+        #swagger.responses[200] = {
+          description: '創建會員資訊成功!',
+          schema: {
+            message: 'Member created',
+            error: ''
+          }
+        }
+
+        #swagger.responses[500] = {
+          description: '創建會員失敗,因為伺服器端的不明問題導致失敗',
+          schema: {
             message: 'Internal Server Error',
             error: 'Error Reason Here'
-         }
-       }
+          }
+        }
       */
-        return res.status(500).json({
-          message: 'Internal Server Error',
-          error: getErrorMessage(error)
-        })
-      }
     }
   )
 
