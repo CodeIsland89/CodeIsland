@@ -1,4 +1,6 @@
 import swaggerAutogenClient from 'swagger-autogen'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const swaggerAutogen = swaggerAutogenClient()
 
@@ -8,7 +10,7 @@ const outputFile = './swagger_output.json' // output json name
 const endpointsFiles = ['./src/routes/index.ts']
 
 const doc = {
-  host: 'localhost:3001',
+  host: process.env.HOST_URL ?? process.env.RENDER_EXTERNAL_URL,
   basePath: '/api',
   tags: [
     {
