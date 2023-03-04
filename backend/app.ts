@@ -5,11 +5,13 @@ import app from './src/init/express'
 import prisma from './src/init/prisma'
 import config from './src/configs'
 import routes from './src/routes'
+import transporter from './src/init/transporter'
 
 // Context Settings
 const ctx: Ctx = {
   prisma,
-  config
+  config,
+  transporter
 }
 
 // Register routes
@@ -20,6 +22,12 @@ app.use('/api', router)
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 // Server Run Success info
-app.listen(ctx.config.port, () => {
-  console.info(`🚀 Server ready at: http://localhost:${ctx.config.port}`)
-})
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(ctx.config.port, () => {
+    console.info(
+      `🚀 Prisma Server ready at: http://localhost:${ctx.config.port}`
+    )
+  })
+}
+
+export default app

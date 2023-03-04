@@ -9,29 +9,41 @@
   "basePath": "/api",
   "tags": [
     {
-      "name": "user",
-      "description": "user router"
+      "name": "auth",
+      "description": "auth router"
     }
   ],
   "schemes": [
     "http"
   ],
   "paths": {
-    "/user/": {
+    "/auth/sendRegisterEmail": {
       "post": {
         "tags": [
-          "user"
+          "auth"
         ],
+        "summary": "發送註冊信到使用者的信箱，點擊信件中的連結來完成註冊",
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "obj",
             "in": "body",
+            "description": "Email 要是符合 Email的格式,\n Password 至少要有8個字母長,\n nickname 至少要有2個字母長",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "user@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "12342312312"
+                },
+                "nickname": {
+                  "type": "string",
+                  "example": "user"
                 }
               }
             }
@@ -39,43 +51,231 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "成功發送信件",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Email sent"
+                },
+                "error": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "user"
-        ],
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
+            "description": "輸入的資料有誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "string",
+                  "example": "Email is not valid format"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "因為伺服器的問題，無法發送信件",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Internal Server Error"
+                },
+                "errors": {
+                  "type": "string",
+                  "example": "Error message here"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
-    "/user/{id}": {
+    "/auth/createMember": {
       "get": {
         "tags": [
-          "user"
+          "auth"
         ],
+        "summary": "會員點擊信件中的連結後會觸發這個API來完成註冊",
         "description": "",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
+            "name": "token",
+            "in": "query",
+            "description": "這個token是在發送註冊信的時候產生的",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVNZW1iZXJKU09OIjp7ImVtYWlsIjoicmdvazMwNzA4NTY2NkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IjAzNjI3OTViMmVlNzIzNWIzYjRkMjhmMDY5OGE4NTM2NjcwM2VhY2YwYmE0MDg1Nzk2ZmZkOTgwZDc2NTMzMzciLCJuaWNrbmFtZSI6InN0cmluZyJ9LCJpYXQiOjE2Nzc5MDc2NTEsImV4cCI6MTY3NzkxMTI1MX0.ebvQ-0j4_VCMQI3biQrElGDvevYef3mkg4lxpeMPmFM"
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "創建會員資訊成功!",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Member created"
+                },
+                "error": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "輸入的資料有誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "string",
+                  "example": "Email is not valid format"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "創建會員失敗,因為伺服器端的不明問題導致失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Internal Server Error"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Error Reason Here"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "會員登入,成功登入後會回傳一個token",
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Email 要是符合 Email的格式,\n Password 至少要有8個字母長,\n nickname 至少要有2個字母長",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "YourEmail@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "YourPassword"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登入成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Login success"
+                },
+                "error": {
+                  "type": "string",
+                  "example": ""
+                },
+                "token": {
+                  "type": "string",
+                  "example": "JWT token here"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "密碼錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": ""
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Password is incorrect"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "登入失敗,因為伺服器端的不明問題導致失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Internal Server Error"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Error Reason here"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
