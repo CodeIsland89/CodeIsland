@@ -1,18 +1,26 @@
 import { Ctx } from './../types/context'
-import { createMemberRequestBody } from './../types/createMemberType'
 import jwt from 'jsonwebtoken'
 import { Request, Response } from 'express'
 import sendRegisterEmailHandler from '../handler/sendRegisterEmail.handler'
 import getErrorMessage from '../utils/getErrorMessage'
 import createMemberHandler from '../handler/createMembr.handler'
 
-async function sendRegisterEmail (req: Request, res: Response, ctx: Ctx): Promise<void> {
+async function sendRegisterEmail (
+  req: Request,
+  res: Response,
+  ctx: Ctx
+): Promise<void> {
   try {
     const { email, password, nickname } = req.body
     const { transporter } = ctx
-    res
-      .status(200)
-      .json(await sendRegisterEmailHandler({ email, password, nickname, transporter }))
+    res.status(200).json(
+      await sendRegisterEmailHandler({
+        email,
+        password,
+        nickname,
+        transporter
+      })
+    )
   } catch (err) {
     res.status(500).json({
       message: 'Internal Server Error',
@@ -27,15 +35,10 @@ async function createMember (
   ctx: Ctx
 ): Promise<void> {
   try {
-    const { token } = req.query
-
     // token is validated in the middleware
-    const { createMemberJSON } = jwt.verify(
-      token as string,
-      process.env.JWT_SECRET as string
-    ) as { createMemberJSON: createMemberRequestBody }
+    const { createMemberData } = res.locals
 
-    res.status(200).json(await createMemberHandler(createMemberJSON, ctx))
+    res.status(200).json(await createMemberHandler(createMemberData, ctx))
   } catch (err) {
     res.status(500).json({
       message: 'Internal Server Error',

@@ -62,6 +62,7 @@ export default (ctx: Ctx, app: Express): expressRouter => {
     createMemberValidation(ctx),
     valdationResultMiddleware,
     async (req: RequestWithTokenInParams, res: Response) => {
+      res.locals = req.locals
       await authController.createMember(req, res, ctx)
       /*
         #swagger.summary = '會員點擊信件中的連結後會觸發這個API來完成註冊'
