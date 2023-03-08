@@ -63,13 +63,13 @@ model MemberIsland {
 model Chapter {
   chapter_id     Int    @id @default(autoincrement())
   chapter_name   String @unique
-  chapter_detail String @unique
-  chapter_order  Int 
+  chapter_detail String
+  chapter_order  Int  @unique
   island         Island @relation(fields: [island_id], references: [island_id])
   island_id      Int
   Lesson     Lesson[]
   ChapterStatus MemberIsland[]
-  @@unique([chapter_name, chapter_order])
+  @@unique([island_id, chapter_order])
 }
 
 model Lesson {
@@ -80,7 +80,7 @@ model Lesson {
   chapter_id    Int
   Quiz      Quiz[]
   LessonStatus MemberIsland[]
-  @@unique([lesson_name, lesson_order])
+  @@unique([chapter_id, lesson_order])
 }
 
 enum QuizType {
