@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -12,20 +12,38 @@ model Member {
   email          String  @unique
   password       String
   is_enabled     Boolean @default(true)
-  is_admin       Boolean @default(false)
-  is_vip         Boolean @default(false)
-  continuous_day Int     @default(0)
-  exp            Int     @default(0)
-  gem            Int     @default(0)
-  nickname       String
-  source_url     String?
   MemberIsland   MemberIsland[]
+  Profile        Profile?
+  Role           Role[]
+}
+
+model Profile {
+  member_id    Int     @id
+  member       Member  @relation(fields: [member_id], references: [member_id])
+  continuous_day Int     @default(0)
+  exp          Int     @default(0)
+  gem          Int     @default(0)
+  nickname     String
+  img_source_url   String?
+}
+
+model Role {
+  role_id   Int      @id @default(autoincrement())
+  role_name String   @unique
+  Member    Member[]
+  Action    Action[]
+}
+
+model Action {
+  action_id   Int      @id @default(autoincrement())
+  action_name String   @unique
+  Role        Role[]
 }
 
 model Island {
   island_id   Int       @id @default(autoincrement())
   island_name String    @unique
-  source_url  String?   @unique
+  img_source_url  String?   @unique
   Chapter     Chapter[]
   MemberIsland MemberIsland[]
 }
@@ -33,21 +51,25 @@ model Island {
 model MemberIsland {
   member_id   Int
   island_id   Int
+  chapter_status_id Int
+  lesson_status_id Int
   member      Member @relation(fields: [member_id], references: [member_id])
   island      Island @relation(fields: [island_id], references: [island_id])
-  island_status String @default("0-0")
+  chapter_status Chapter @relation(fields: [chapter_status_id], references: [chapter_id])
+  lesson_status Lesson @relation(fields: [lesson_status_id], references: [lesson_id])
   @@id([member_id, island_id])
 }
 
 model Chapter {
   chapter_id     Int    @id @default(autoincrement())
   chapter_name   String @unique
-  chapter_detail String @unique
-  chapter_order  Int 
+  chapter_detail String
+  chapter_order  Int  @unique
   island         Island @relation(fields: [island_id], references: [island_id])
   island_id      Int
   Lesson     Lesson[]
-  @@unique([chapter_name, chapter_order])
+  ChapterStatus MemberIsland[]
+  @@unique([island_id, chapter_order])
 }
 
 model Lesson {
@@ -57,7 +79,8 @@ model Lesson {
   chapter       Chapter  @relation(fields: [chapter_id], references: [chapter_id])
   chapter_id    Int
   Quiz      Quiz[]
-  @@unique([lesson_name, lesson_order])
+  LessonStatus MemberIsland[]
+  @@unique([chapter_id, lesson_order])
 }
 
 enum QuizType {
