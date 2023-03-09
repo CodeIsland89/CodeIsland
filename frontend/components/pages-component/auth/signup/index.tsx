@@ -1,25 +1,7 @@
-import React from 'react';
 import styled from 'styled-components';
 import Box from '../../../shared-component/box';
-import Text from '../../../shared-component/text';
 import color from '../../../../global/theme/color';
-import Input from '../../../shared-component/textinput/textinput';
 import Button from '../../../shared-component/button';
-
-type Props = {
-  text?: string,
-  name?: string,
-  type?: 'password',
-};
-
-function InputRow({ text, name, type }: Props) {
-  return (
-    <Box style={{ width: '100%' }}>
-      <Text color={color.blue_900} fontSize="1.2rem">{text}</Text>
-      <Input name={name} type={type || 'text'} />
-    </Box>
-  );
-}
 
 const GoogleButton = styled.button`
   display: flex;
@@ -65,5 +47,5 @@ const Block = styled(Box)`
 `;
 
 export {
-  InputRow, GoogleButton, Card, MemberButton, Block,
+  GoogleButton, MemberButton, Card, Block,
 };
