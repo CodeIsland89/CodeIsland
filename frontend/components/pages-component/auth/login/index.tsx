@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Box from '../../../shared-component/box';
 import Text from '../../../shared-component/text';
-import color from '../../../../theme/color';
+import color from '../../../../global/theme/color';
 import Input from '../../../shared-component/textinput/textinput';
 
 type Props = {

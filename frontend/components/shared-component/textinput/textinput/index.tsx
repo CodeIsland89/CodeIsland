@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import color from '../../../../theme/color';
+import color from '../../../../global/theme/color';
 
 const Input = styled.input`
   --m: 0.5rem;
