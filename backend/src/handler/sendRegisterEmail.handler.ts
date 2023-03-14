@@ -2,6 +2,7 @@ import { Transporter } from './../init/transporter'
 import jwt from 'jsonwebtoken'
 import sendEmail from '../utils/sendEmail'
 import hashString from '../utils/hashString'
+import getBackendBaseURL from '../utils/getBackendBaseURL'
 
 type createMemberRequestBody = {
   email: string
@@ -27,8 +28,6 @@ export default async function sendRegisterEmailHandler ({
   nickname,
   transporter
 }: sendRegisterEmailProps): Promise<sendRegisterEmailResponse> {
-  const hostURL = process.env.HOST_URL ?? process.env.RENDER_EXTERNAL_URL as string
-
   const createMemberJSON: createMemberRequestBody = {
     email,
     password: hashString(password),
@@ -45,7 +44,7 @@ export default async function sendRegisterEmailHandler ({
     subject: 'CodeIsland 註冊信',
     html: `
             <h1>感謝您註冊CodeIsland</h1><br>
-          <a href=${hostURL}/api/auth/createMember?token=${createMemberToken}>請點擊這個連結來完成註冊</a>`
+          <a href=${getBackendBaseURL()}/api/auth/createMember?token=${createMemberToken}>請點擊這個連結來完成註冊</a>`
   }
   await sendEmail(emailInfo, transporter)
 
