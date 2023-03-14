@@ -30,7 +30,7 @@ export default function SignUpPage() {
     >
       <Card onSubmit={handleLogin}>
         <Box alignItems="flex-end">
-          <Link href="../auth/login">
+          <Link href="../auth/login" style={{ textDecoration: 'none' }}>
             <Text color={color.blue_200} fontSize="0.8rem" style={{ fontWeight: 'bold' }}>Login Here</Text>
           </Link>
         </Box>
