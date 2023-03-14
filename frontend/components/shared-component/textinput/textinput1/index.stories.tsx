@@ -3,13 +3,23 @@ import TextInput from ".";
 
 export default {
   component: TextInput,
-  title: "TextInput1",
+  title: "Textinput1",
   excludeStories: /.*Data$/,
 };
 
-const Template = () => {
-  return <TextInput/> ;
+export type Props = {
+  name: string;
+  value: string;
+};
+
+const Template = (args: Props) => {
+  return (
+    <TextInput {...args} />
+  )
 };
 
 export const Default = Template.bind({});
-
+Default.args = {
+  name: "example_input",
+  value: "text"
+}
