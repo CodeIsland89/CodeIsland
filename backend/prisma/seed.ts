@@ -37,9 +37,25 @@ async function createJavaScriptCourse (): Promise<void> {
   })
 }
 
+async function createAdminMember (): Promise<void> {
+  await prisma.member.create({
+    data: {
+      email: 'admin@gmail.com',
+      password: 'admin',
+      is_enabled: true,
+      Profile: {
+        create: {
+          nickname: 'admin'
+        }
+      }
+    }
+  })
+}
+
 async function main (): Promise<void> {
   console.log('Start seeding ...')
   await createJavaScriptCourse()
+  await createAdminMember()
   console.log('Seeding finished.')
 }
 
