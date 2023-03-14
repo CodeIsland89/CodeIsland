@@ -1,8 +1,13 @@
 import swaggerAutogenClient from 'swagger-autogen'
 import dotenv from 'dotenv'
+import isDeveloping from './src/utils/isDeveloping'
 dotenv.config()
 
-const swaggerAutogen = swaggerAutogenClient()
+const options = {
+  disableLogs: !isDeveloping()
+}
+
+const swaggerAutogen = swaggerAutogenClient(options)
 
 const outputFile = './swagger_output.json' // output json name
 
