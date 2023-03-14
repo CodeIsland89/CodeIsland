@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer'
+import isDeveloping from '../utils/isDeveloping'
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
@@ -9,7 +10,7 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASSWORD
   }
 })
-if (process.env.NODE_ENV !== 'test') {
+if (isDeveloping()) {
   transporter.verify(function (error) {
     if (error != null) {
       console.error(error)
