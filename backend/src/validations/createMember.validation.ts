@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { createMemberRequestBody } from './../types/createMemberType'
+import { createMemberRequestBody } from '../types/endpoints/createMember.type'
 import { Ctx } from './../types/context'
 import { checkSchema, ValidationChain } from 'express-validator'
 import checkDataExistInDatabase from '../helpers/isDataExistInDatabase'

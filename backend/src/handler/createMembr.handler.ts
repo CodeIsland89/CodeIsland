@@ -1,65 +1,70 @@
-import {
-  createMemberRequestBody,
-  CreateMemberResponse
-} from './../types/createMemberType'
+import { createMemberRequestWithLocals } from './../types/endpoints/createMember.type'
+import { Response } from 'express'
 import { Ctx } from '../types/context'
 import hashString from '../utils/hashString'
 import { Member, Chapter, Lesson, PrismaClient } from '@prisma/client'
+import getErrorMessage from '../utils/getErrorMessage'
 
 export default async function createMemberHandler (
-  createMemberJSON: createMemberRequestBody,
+  req: createMemberRequestWithLocals,
+  res: Response,
   ctx: Ctx
-): Promise<CreateMemberResponse> {
-  const { prisma } = ctx
-  const newMember = await createMember(
-    prisma,
-    createMemberJSON.email,
-    createMemberJSON.password,
-    createMemberJSON.nickname
-  )
-  const isLands = await prisma.island.findMany()
-  await Promise.all(
-    isLands.map(async (island) => {
-      const firstChapterByIsland = await getStartChapter(
-        prisma,
-        island.island_id
-      )
+): Promise<void> {
+  try {
+    const { prisma } = ctx
+    const {
+      createMemberData: { email, password, nickname }
+    } = req.locals
+    const newMember = await createMember(prisma, email, password, nickname)
+    const isLands = await prisma.island.findMany()
+    await Promise.all(
+      isLands.map(async (island) => {
+        const firstChapterByIsland = await getStartChapter(
+          prisma,
+          island.island_id
+        )
 
-      const firstLessonByChapter = await getStartLesson(
-        prisma,
-        firstChapterByIsland.chapter_id
-      )
+        const firstLessonByChapter = await getStartLesson(
+          prisma,
+          firstChapterByIsland.chapter_id
+        )
 
-      await prisma.memberIsland.create({
-        data: {
-          island: {
-            connect: {
-              island_id: island.island_id
-            }
-          },
-          member: {
-            connect: {
-              member_id: newMember.member_id
-            }
-          },
-          chapter_status: {
-            connect: {
-              chapter_id: firstChapterByIsland.chapter_id
-            }
-          },
-          lesson_status: {
-            connect: {
-              lesson_id: firstLessonByChapter.lesson_id
+        await prisma.memberIsland.create({
+          data: {
+            island: {
+              connect: {
+                island_id: island.island_id
+              }
+            },
+            member: {
+              connect: {
+                member_id: newMember.member_id
+              }
+            },
+            chapter_status: {
+              connect: {
+                chapter_id: firstChapterByIsland.chapter_id
+              }
+            },
+            lesson_status: {
+              connect: {
+                lesson_id: firstLessonByChapter.lesson_id
+              }
             }
           }
-        }
+        })
       })
-    })
-  )
+    )
 
-  return {
-    message: 'Member created',
-    error: ''
+    res.status(200).json({
+      message: 'Member created',
+      error: ''
+    })
+  } catch (err) {
+    res.status(500).json({
+      message: 'Internal Server Error',
+      error: getErrorMessage(err)
+    })
   }
 }
 

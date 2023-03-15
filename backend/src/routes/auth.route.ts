@@ -1,11 +1,14 @@
-import { RequestWithTokenInParams } from './../types/createMemberType'
+import { createMemberRequestWithLocals } from './../types/endpoints/createMember.type'
+import { loginRequestWithLocals } from './../types/endpoints/login.type'
 import { Ctx } from '../types/context'
 import { Router as expressRouter, Express, Request, Response } from 'express'
-import authController from '../controllers/auth.controller'
 import valdationResultMiddleware from '../middleware/validationResult.middleware'
 import sendRegisterValidation from '../validations/sendRegister.validation'
 import createMemberValidation from '../validations/createMember.validation'
 import loginValidation from '../validations/login.validation'
+import sendRegisterEmailHandler from '../handler/sendRegisterEmail.handler'
+import createMemberHandler from '../handler/createMembr.handler'
+import LoginHandler from '../handler/login.handler'
 
 export default (ctx: Ctx, app: Express): expressRouter => {
   const router = expressRouter()
@@ -15,7 +18,7 @@ export default (ctx: Ctx, app: Express): expressRouter => {
     sendRegisterValidation(ctx),
     valdationResultMiddleware,
     async (req: Request, res: Response) => {
-      await authController.sendRegisterEmail(req, res, ctx)
+      await sendRegisterEmailHandler(req, res, ctx)
       /*
         #swagger.summary = '發送註冊信到使用者的信箱，點擊信件中的連結來完成註冊'
         #swagger.parameters['obj'] = {
@@ -61,9 +64,8 @@ export default (ctx: Ctx, app: Express): expressRouter => {
     '/createMember',
     createMemberValidation(ctx),
     valdationResultMiddleware,
-    async (req: RequestWithTokenInParams, res: Response) => {
-      res.locals = req.locals
-      await authController.createMember(req, res, ctx)
+    async (req: Request, res: Response) => {
+      await createMemberHandler(req as createMemberRequestWithLocals, res, ctx)
       /*
         #swagger.summary = '會員點擊信件中的連結後會觸發這個API來完成註冊'
         #swagger.parameters['token'] = {
@@ -107,8 +109,7 @@ export default (ctx: Ctx, app: Express): expressRouter => {
     loginValidation(ctx),
     valdationResultMiddleware,
     async (req: Request, res: Response) => {
-      res.locals = req.locals
-      await authController.Login(res)
+      await LoginHandler(req as loginRequestWithLocals, res)
       /*
         #swagger.summary = '會員登入,成功登入後會回傳一個token'
         #swagger.parameters['obj'] = {
