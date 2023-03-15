@@ -1,4 +1,3 @@
-import { Request } from 'express'
 export type createMemberRequestBody = {
   email: string
   password: string
@@ -8,8 +7,4 @@ export type createMemberRequestBody = {
 export type CreateMemberResponse = {
   message: string
   error: string
-}
-
-export interface RequestWithTokenInParams extends Request {
-  token?: string
 }

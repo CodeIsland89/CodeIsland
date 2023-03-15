@@ -1,26 +1,6 @@
-import { Ctx } from './../types/context'
 import jwt from 'jsonwebtoken'
-import { Request, Response } from 'express'
+import { Response } from 'express'
 import getErrorMessage from '../utils/getErrorMessage'
-import createMemberHandler from '../handler/createMembr.handler'
-
-async function createMember (
-  req: Request,
-  res: Response,
-  ctx: Ctx
-): Promise<void> {
-  try {
-    // token is validated in the middleware
-    const { createMemberData } = res.locals
-
-    res.status(200).json(await createMemberHandler(createMemberData, ctx))
-  } catch (err) {
-    res.status(500).json({
-      message: 'Internal Server Error',
-      error: getErrorMessage(err)
-    })
-  }
-}
 
 async function Login (res: Response): Promise<void> {
   try {
@@ -44,6 +24,5 @@ async function Login (res: Response): Promise<void> {
 }
 
 export default {
-  createMember,
   Login
 }

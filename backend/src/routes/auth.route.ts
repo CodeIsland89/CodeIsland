@@ -1,4 +1,4 @@
-import { RequestWithTokenInParams } from './../types/createMemberType'
+import { createMemberRequestWithLocals } from './../validations/createMember.validation'
 import { Ctx } from '../types/context'
 import { Router as expressRouter, Express, Request, Response } from 'express'
 import authController from '../controllers/auth.controller'
@@ -7,6 +7,7 @@ import sendRegisterValidation from '../validations/sendRegister.validation'
 import createMemberValidation from '../validations/createMember.validation'
 import loginValidation from '../validations/login.validation'
 import sendRegisterEmailHandler from '../handler/sendRegisterEmail.handler'
+import createMemberHandler from '../handler/createMembr.handler'
 
 export default (ctx: Ctx, app: Express): expressRouter => {
   const router = expressRouter()
@@ -62,9 +63,8 @@ export default (ctx: Ctx, app: Express): expressRouter => {
     '/createMember',
     createMemberValidation(ctx),
     valdationResultMiddleware,
-    async (req: RequestWithTokenInParams, res: Response) => {
-      res.locals = req.locals
-      await authController.createMember(req, res, ctx)
+    async (req: Request, res: Response) => {
+      await createMemberHandler(req as createMemberRequestWithLocals, res, ctx)
       /*
         #swagger.summary = '會員點擊信件中的連結後會觸發這個API來完成註冊'
         #swagger.parameters['token'] = {

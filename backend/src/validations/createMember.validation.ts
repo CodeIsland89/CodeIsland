@@ -4,6 +4,12 @@ import { Ctx } from './../types/context'
 import { checkSchema, ValidationChain } from 'express-validator'
 import checkDataExistInDatabase from '../helpers/isDataExistInDatabase'
 import getErrorMessage from '../utils/getErrorMessage'
+import { Request } from 'express'
+export interface createMemberRequestWithLocals extends Request {
+  locals: {
+    createMemberData: createMemberRequestBody
+  }
+}
 
 export default function createMemberValidation (ctx: Ctx): ValidationChain[] {
   return checkSchema({
