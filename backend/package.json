@@ -13,7 +13,7 @@
     "test": "jest --silent false --watch"
   },
   "dependencies": {
-    "@prisma/client": "4.8.0",
+    "@prisma/client": "^4.8.0",
     "@types/node": "18.11.18",
     "cors": "2.8.5",
     "dotenv": "^16.0.3",
