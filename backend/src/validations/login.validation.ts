@@ -1,6 +1,14 @@
 import { ValidationChain, checkSchema } from 'express-validator'
 import hashString from '../utils/hashString'
 import { Ctx } from './../types/context'
+import { Request } from 'express'
+import { Member } from '@prisma/client'
+
+export interface loginRequestWithLocals extends Request {
+  locals: {
+    member: Member
+  }
+}
 
 export default function loginValidation (ctx: Ctx): ValidationChain[] {
   return checkSchema({

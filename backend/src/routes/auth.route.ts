@@ -1,13 +1,15 @@
 import { createMemberRequestWithLocals } from './../validations/createMember.validation'
 import { Ctx } from '../types/context'
 import { Router as expressRouter, Express, Request, Response } from 'express'
-import authController from '../controllers/auth.controller'
 import valdationResultMiddleware from '../middleware/validationResult.middleware'
 import sendRegisterValidation from '../validations/sendRegister.validation'
 import createMemberValidation from '../validations/createMember.validation'
-import loginValidation from '../validations/login.validation'
+import loginValidation, {
+  loginRequestWithLocals
+} from '../validations/login.validation'
 import sendRegisterEmailHandler from '../handler/sendRegisterEmail.handler'
 import createMemberHandler from '../handler/createMembr.handler'
+import LoginHandler from '../handler/login.handler'
 
 export default (ctx: Ctx, app: Express): expressRouter => {
   const router = expressRouter()
@@ -108,8 +110,7 @@ export default (ctx: Ctx, app: Express): expressRouter => {
     loginValidation(ctx),
     valdationResultMiddleware,
     async (req: Request, res: Response) => {
-      res.locals = req.locals
-      await authController.Login(res)
+      await LoginHandler(req as loginRequestWithLocals, res)
       /*
         #swagger.summary = '會員登入,成功登入後會回傳一個token'
         #swagger.parameters['obj'] = {
