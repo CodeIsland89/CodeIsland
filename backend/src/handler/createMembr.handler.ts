@@ -1,4 +1,4 @@
-import { createMemberRequestWithLocals } from './../validations/createMember.validation'
+import { createMemberRequestWithLocals } from './../types/endpoints/createMember.type'
 import { Response } from 'express'
 import { Ctx } from '../types/context'
 import hashString from '../utils/hashString'

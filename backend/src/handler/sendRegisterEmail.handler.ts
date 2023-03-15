@@ -1,3 +1,4 @@
+import { createMemberRequestBody } from '../types/endpoints/createMember.type'
 import { Ctx } from './../types/context'
 import { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
@@ -5,12 +6,6 @@ import sendEmail from '../utils/sendEmail'
 import hashString from '../utils/hashString'
 import getBackendBaseURL from '../utils/getBackendBaseURL'
 import getErrorMessage from '../utils/getErrorMessage'
-
-type createMemberRequestBody = {
-  email: string
-  password: string
-  nickname: string
-}
 
 export default async function sendRegisterEmailHandler (
   req: Request,

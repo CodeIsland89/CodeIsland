@@ -1,4 +1,4 @@
-import { loginRequestWithLocals } from './../validations/login.validation'
+import { loginRequestWithLocals } from './../types/endpoints/login.type'
 import jwt from 'jsonwebtoken'
 import { Response } from 'express'
 import getErrorMessage from '../utils/getErrorMessage'
