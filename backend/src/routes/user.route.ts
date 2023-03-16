@@ -2,7 +2,7 @@ import { Ctx } from '../types/context'
 import { Router as expressRouter, Express, Request, Response } from 'express'
 import valdationResultMiddleware from '../middleware/validationResult.middleware'
 import getUserProfileValidation from '../validations/getUserProfile.validation'
-import getUserProfileHandler from '../handler/getuserProfile.handler'
+import getUserProfileHandler from '../handler/getUserProfile.handler'
 import { getUserProfileRequest } from '../types/endpoints/getUserProfle.type'
 
 export default (ctx: Ctx, app: Express): expressRouter => {
