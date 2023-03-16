@@ -4,24 +4,42 @@ const prisma = new PrismaClient()
 
 async function createJavaScriptCourse (): Promise<void> {
   const JavaScriptIslandData: Prisma.TestSetCreateInput = {
-    input: '[1,2,3]',
+    input: '[1,2]',
     output: '6',
-    quiz: {
+    testset_profile: {
       create: {
-        quiz_describe: 'JavaScript_Quiz1_description',
-        quiz_type: 'TESTSET',
-        lesson: {
+        standard_answer_code: `
+        function sum(a, b) {
+          return a + b;
+        }
+        `,
+        function_name: 'sum',
+        exhibit_code: `
+        function sum(a, b) {
+          
+        }`,
+        quiz: {
           create: {
-            lesson_name: 'JavaScript_Lesson1',
-            lesson_order: 0,
-            chapter: {
+            quiz_title: 'JavaScript_Quiz1',
+            quiz_describe: 'JavaScript_Quiz1_description',
+            quiz_type: 'TESTSET',
+            lesson: {
               create: {
-                chapter_name: 'JavaScript_Chapter1',
-                chapter_detail: 'JavaScript_Chapter1_description',
-                chapter_order: 0,
-                island: {
+                lesson_name: 'JavaScript_Lesson1',
+                lesson_order: 0,
+                lesson_teach_content: 'JavaScript_Lesson1_teach_content',
+                chapter: {
                   create: {
-                    island_name: 'JavaScript'
+                    chapter_name: 'JavaScript_Chapter1',
+                    chapter_detail: 'JavaScript_Chapter1_description',
+                    chapter_order: 0,
+                    island: {
+                      create: {
+                        island_name: 'JavaScript',
+                        island_describe:
+                          'JavaScript is a programming language that conforms to the ECMAScript specification. JavaScript is high-level, often just-in-time compiled, and multi-paradigm. It has curly-bracket syntax, dynamic typing, prototype-based object-orientation, and first-class functions.'
+                      }
+                    }
                   }
                 }
               }
@@ -31,6 +49,28 @@ async function createJavaScriptCourse (): Promise<void> {
       }
     }
   }
+  // create: {
+  //  quiz_describe: 'JavaScript_Quiz1_description',
+  //  quiz_type: 'TESTSET',
+  //  lesson: {
+  //    create: {
+  //      lesson_name: 'JavaScript_Lesson1',
+  //      lesson_order: 0,
+  //      chapter: {
+  //        create: {
+  //          chapter_name: 'JavaScript_Chapter1',
+  //          chapter_detail: 'JavaScript_Chapter1_description',
+  //          chapter_order: 0,
+  //          island: {
+  //            create: {
+  //              island_name: 'JavaScript'
+  //            }
+  //          }
+  //        }
+  //      }
+  //    }
+  //  }
+  // }
 
   await prisma.testSet.create({
     data: JavaScriptIslandData

@@ -43,6 +43,7 @@ model Action {
 model Island {
   island_id   Int       @id @default(autoincrement())
   island_name String    @unique
+  island_describe String @unique
   img_source_url  String?   @unique
   Chapter     Chapter[]
   MemberIsland MemberIsland[]
@@ -75,6 +76,7 @@ model Chapter {
 model Lesson {
   lesson_id     Int      @id @default(autoincrement())
   lesson_name   String   @unique
+  lesson_teach_content String @unique
   lesson_order  Int
   chapter       Chapter  @relation(fields: [chapter_id], references: [chapter_id])
   chapter_id    Int
@@ -89,20 +91,30 @@ enum QuizType {
 }
 model Quiz {
   quiz_id     Int     @id @default(autoincrement())
+  quiz_title String @unique
   quiz_describe   String 
   quiz_type QuizType
   lesson     Lesson  @relation(fields: [lesson_id], references: [lesson_id])
   lesson_id  Int
-  TestSet    TestSet[]
   Option     Option[]
+  TestsetProfile TestSetProfile?
+}
+
+model TestSetProfile {
+  quiz Quiz @relation(fields: [quiz_id], references: [quiz_id])
+  quiz_id Int @id
+  standard_answer_code String @unique
+  function_name String @unique
+  exhibit_code String @unique
+  TestSet    TestSet[]
 }
 
 model TestSet {
   testset_id     Int     @id @default(autoincrement())
+  testset_profile      TestSetProfile  @relation(fields: [testset_profile_id], references: [quiz_id])
+  testset_profile_id   Int
   input          String
   output         String
-  quiz      Quiz  @relation(fields: [quiz_id], references: [quiz_id])
-  quiz_id   Int
   @@unique([input, output])
 }
 
