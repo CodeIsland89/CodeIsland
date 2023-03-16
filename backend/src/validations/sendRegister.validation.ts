@@ -1,5 +1,5 @@
 import { checkSchema, ValidationChain } from 'express-validator'
-import checkDataExistInDatabase from '../helpers/isDataExistInDatabase'
+import checkDataExistInDatabase from '../services/isDataExistInDatabase.service'
 import { Ctx } from '../types/context'
 
 export default function sendRegisterValidation (ctx: Ctx): ValidationChain[] {
