@@ -5,7 +5,12 @@ export default async function findOneMember (
   where: Prisma.MemberWhereUniqueInput
 ): Promise<Member> {
   const member = await prisma.member.findUnique({
-    where
+    where,
+    include: {
+      MemberIsland: true,
+      Profile: true,
+      Role: true
+    }
   })
 
   if (member === null) {
