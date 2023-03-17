@@ -1,8 +1,8 @@
-import { Ctx } from './../types/context'
+import { Ctx } from './../../types/context'
 import { checkSchema, ValidationChain } from 'express-validator'
-import getErrorMessage from '../utils/getErrorMessage'
-import getDecodedToken from '../utils/getDecodedToken'
-import findOneMember from '../services/findOneMember.service'
+import getErrorMessage from '../../utils/getErrorMessage'
+import getDecodedToken from '../../utils/getDecodedToken'
+import findOneMember from '../../services/findOneMember.service'
 import { Request } from 'express'
 
 export default function getUserProfileValidation (ctx: Ctx): ValidationChain[] {

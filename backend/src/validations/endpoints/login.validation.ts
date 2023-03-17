@@ -1,7 +1,7 @@
 import { ValidationChain, checkSchema } from 'express-validator'
-import hashString from '../utils/hashString'
-import { Ctx } from './../types/context'
-import findOneMember from '../services/findOneMember.service'
+import hashString from '../../utils/hashString'
+import { Ctx } from './../../types/context'
+import findOneMember from '../../services/findOneMember.service'
 
 export default function loginValidation (ctx: Ctx): ValidationChain[] {
   return checkSchema({
