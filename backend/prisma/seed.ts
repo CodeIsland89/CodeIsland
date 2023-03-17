@@ -22,12 +22,14 @@ async function createJavaScriptCourse (): Promise<void> {
           create: {
             quiz_title: 'JavaScript_Quiz1',
             quiz_describe: 'JavaScript_Quiz1_description',
+            quiz_teach_content: 'JavaScript_Quiz1_teach_content',
             quiz_type: 'TESTSET',
+            quiz_order: 0,
             lesson: {
               create: {
                 lesson_name: 'JavaScript_Lesson1',
                 lesson_order: 0,
-                lesson_teach_content: 'JavaScript_Lesson1_teach_content',
+                lesson_describe: 'JavaScript_Lesson1_teach_content',
                 chapter: {
                   create: {
                     chapter_name: 'JavaScript_Chapter1',
@@ -49,28 +51,6 @@ async function createJavaScriptCourse (): Promise<void> {
       }
     }
   }
-  // create: {
-  //  quiz_describe: 'JavaScript_Quiz1_description',
-  //  quiz_type: 'TESTSET',
-  //  lesson: {
-  //    create: {
-  //      lesson_name: 'JavaScript_Lesson1',
-  //      lesson_order: 0,
-  //      chapter: {
-  //        create: {
-  //          chapter_name: 'JavaScript_Chapter1',
-  //          chapter_detail: 'JavaScript_Chapter1_description',
-  //          chapter_order: 0,
-  //          island: {
-  //            create: {
-  //              island_name: 'JavaScript'
-  //            }
-  //          }
-  //        }
-  //      }
-  //    }
-  //  }
-  // }
 
   await prisma.testSet.create({
     data: JavaScriptIslandData
