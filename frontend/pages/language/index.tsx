@@ -1,19 +1,51 @@
 import React from 'react';
-import { LanguageBlock, Image, Main } from '../../components/pages-component/language';
+import { LanguageBlock, Main } from '../../components/pages-component/language';
 import Header from '../../components/shared-component/header';
 
 export default function Index() {
-  const languageList = ['JavaScript', 'Python', 'C++', 'Java', 'PHP', '', ''];
+  const languageList = [{
+    content: {
+      title: 'JavaScript',
+      text: '開始...',
+      process: 0.5,
+    },
+    img_url: 'https://www.w3.org/People/mimasa/test/imgformat/img/w3c_home.png',
+  }, {
+    content: {
+      title: 'Python',
+      text: '開始...',
+      process: 0.5,
+    },
+    img_url: 'https://www.w3.org/People/mimasa/test/imgformat/img/w3c_home.png',
+  }, {
+    content: {
+      title: 'C++',
+      text: '開始...',
+      process: 0.5,
+    },
+    img_url: 'https://www.w3.org/People/mimasa/test/imgformat/img/w3c_home.png',
+  }, {
+    content: {
+      title: 'Java',
+      text: '開始...',
+      process: 0.5,
+    },
+    img_url: 'https://www.w3.org/People/mimasa/test/imgformat/img/w3c_home.png',
+  }, {
+    content: {
+      title: 'PHP',
+      text: '開始...',
+      process: 0.5,
+    },
+    img_url: 'https://www.w3.org/People/mimasa/test/imgformat/img/w3c_home.png',
+  }];
 
   return (
     <>
       <Header>123</Header>
       <Main>
-        {languageList.map((language) => (
-          <LanguageBlock>
-            {language}
-            <Image />
-          </LanguageBlock>
+        {languageList.map((data) => (
+          <LanguageBlock img_url={data.img_url} content={data.content} />
         ))}
       </Main>
     </>
