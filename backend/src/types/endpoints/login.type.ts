@@ -5,3 +5,7 @@ export interface loginRequestWithLocals extends Request {
     member: Member
   }
 }
+
+export type UserTokenDecoded = {
+  id: number
+}

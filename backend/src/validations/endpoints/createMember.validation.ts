@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken'
-import { createMemberRequestBody } from '../types/endpoints/createMember.type'
-import { Ctx } from './../types/context'
+import { createMemberRequestBody } from '../../types/endpoints/createMember.type'
+import { Ctx } from '../../types/context'
 import { checkSchema, ValidationChain } from 'express-validator'
-import checkDataExistInDatabase from '../helpers/isDataExistInDatabase'
-import getErrorMessage from '../utils/getErrorMessage'
+import checkDataExistInDatabase from '../../services/isDataExistInDatabase.service'
+import getErrorMessage from '../../utils/getErrorMessage'
 
 export default function createMemberValidation (ctx: Ctx): ValidationChain[] {
   return checkSchema({

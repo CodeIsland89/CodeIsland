@@ -25,6 +25,10 @@ const doc = {
     {
       name: 'auth',
       description: 'auth router'
+    },
+    {
+      name: 'user',
+      description: 'user router'
     }
   ]
 }

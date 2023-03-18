@@ -1,9 +1,11 @@
 import { createMemberRequestWithLocals } from './../types/endpoints/createMember.type'
 import { Response } from 'express'
 import { Ctx } from '../types/context'
-import hashString from '../utils/hashString'
-import { Member, Chapter, Lesson, PrismaClient } from '@prisma/client'
 import getErrorMessage from '../utils/getErrorMessage'
+import createMember from '../services/createMember.service'
+import getStartChapter from '../services/getStartChapter.service'
+import getStartLesson from '../services/getStartLesson.service'
+import getStartQuiz from '../services/getStartQuiz.service'
 
 export default async function createMemberHandler (
   req: createMemberRequestWithLocals,
@@ -29,6 +31,11 @@ export default async function createMemberHandler (
           firstChapterByIsland.chapter_id
         )
 
+        const firstQuizByLesson = await getStartQuiz(
+          prisma,
+          firstLessonByChapter.lesson_id
+        )
+
         await prisma.memberIsland.create({
           data: {
             island: {
@@ -41,14 +48,9 @@ export default async function createMemberHandler (
                 member_id: newMember.member_id
               }
             },
-            chapter_status: {
+            quiz: {
               connect: {
-                chapter_id: firstChapterByIsland.chapter_id
-              }
-            },
-            lesson_status: {
-              connect: {
-                lesson_id: firstLessonByChapter.lesson_id
+                quiz_id: firstQuizByLesson.quiz_id
               }
             }
           }
@@ -66,56 +68,4 @@ export default async function createMemberHandler (
       error: getErrorMessage(err)
     })
   }
-}
-
-async function createMember (
-  prisma: PrismaClient,
-  email: string,
-  password: string,
-  nickname: string
-): Promise<Member> {
-  const newMember = await prisma.member.create({
-    data: {
-      email,
-      password: hashString(password),
-      Profile: {
-        create: {
-          nickname
-        }
-      }
-    }
-  })
-  return newMember
-}
-
-async function getStartChapter (
-  prisma: PrismaClient,
-  islandId: number
-): Promise<Chapter> {
-  const startChapter = await prisma.chapter.findFirst({
-    where: {
-      island_id: islandId,
-      chapter_order: 0
-    }
-  })
-  if (startChapter == null) {
-    throw new Error("Can't find start chapter")
-  }
-  return startChapter
-}
-
-async function getStartLesson (
-  prisma: PrismaClient,
-  chapterId: number
-): Promise<Lesson> {
-  const startLesson = await prisma.lesson.findFirst({
-    where: {
-      chapter_id: chapterId,
-      lesson_order: 0
-    }
-  })
-  if (startLesson == null) {
-    throw new Error("Can't find start lesson")
-  }
-  return startLesson
 }

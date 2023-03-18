@@ -15,6 +15,7 @@ model Member {
   MemberIsland   MemberIsland[]
   Profile        Profile?
   Role           Role[]
+  MemberTestProfilePerformance MemberTestProfilePerformance[]
 }
 
 model Profile {
@@ -44,7 +45,7 @@ model Island {
   island_id   Int       @id @default(autoincrement())
   island_name String    @unique
   island_describe String @unique
-  img_source_url  String?   @unique
+  img_source_url  String   @unique
   Chapter     Chapter[]
   MemberIsland MemberIsland[]
 }
@@ -52,12 +53,10 @@ model Island {
 model MemberIsland {
   member_id   Int
   island_id   Int
-  chapter_status_id Int
-  lesson_status_id Int
+  latest_solved_quiz_id Int
   member      Member @relation(fields: [member_id], references: [member_id])
   island      Island @relation(fields: [island_id], references: [island_id])
-  chapter_status Chapter @relation(fields: [chapter_status_id], references: [chapter_id])
-  lesson_status Lesson @relation(fields: [lesson_status_id], references: [lesson_id])
+  quiz Quiz @relation(fields: [latest_solved_quiz_id], references: [quiz_id])
   @@id([member_id, island_id])
 }
 
@@ -69,19 +68,17 @@ model Chapter {
   island         Island @relation(fields: [island_id], references: [island_id])
   island_id      Int
   Lesson     Lesson[]
-  ChapterStatus MemberIsland[]
   @@unique([island_id, chapter_order])
 }
 
 model Lesson {
   lesson_id     Int      @id @default(autoincrement())
   lesson_name   String   @unique
-  lesson_teach_content String @unique
+  lesson_describe String @unique
   lesson_order  Int
   chapter       Chapter  @relation(fields: [chapter_id], references: [chapter_id])
   chapter_id    Int
   Quiz      Quiz[]
-  LessonStatus MemberIsland[]
   @@unique([chapter_id, lesson_order])
 }
 
@@ -94,10 +91,14 @@ model Quiz {
   quiz_title String @unique
   quiz_describe   String 
   quiz_type QuizType
+  quiz_teach_content String
+  quiz_order  Int
   lesson     Lesson  @relation(fields: [lesson_id], references: [lesson_id])
   lesson_id  Int
   Option     Option[]
   TestsetProfile TestSetProfile?
+  MemberIsland MemberIsland[]
+  @@unique([lesson_id, quiz_order])
 }
 
 model TestSetProfile {
@@ -107,6 +108,19 @@ model TestSetProfile {
   function_name String @unique
   exhibit_code String @unique
   TestSet    TestSet[]
+  MemberTestProfilePerformance MemberTestProfilePerformance[]
+}
+
+model MemberTestProfilePerformance {
+  record_id Int @id @default(autoincrement())
+  member_id Int
+  quiz_id Int
+  execution_code String
+  memory_cost Int
+  execution_time Int
+  is_successful Boolean
+  member Member @relation(fields: [member_id], references: [member_id])
+  test_set_profile TestSetProfile @relation(fields: [quiz_id], references: [quiz_id])
 }
 
 model TestSet {

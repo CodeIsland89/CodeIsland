@@ -1,4 +1,7 @@
-import { loginRequestWithLocals } from './../types/endpoints/login.type'
+import {
+  loginRequestWithLocals,
+  UserTokenDecoded
+} from './../types/endpoints/login.type'
 import jwt from 'jsonwebtoken'
 import { Response } from 'express'
 import getErrorMessage from '../utils/getErrorMessage'
@@ -8,10 +11,10 @@ export default async function LoginHandler (
 ): Promise<void> {
   try {
     const { member } = req.locals
-    const token = jwt.sign(
-      { id: member.member_id },
-      process.env.JWT_SECRET as string
-    )
+    const info: UserTokenDecoded = {
+      id: member.member_id
+    }
+    const token = jwt.sign(info, process.env.JWT_SECRET as string)
 
     res.status(200).json({
       message: 'Login success',
