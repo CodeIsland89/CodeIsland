@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import request from './index'
 import getRandomString from '../src/utils/getRandomString'
+import hashString from '../src/utils/hashString'
 
 describe('userRelated Test', () => {
   const email = `${getRandomString(15)}@gmail.com`
@@ -18,11 +19,18 @@ describe('userRelated Test', () => {
 
   it('should createMember', async () => {
     const token = jwt.sign(
-      { email, password, nickname },
+      {
+        createMemberJSON: {
+          email,
+          password: hashString(password),
+          nickname
+        }
+      },
       process.env.JWT_SECRET as string,
       { expiresIn: '1h' }
     )
     const response = await request.get(`/api/auth/createMember?token=${token}`)
+
     expect(response.status).toBe(200)
   })
 

@@ -24,6 +24,7 @@ export default function loginValidation (ctx: Ctx): ValidationChain[] {
           if (member === null) {
             throw new Error('Member not found')
           }
+
           if (member.password !== hashString(req.body.password)) {
             throw new Error('Password is not correct')
           }

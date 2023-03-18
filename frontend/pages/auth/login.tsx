@@ -7,15 +7,26 @@ import Box from '../../components/shared-component/box';
 import Text from '../../components/shared-component/text';
 import color from '../../global/theme/color';
 import Img from '../../components/shared-component/img';
+import loginService from '../../service/login.service';
 
 export default function LoginPage() {
-  const handleLogin = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    // get the field that you want
-    const { email, password, rememberPwd } = form.elements;
-    console.log(email.value, password.value, rememberPwd.checked);
-    console.log('handle Login.');
+  const handleLogin = async (e) => {
+    try {
+      e.preventDefault();
+      const form = e.target;
+      // get the field that you want
+      const { email, password } = form.elements;
+
+      const token = await loginService({
+        email: email.value,
+        password: password.value,
+      });
+
+      localStorage.setItem('token', token);
+    } catch (error) {
+      console.error(error);
+      alert('登入失敗，請重新登入');
+    }
   };
 
   const handleLoginWithGoogle = () => {

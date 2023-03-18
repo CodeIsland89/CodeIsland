@@ -1,23 +1,38 @@
-import { PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from '@prisma/client'
 import { Ctx } from '../types/context'
 
-type Where = Record<string, any>
+type PrismaClientKeys = Exclude<
+keyof PrismaClient,
+| '$connect'
+| '$disconnect'
+| '$executeRaw'
+| '$executeRawUnsafe'
+| '$on'
+| '$use'
+| '$queryRaw'
+| '$queryRawUnsafe'
+| '$transaction'
+>
+
+export type UniqueWheres =
+  | Prisma.MemberWhereUniqueInput
+  | Prisma.ProfileWhereUniqueInput
+  | Prisma.RoleWhereUniqueInput
+  | Prisma.ActionWhereUniqueInput
+  | Prisma.IslandWhereUniqueInput
+  | Prisma.MemberIslandWhereUniqueInput
+  | Prisma.ChapterWhereUniqueInput
+  | Prisma.LessonWhereUniqueInput
+  | Prisma.QuizWhereUniqueInput
+  | Prisma.TestSetProfileWhereUniqueInput
+  | Prisma.MemberTestProfilePerformanceWhereUniqueInput
+  | Prisma.TestSetWhereUniqueInput
+  | Prisma.OptionWhereUniqueInput
 
 export default async function isDataExistInDatabase (
   ctx: Ctx,
-  tableName: Exclude<
-  keyof PrismaClient,
-  | '$connect'
-  | '$disconnect'
-  | '$executeRaw'
-  | '$executeRawUnsafe'
-  | '$on'
-  | '$use'
-  | '$queryRaw'
-  | '$queryRawUnsafe'
-  | '$transaction'
-  >,
-  where: Where
+  tableName: PrismaClientKeys,
+  where: UniqueWheres
 ): Promise<boolean> {
   const { prisma } = ctx
   // @ts-expect-error

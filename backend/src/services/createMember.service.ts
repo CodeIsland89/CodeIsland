@@ -1,5 +1,4 @@
 import { PrismaClient, Member } from '@prisma/client'
-import hashString from '../utils/hashString'
 export default async function createMember (
   prisma: PrismaClient,
   email: string,
@@ -9,7 +8,7 @@ export default async function createMember (
   const newMember = await prisma.member.create({
     data: {
       email,
-      password: hashString(password),
+      password,
       Profile: {
         create: {
           nickname

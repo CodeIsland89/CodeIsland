@@ -8,15 +8,34 @@ import Img from '../../components/shared-component/img';
 import {
   GoogleButton, MemberButton, Card, Block,
 } from '../../components/pages-component/auth/signup';
+import signUpService from '../../service/signup.service';
 
 export default function SignUpPage() {
-  const handleLogin = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    // get the field that you want
-    const { email, password, rememberPwd } = form.elements;
-    console.log(email.value, password.value, rememberPwd.checked);
-    console.log('handle Login.');
+  const handleLogin = async (e) => {
+    try {
+      e.preventDefault();
+      const form = e.target;
+      // get the field that you want
+      const {
+        nickname, email, password, replyPassword,
+      } = form.elements;
+
+      if (password.value !== replyPassword.value) {
+        alert('密碼與確認密碼不相同');
+        return;
+      }
+
+      await signUpService({
+        nickname: nickname.value,
+        email: email.value,
+        password: password.value,
+      });
+
+      alert('註冊成功, 請至信箱收取驗證信');
+    } catch (error) {
+      console.error(error);
+      alert('註冊失敗，請重新註冊');
+    }
   };
 
   const handleLoginWithGoogle = () => {
