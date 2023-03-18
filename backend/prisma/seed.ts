@@ -63,7 +63,8 @@ async function createAdminMember (): Promise<void> {
   await prisma.member.create({
     data: {
       email: 'admin@gmail.com',
-      password: 'admin',
+      password:
+        'a32074531a1cabd1f3e6a0c42dd629edf01a6403fecbfdea2d9f5e8a23a601db', // this_is_my_password
       is_enabled: true,
       Profile: {
         create: {
