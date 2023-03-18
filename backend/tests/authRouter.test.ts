@@ -42,4 +42,11 @@ describe('userRelated Test', () => {
       .set('Authorization', `Bearer ${userToken}`)
     expect(response.status).toBe(200)
   })
+
+  it('should getIslandMemberProgress', async () => {
+    const response = await request
+      .post('/api/user/getIslandMemberProgress')
+      .set('Authorization', `Bearer ${userToken}`)
+    expect(response.status).toBe(200)
+  })
 })
