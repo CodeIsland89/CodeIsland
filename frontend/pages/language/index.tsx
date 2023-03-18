@@ -1,6 +1,7 @@
 import React from 'react';
 import { LanguageBlock, Main } from '../../components/pages-component/language';
 import Header from '../../components/shared-component/header';
+import img_language from '../../assets/language.svg';
 
 export default function Index() {
   const languageList = [{
@@ -42,10 +43,10 @@ export default function Index() {
 
   return (
     <>
-      <Header>123</Header>
+      <Header />
       <Main>
         {languageList.map((data) => (
-          <LanguageBlock img_url={data.img_url} content={data.content} />
+          <LanguageBlock img_url={img_language} content={data.content} />
         ))}
       </Main>
     </>

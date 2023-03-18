@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
 import color from '../../../global/theme/color';
@@ -39,7 +40,7 @@ const Container = styled.a`
   }
 `;
 
-const Image = styled.img`
+const StyledImage = styled(Image)`
   width: 12rem;
   height: 9rem;
   background-color: ${color.grey_500};
@@ -77,7 +78,7 @@ const Process = styled.div`
 function LanguageBlock({ img_url, content }: Props) {
   return (
     <Container href={content.title}>
-      <Image src={img_url} />
+      <StyledImage src={img_url} alt="" />
       <Content>
         <Title>{content.title}</Title>
         <Text>{content.text}</Text>
