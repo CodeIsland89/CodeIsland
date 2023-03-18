@@ -1,11 +1,10 @@
-import { createMemberRequestBody } from '../types/endpoints/createMember.type'
 import { Ctx } from './../types/context'
 import { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import sendEmail from '../utils/sendEmail'
-import hashString from '../utils/hashString'
 import getBackendBaseURL from '../utils/getBackendBaseURL'
 import getErrorMessage from '../utils/getErrorMessage'
+import hashString from '../utils/hashString'
 
 export default async function sendRegisterEmailHandler (
   req: Request,
@@ -15,13 +14,14 @@ export default async function sendRegisterEmailHandler (
   try {
     const { email, password, nickname } = req.body
     const { transporter } = ctx
-    const createMemberJSON: createMemberRequestBody = {
-      email,
-      password: hashString(password),
-      nickname
-    }
     const createMemberToken = jwt.sign(
-      { createMemberJSON },
+      {
+        createMemberJSON: {
+          email,
+          password: hashString(password),
+          nickname
+        }
+      },
       process.env.JWT_SECRET as string,
       { expiresIn: '1h' }
     )
