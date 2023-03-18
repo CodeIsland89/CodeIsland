@@ -23,7 +23,6 @@ const StyleHeader = styled.div`
   border-color: ${color.grey_400};
   margin-bottom: 2rem;
   padding: 0.2rem 1rem;
-  z-index: 9;
 `;
 
 const HeaderLogo = styled(Image)`
