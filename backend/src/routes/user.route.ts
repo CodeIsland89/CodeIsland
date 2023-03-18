@@ -33,7 +33,14 @@ export default (ctx: Ctx, app: Express): expressRouter => {
         description: '成功取得資訊',
         schema: {
           message: 'Success GetUserProfile',
-          data: 'memberInfo',
+          data: {
+            "member_id": 2,
+            "continuous_day": 0,
+            "exp": 0,
+            "gem": 0,
+            "nickname": "this_is_my_nickname",
+            "img_source_url": null
+          },
           error: ''
         }
       }

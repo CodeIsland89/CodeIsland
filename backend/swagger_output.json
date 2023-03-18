@@ -319,8 +319,30 @@
                   "example": "Success GetUserProfile"
                 },
                 "data": {
-                  "type": "string",
-                  "example": "memberInfo"
+                  "type": "object",
+                  "properties": {
+                    "member_id": {
+                      "type": "number",
+                      "example": 2
+                    },
+                    "continuous_day": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "exp": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "gem": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "nickname": {
+                      "type": "string",
+                      "example": "this_is_my_nickname"
+                    },
+                    "img_source_url": {}
+                  }
                 },
                 "error": {
                   "type": "string",
@@ -404,8 +426,36 @@
                   "example": "Success getIslands's data"
                 },
                 "data": {
-                  "type": "string",
-                  "example": "memberInfo"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "island_id": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "island_name": {
+                        "type": "string",
+                        "example": "JavaScript"
+                      },
+                      "island_description": {
+                        "type": "string",
+                        "example": "JavaScript is a programming language that conforms to the ECMAScript specification. JavaScript is high-level, often just-in-time compiled, and multi-paradigm. It has curly-bracket syntax, dynamic typing, prototype-based object-orientation, and first-class functions."
+                      },
+                      "island_image_url": {
+                        "type": "string",
+                        "example": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/800px-JavaScript-logo.png"
+                      },
+                      "island_solved_quiz_count": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "island_total_quiz_count": {
+                        "type": "number",
+                        "example": 1
+                      }
+                    }
+                  }
                 },
                 "error": {
                   "type": "string",
