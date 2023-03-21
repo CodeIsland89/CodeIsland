@@ -27,7 +27,7 @@ export type UniqueWheres =
   | Prisma.TestSetProfileWhereUniqueInput
   | Prisma.MemberTestProfilePerformanceWhereUniqueInput
   | Prisma.TestSetWhereUniqueInput
-  | Prisma.OptionWhereUniqueInput
+  | Prisma.QuizWhereUniqueInput
 
 export default async function isDataExistInDatabase (
   ctx: Ctx,
