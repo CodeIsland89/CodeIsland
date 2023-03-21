@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
 import color from '../../../global/theme/color';
@@ -27,7 +29,7 @@ const Main = styled.div`
   margin: var(--my) calc(var(--mx));
 `;
 
-const Container = styled.a`
+const Container = styled(Link)`
   color: ${color.black};
   text-decoration: none;
 
@@ -78,8 +80,11 @@ const Text = styled.div`
 `;
 
 function LanguageBlock({ img_url, content }: Props) {
+  const router = useRouter();
+  const currentPath = router.pathname;
+
   return (
-    <Container href={content.title}>
+    <Container href={`${currentPath}/${content.title}`}>
       <StyledImage src={img_url} alt="" />
       <Content>
         <Title>{content.title}</Title>
