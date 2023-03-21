@@ -5,7 +5,11 @@ import color from '../../../global/theme/color';
 
 type Props = {
   img_url?: string,
-  content?: object,
+  content: {
+    title: string,
+    text: string,
+    process: number,
+  },
 };
 
 const Main = styled.div`
