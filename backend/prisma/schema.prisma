@@ -84,7 +84,7 @@ model Lesson {
 
 enum QuizType {
   TESTSET
-  OPTION
+  CLOZE
 }
 model Quiz {
   quiz_id     Int     @id @default(autoincrement())
@@ -95,7 +95,7 @@ model Quiz {
   quiz_order  Int
   lesson     Lesson  @relation(fields: [lesson_id], references: [lesson_id])
   lesson_id  Int
-  Option     Option[]
+  Cloze     Cloze[]
   TestsetProfile TestSetProfile?
   MemberIsland MemberIsland[]
   @@unique([lesson_id, quiz_order])
@@ -132,10 +132,11 @@ model TestSet {
   @@unique([input, output])
 }
 
-model Option {
-  option_id     Int     @id @default(autoincrement())
-  option_describe   String
-  is_answer    Boolean
-  quiz      Quiz  @relation(fields: [quiz_id], references: [quiz_id])
+model Cloze {
+  cloze_id     Int     @id @default(autoincrement())
   quiz_id   Int
+  cloze_content   String
+  cloze_order    Int 
+  quiz      Quiz  @relation(fields: [quiz_id], references: [quiz_id])
+  @@unique([quiz_id, cloze_order])
 }
