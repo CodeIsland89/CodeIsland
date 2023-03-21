@@ -2,13 +2,15 @@ import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
 import color from '../../../global/theme/color';
+import ProgressBar from '../../shared-component/progress_bar';
 
 type Props = {
   img_url?: string,
   content: {
     title: string,
     text: string,
-    process: number,
+    value: number,
+    max: number,
   },
 };
 
@@ -75,10 +77,6 @@ const Text = styled.div`
   color: ${color.grey_800};
 `;
 
-const Process = styled.div`
-  background-color: ${color.grey_300};
-`;
-
 function LanguageBlock({ img_url, content }: Props) {
   return (
     <Container href={content.title}>
@@ -86,10 +84,7 @@ function LanguageBlock({ img_url, content }: Props) {
       <Content>
         <Title>{content.title}</Title>
         <Text>{content.text}</Text>
-        <Process>
-          {content.process * 100}
-          % 進度條施工中...
-        </Process>
+        <ProgressBar value={content.value} max={content.max} />
       </Content>
     </Container>
   );
