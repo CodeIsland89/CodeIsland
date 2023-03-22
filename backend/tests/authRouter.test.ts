@@ -67,4 +67,11 @@ describe('userRelated Test', () => {
       })
     expect(response.status).toBe(200)
   })
+
+  it('should sendResetPasswordEmail', async () => {
+    const response = await request
+      .post('/api/user/sendResetPasswordEmail')
+      .set('Authorization', `Bearer ${userToken}`)
+    expect(response.status).toBe(200)
+  })
 })

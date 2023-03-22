@@ -8,6 +8,8 @@ import getIslandMemberProgressValidation from '../validations/endpoints/getIslan
 import getIslandMemberProgressHandler from '../handler/getIslandMemberProgress.handler'
 import changeNicknameValidation from '../validations/endpoints/changeNickname.validation'
 import changeNicknameHandler from '../handler/changeNickname.handler'
+import sendResetPasswordEmailValidation from './../validations/endpoints/sendResetPasswordEmail.validation'
+import sendResetPasswordEmailHandler from '../handler/sendResetPasswordEmail.handler'
 
 export default (ctx: Ctx, app: Express): expressRouter => {
   const router = expressRouter()
@@ -176,6 +178,55 @@ export default (ctx: Ctx, app: Express): expressRouter => {
 
       #swagger.responses[500] = {
         description: '因為伺服器的問題，導致修改暱稱失敗',
+        schema: {
+          message: 'Internal Server Error',
+          errors: 'Error message here'
+        }
+      }
+     */
+    }
+  )
+
+  router.post(
+    '/sendResetPasswordEmail',
+    sendResetPasswordEmailValidation(ctx),
+    valdationResultMiddleware,
+    async (req: Request, res: Response) => {
+      await sendResetPasswordEmailHandler(
+        req as getUserProfileRequest,
+        res,
+        ctx
+      )
+      /*
+        #swagger.summary = '使用token來發送要求重設密碼的信件',
+        #swagger.parameters['Authorization'] = {
+          in: 'header',
+          description: '在Authorization欄位輸入Bearer + token',
+          required: true,
+          schema: {
+            Authorization: 'Bearer token'
+          }
+        }
+      */
+
+      /*
+      #swagger.responses[200] = {
+        description: '成功發送重設密碼信件',
+        schema: {
+          "message": "Success SendResetPasswordEmail",
+          "error": ""
+        }
+      }
+
+      #swagger.responses[400] = {
+        description: 'Token 有誤',
+        schema: {
+          errors: 'JWT is not valid format'
+        }
+      }
+
+      #swagger.responses[500] = {
+        description: '因為伺服器的問題，導致發送信件失敗',
         schema: {
           message: 'Internal Server Error',
           errors: 'Error message here'

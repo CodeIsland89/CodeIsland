@@ -603,6 +603,87 @@
           }
         }
       }
+    },
+    "/user/sendResetPasswordEmail": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "使用token來發送要求重設密碼的信件",
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "在Authorization欄位輸入Bearer + token",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Authorization": {
+                  "type": "string",
+                  "example": "Bearer token"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功發送重設密碼信件",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Success SendResetPasswordEmail"
+                },
+                "error": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Token 有誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "string",
+                  "example": "JWT is not valid format"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "因為伺服器的問題，導致發送信件失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Internal Server Error"
+                },
+                "errors": {
+                  "type": "string",
+                  "example": "Error message here"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
