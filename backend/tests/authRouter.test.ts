@@ -57,4 +57,14 @@ describe('userRelated Test', () => {
       .set('Authorization', `Bearer ${userToken}`)
     expect(response.status).toBe(200)
   })
+
+  it('should changeNickname', async () => {
+    const response = await request
+      .patch('/api/user/changeNickname')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({
+        nickname: 'this_is_new_nickname'
+      })
+    expect(response.status).toBe(200)
+  })
 })
