@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
+import Link from 'next/link';
 import color from '../../../global/theme/color';
 import header_logo from '../../../assets/header_logo.svg';
 import icon from '../../../assets/icon.svg';
@@ -22,7 +23,6 @@ const StyleHeader = styled.div`
   border-bottom-style: solid;
   border-color: ${color.grey_400};
   margin-bottom: 2rem;
-  padding: 0.2rem 1rem;
 `;
 
 const HeaderLogo = styled(Image)`
@@ -33,6 +33,11 @@ const HeaderLogo = styled(Image)`
 const Icon = styled(Image)`
   width: 3rem;
   height: 3rem;
+`;
+
+const SidebarIcon = styled(Image)`
+  width: 1.2rem;
+  height: 1.2rem;
 `;
 
 const StyledValue = styled.div`
@@ -82,34 +87,106 @@ const RightContainer = styled.div`
 `;
 
 const StyledSidebar = styled.div`
-  display: none;
+  position: relative;
+  // display: none;
   width: 10rem;
-  height: 15rem;
-  background-color: ${color.grey};
+  height: 100%;
+  padding: 0.8rem;
+  background-color: ${color.white};
+  border: 0.02rem solid ${color.grey_400};
+  border-bottom-left-radius: 0.2rem;
+  
+
+  .item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+    color: ${color.black};
+    text-decoration: none;
+  }
+
+  .item > *:nth-child(even) {
+    margin-left: 0.5rem;
+  }
+
+  & > * {
+    background-color: ${color.white};
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.6rem;
+  }
+
+  & > *:nth-child(even) {
+    border: 0px solid ${color.grey_400};
+    border-top-width: 0.05rem;
+  }
+
+  & > *:last-child {
+    margin-top: 2rem;
+  }
 `;
+
+type ItemProps = {
+  href: string,
+  icon_src: string,
+  text: string,
+};
+
+function Item({ href, icon_src, text } : ItemProps) {
+  return (
+    <Link href={href} className="item">
+      <SidebarIcon src={icon_src} alt="" />
+      <span>{text}</span>
+    </Link>
+  );
+}
+
+function Sidebar() {
+  return (
+    <StyledSidebar>
+      <Item href="/profile" icon_src={icon} text="Profile" />
+      <Item href="/setting" icon_src={icon} text="Setting" />
+      <Item href="/logout" icon_src={icon} text="Log Out" />
+    </StyledSidebar>
+  );
+}
 
 const Left = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding: 0.2rem 1rem;
 `;
 
 const Center = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding: 0.2rem 1rem;
 `;
 
 const Right = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding: 0.2rem 1rem;
   &:hover ~ ${StyledSidebar} {
     display: block;
   }
 `;
 
 function Header() {
+  const [isHovering, setIsHovering] = useState(false);
+
+  const handleMouseOver = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+  };
+
   return (
     <StyleHeader>
       <Left>
@@ -120,11 +197,15 @@ function Header() {
         <Right>
           <Assets img_url={icon} value={530} />
           <Assets img_url={icon} value={10} />
-          <Profile />
+          <div
+            onMouseEnter={handleMouseOver}
+            onMouseLeave={handleMouseOut}
+          >
+            <Profile />
+          </div>
         </Right>
-        <StyledSidebar>
-          Sidebar 施工中...
-        </StyledSidebar>
+        {isHovering
+        && <Sidebar />}
       </RightContainer>
     </StyleHeader>
   );
