@@ -29,6 +29,7 @@ export default function checkAuthorization (ctx: Ctx): {
           })
 
           req.locals = {
+            ...req.locals,
             member
           }
 
