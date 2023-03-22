@@ -10,6 +10,8 @@ import changeNicknameValidation from '../validations/endpoints/changeNickname.va
 import changeNicknameHandler from '../handler/changeNickname.handler'
 import sendResetPasswordEmailValidation from './../validations/endpoints/sendResetPasswordEmail.validation'
 import sendResetPasswordEmailHandler from '../handler/sendResetPasswordEmail.handler'
+import resetPasswordValidation from './../validations/endpoints/resetPassword.validation'
+import resetPasswordHandler from '../handler/resetPassword.handler'
 
 export default (ctx: Ctx, app: Express): expressRouter => {
   const router = expressRouter()
@@ -227,6 +229,59 @@ export default (ctx: Ctx, app: Express): expressRouter => {
 
       #swagger.responses[500] = {
         description: '因為伺服器的問題，導致發送信件失敗',
+        schema: {
+          message: 'Internal Server Error',
+          errors: 'Error message here'
+        }
+      }
+     */
+    }
+  )
+
+  router.patch(
+    '/resetPassword',
+    resetPasswordValidation(ctx),
+    valdationResultMiddleware,
+    async (req: Request, res: Response) => {
+      await resetPasswordHandler(req as getUserProfileRequest, res, ctx)
+      /*
+        #swagger.summary = '使用token以及新密碼來重設密碼',
+        #swagger.parameters['body'] = {
+          in: 'body',
+          description: '放入在endpoint sendResetPasswordEmail收到的Token以及輸入新的密碼,密碼最少要八個字母長',
+          required: true,
+          schema: {
+            token: 'token',
+            newPassword: 'new password'
+          }
+        }
+      */
+
+      /*
+      #swagger.responses[200] = {
+        description: '成功重設密碼',
+        schema: {
+          "message": "Success to reset password",
+          "error": ""
+        }
+      }
+
+      #swagger.responses[400] = {
+        description: 'Token 有誤',
+        schema: {
+          errors: 'JWT is not valid format'
+        }
+      }
+
+      #swagger.responses[400] = {
+        description: '密碼格式有誤',
+        schema: {
+          errors: 'New Password must be at least 8 chars long'
+        }
+      }
+
+      #swagger.responses[500] = {
+        description: '因為伺服器的問題，導致重設密碼失敗',
         schema: {
           message: 'Internal Server Error',
           errors: 'Error message here'

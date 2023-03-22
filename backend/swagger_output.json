@@ -684,6 +684,91 @@
           }
         }
       }
+    },
+    "/user/resetPassword": {
+      "patch": {
+        "tags": [
+          "user"
+        ],
+        "summary": "使用token以及新密碼來重設密碼",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "放入在endpoint sendResetPasswordEmail收到的Token以及輸入新的密碼,密碼最少要八個字母長",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "example": "token"
+                },
+                "newPassword": {
+                  "type": "string",
+                  "example": "new password"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功重設密碼",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Success to reset password"
+                },
+                "error": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "密碼格式有誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "string",
+                  "example": "New Password must be at least 8 chars long"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "因為伺服器的問題，導致重設密碼失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Internal Server Error"
+                },
+                "errors": {
+                  "type": "string",
+                  "example": "Error message here"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

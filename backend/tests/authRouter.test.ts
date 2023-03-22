@@ -7,6 +7,7 @@ describe('userRelated Test', () => {
   const email = `${getRandomString(15)}@gmail.com`
   const password = 'this_is_my_password'
   const nickname = 'this_is_my_nickname'
+  const newPassword = 'this_is_my_new_password'
 
   it('should sendRegisterEmail', async () => {
     const response = await request.post('/api/auth/sendRegisterEmail').send({
@@ -72,6 +73,23 @@ describe('userRelated Test', () => {
     const response = await request
       .post('/api/user/sendResetPasswordEmail')
       .set('Authorization', `Bearer ${userToken}`)
+    expect(response.status).toBe(200)
+  })
+
+  const resetPasswordTokenInfo = { email }
+  const resetPasswordToken = jwt.sign(
+    resetPasswordTokenInfo,
+    process.env.JWT_SECRET as string,
+    {
+      expiresIn: '1h'
+    }
+  )
+
+  it('should changePassword', async () => {
+    const response = await request.patch('/api/user/resetPassword').send({
+      token: resetPasswordToken,
+      newPassword
+    })
     expect(response.status).toBe(200)
   })
 })
