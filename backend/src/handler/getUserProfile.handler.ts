@@ -15,7 +15,10 @@ export default async function getUserProfileHandler (
 
     res.status(200).json({
       message: 'Success GetUserProfile',
-      data: profile,
+      data: {
+        ...profile,
+        email: member.email
+      },
       error: ''
     })
   } catch (err) {
