@@ -341,7 +341,11 @@
                       "type": "string",
                       "example": "this_is_my_nickname"
                     },
-                    "img_source_url": {}
+                    "img_source_url": {},
+                    "email": {
+                      "type": "string",
+                      "example": "yourEmail@example.com"
+                    }
                   }
                 },
                 "error": {

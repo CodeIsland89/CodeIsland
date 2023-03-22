@@ -39,7 +39,8 @@ export default (ctx: Ctx, app: Express): expressRouter => {
             "exp": 0,
             "gem": 0,
             "nickname": "this_is_my_nickname",
-            "img_source_url": null
+            "img_source_url": null,
+            "email": "yourEmail@example.com"
           },
           error: ''
         }
