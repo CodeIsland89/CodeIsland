@@ -15,9 +15,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: ./frontend
+          - dockerfile: ./frontend/Dockerfile
             image: ghcr.io/CodeIsland89/frontend
-          - dockerfile: ./backend
+          - dockerfile: ./backend/Dockerfile
             image: ghcr.io/CodeIsland89/backend
     permissions:
       contents: read
