@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - 37-將專案建置在伺服器上
+      
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
