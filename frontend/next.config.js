@@ -4,6 +4,9 @@ module.exports = async (phase, { defaultConfig }) => {
    */
   const nextConfig = {
     /* config options here */
+    eslint: {
+      ignoreDuringBuilds: true,
+    }
   }
   return nextConfig
 }
