@@ -1,6 +1,6 @@
 FROM node:18
 
-ADD . /work
+ADD ./backend /work
 WORKDIR /work
 
 RUN apt-get install -y openssl
