@@ -1,6 +1,6 @@
 FROM node:18
 
-ADD . /work
+ADD ./frontend /work
 WORKDIR /work
 
 RUN npm install
