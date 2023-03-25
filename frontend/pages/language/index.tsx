@@ -1,7 +1,7 @@
 import React from 'react';
 import { LanguageBlock, Main } from '../../components/pages-component/language';
 import Header from '../../components/shared-component/header';
-import img_language from '../../assets/language.svg';
+import img_language from '../../assets/test/language.svg';
 
 export default function Index() {
   const languageList = [{

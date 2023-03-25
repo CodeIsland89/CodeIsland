@@ -3,8 +3,13 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
 import color from '../../../global/theme/color';
-import header_logo from '../../../assets/header_logo.svg';
-import icon from '../../../assets/icon.svg';
+import header_logo from '../../../assets/Code Island.svg';
+import sidebar_profile_icon from '../../../assets/arcticons_curiouscat.svg';
+import sidebar_setting_icon from '../../../assets/material-symbols_settings-outline-rounded.svg';
+import sidebar_logout_icon from '../../../assets/ic_outline-log-out.svg';
+import fish_icon from '../../../assets/icon-park-solid_fish-one.svg';
+import paw_icon from '../../../assets/openmoji_paw-prints.svg';
+import profile_icon from '../../../assets/Group 20.svg';
 
 type Props = {
   img_url?: string,
@@ -18,7 +23,7 @@ const StyleHeader = styled.div`
   align-items: flex-start;
   box-sizing: border-box;
   width: 100%;
-  height: 3.4rem;
+  height: 2.5rem;
   border-bottom-width: 0.05rem;
   border-bottom-style: solid;
   border-color: ${color.grey_400};
@@ -26,13 +31,13 @@ const StyleHeader = styled.div`
 `;
 
 const HeaderLogo = styled(Image)`
-  width: 24rem;
-  height: 3rem;
+  width: 12rem;
+  height: 1.5rem;
 `;
 
 const Icon = styled(Image)`
-  width: 3rem;
-  height: 3rem;
+  width: 2rem;
+  height: 2rem;
 `;
 
 const SidebarIcon = styled(Image)`
@@ -75,7 +80,7 @@ const StyledProfile = styled.div`
 function Profile() {
   return (
     <StyledProfile>
-      <Icon src={icon} alt="" />
+      <Icon src={profile_icon} alt="" />
     </StyledProfile>
   );
 }
@@ -145,9 +150,9 @@ function Item({ href, icon_src, text } : ItemProps) {
 function Sidebar() {
   return (
     <StyledSidebar>
-      <Item href="/profile" icon_src={icon} text="Profile" />
-      <Item href="/setting" icon_src={icon} text="Setting" />
-      <Item href="/logout" icon_src={icon} text="Log Out" />
+      <Item href="/profile" icon_src={sidebar_profile_icon} text="Profile" />
+      <Item href="/setting" icon_src={sidebar_setting_icon} text="Setting" />
+      <Item href="/logout" icon_src={sidebar_logout_icon} text="Log Out" />
     </StyledSidebar>
   );
 }
@@ -195,8 +200,8 @@ function Header() {
       <Center />
       <RightContainer>
         <Right>
-          <Assets img_url={icon} value={530} />
-          <Assets img_url={icon} value={10} />
+          <Assets img_url={fish_icon} value={530} />
+          <Assets img_url={paw_icon} value={10} />
           <div
             onMouseEnter={handleMouseOver}
             onMouseLeave={handleMouseOut}
