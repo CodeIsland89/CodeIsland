@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -181,7 +181,10 @@ const Right = styled.div`
   }
 `;
 
+const useMountEffect = (fun) => useEffect(fun, [fun]);
+
 function Header() {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseOver = () => {
@@ -192,27 +195,35 @@ function Header() {
     setIsHovering(false);
   };
 
+  const handleLoaded = () => {
+    setIsLoaded(true);
+  };
+
+  useMountEffect(handleLoaded);
+
   return (
-    <StyleHeader>
-      <Left>
-        <HeaderLogo src={header_logo} alt="" />
-      </Left>
-      <Center />
-      <RightContainer>
-        <Right>
-          <Assets img_url={fish_icon} value={530} />
-          <Assets img_url={paw_icon} value={10} />
-          <div
-            onMouseEnter={handleMouseOver}
-            onMouseLeave={handleMouseOut}
-          >
-            <Profile />
-          </div>
-        </Right>
-        {isHovering
+    <div style={{ display: isLoaded ? 'block' : 'none' }}>
+      <StyleHeader>
+        <Left>
+          <HeaderLogo src={header_logo} alt="" />
+        </Left>
+        <Center />
+        <RightContainer>
+          <Right>
+            <Assets img_url={fish_icon} value={530} />
+            <Assets img_url={paw_icon} value={10} />
+            <div
+              onMouseEnter={handleMouseOver}
+              onMouseLeave={handleMouseOut}
+            >
+              <Profile />
+            </div>
+          </Right>
+          {isHovering
         && <Sidebar />}
-      </RightContainer>
-    </StyleHeader>
+        </RightContainer>
+      </StyleHeader>
+    </div>
   );
 }
 

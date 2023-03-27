@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import color from '../../../global/theme/color';
 import ProgressBar from '../../shared-component/progress_bar';
@@ -51,7 +51,7 @@ const Container = styled(Link)`
 const StyledImage = styled(Image)`
   width: 12rem;
   height: 9rem;
-  background-color: ${color.grey_500};
+  // background-color: ${color.grey_500};
   border-top-left-radius: 0.2rem;
   border-bottom-left-radius: 0.2rem;
 `;
@@ -79,19 +79,30 @@ const Text = styled.div`
   color: ${color.grey_800};
 `;
 
+const useMountEffect = (fun) => useEffect(fun, [fun]);
+
 function LanguageBlock({ img_url, content }: Props) {
+  const [isLoaded, setIsLoaded] = useState(false);
   const router = useRouter();
   const currentPath = router.pathname;
 
+  const handleLoaded = () => {
+    setIsLoaded(true);
+  };
+
+  useMountEffect(handleLoaded);
+
   return (
-    <Container href={`${currentPath}/${content.title}`}>
-      <StyledImage src={img_url} alt="" />
-      <Content>
-        <Title>{content.title}</Title>
-        <Text>{content.text}</Text>
-        <ProgressBar value={content.value} max={content.max} />
-      </Content>
-    </Container>
+    <div style={{ display: isLoaded ? 'block' : 'none' }}>
+      <Container href={`${currentPath}/${content.title}`}>
+        <StyledImage src={img_url} alt="" />
+        <Content>
+          <Title>{content.title}</Title>
+          <Text>{content.text}</Text>
+          <ProgressBar value={content.value} max={content.max} />
+        </Content>
+      </Container>
+    </div>
   );
 }
 
