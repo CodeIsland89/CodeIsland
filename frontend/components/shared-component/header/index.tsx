@@ -67,7 +67,7 @@ const StyledAssets = styled.div`
 function Assets({ img_url, value } : Props) {
   return (
     <StyledAssets>
-      <Icon src={img_url} alt="" />
+      <Icon src={img_url} alt="" priority />
       <Value value={value} />
     </StyledAssets>
   );
@@ -80,7 +80,7 @@ const StyledProfile = styled.div`
 function Profile() {
   return (
     <StyledProfile>
-      <Icon src={profile_icon} alt="" />
+      <Icon src={profile_icon} alt="" priority />
     </StyledProfile>
   );
 }
@@ -141,7 +141,7 @@ type ItemProps = {
 function Item({ href, icon_src, text } : ItemProps) {
   return (
     <Link href={href} className="item">
-      <SidebarIcon src={icon_src} alt="" />
+      <SidebarIcon src={icon_src} alt="" priority />
       <span>{text}</span>
     </Link>
   );
@@ -201,11 +201,12 @@ function Header() {
 
   useMountEffect(handleLoaded);
 
+  // 預載入動畫
   return (
     <div style={{ display: isLoaded ? 'block' : 'none' }}>
       <StyleHeader>
         <Left>
-          <HeaderLogo src={header_logo} alt="" />
+          <HeaderLogo src={header_logo} alt="" priority />
         </Left>
         <Center />
         <RightContainer>

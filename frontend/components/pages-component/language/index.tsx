@@ -92,10 +92,11 @@ function LanguageBlock({ img_url, content }: Props) {
 
   useMountEffect(handleLoading);
 
+  // 預載入動畫
   return (
     <div style={{ display: isLoading ? 'block' : 'none' }}>
       <Container href={`${currentPath}/${content.title}`}>
-        <StyledImage src={img_url} alt="" />
+        <StyledImage src={img_url} alt="" priority />
         <Content>
           <Title>{content.title}</Title>
           <Text>{content.text}</Text>
