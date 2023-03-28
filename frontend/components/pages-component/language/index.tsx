@@ -82,18 +82,18 @@ const Text = styled.div`
 const useMountEffect = (fun) => useEffect(fun, [fun]);
 
 function LanguageBlock({ img_url, content }: Props) {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const currentPath = router.pathname;
 
-  const handleLoaded = () => {
-    setIsLoaded(true);
+  const handleLoading = () => {
+    setIsLoading(true);
   };
 
-  useMountEffect(handleLoaded);
+  useMountEffect(handleLoading);
 
   return (
-    <div style={{ display: isLoaded ? 'block' : 'none' }}>
+    <div style={{ display: isLoading ? 'block' : 'none' }}>
       <Container href={`${currentPath}/${content.title}`}>
         <StyledImage src={img_url} alt="" />
         <Content>

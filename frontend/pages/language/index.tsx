@@ -6,7 +6,7 @@ import img_language from '../../assets/test/language.svg';
 const useMountEffect = (fun) => useEffect(fun, [fun]);
 
 export default function Index() {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const languageList = [{
     content: {
       title: 'JavaScript',
@@ -49,14 +49,14 @@ export default function Index() {
     img_url: 'https://www.w3.org/People/mimasa/test/imgformat/img/w3c_home.png',
   }];
 
-  const handleLoaded = () => {
-    setIsLoaded(true);
+  const handleLoading = () => {
+    setIsLoading(true);
   };
 
-  useMountEffect(handleLoaded);
+  useMountEffect(handleLoading);
 
   return (
-    <div style={{ display: isLoaded ? 'block' : 'none' }}>
+    <div style={{ display: isLoading ? 'block' : 'none' }}>
       <Header />
       <Main>
         {languageList.map((data) => (
