@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { LanguageBlock, Main } from '../../components/pages-component/language';
 import Header from '../../components/shared-component/header';
 import img_language from '../../assets/test/language.svg';
-
-const useMountEffect = (fun) => useEffect(fun, [fun]);
+import useMountEffect from '../../hook/useMountEffect';
 
 export default function Index() {
   const [isLoading, setIsLoading] = useState(false);

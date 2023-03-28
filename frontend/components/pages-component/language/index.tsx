@@ -1,10 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import color from '../../../global/theme/color';
 import ProgressBar from '../../shared-component/progress_bar';
+import useMountEffect from '../../../hook/useMountEffect';
 
 type Props = {
   img_url?: string,
@@ -78,8 +79,6 @@ const Text = styled.div`
   font-weight: 400;
   color: ${color.grey_800};
 `;
-
-const useMountEffect = (fun) => useEffect(fun, [fun]);
 
 function LanguageBlock({ img_url, content }: Props) {
   const [isLoading, setIsLoading] = useState(false);

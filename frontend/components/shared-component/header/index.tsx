@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,6 +10,7 @@ import sidebar_logout_icon from '../../../assets/ic_outline-log-out.svg';
 import fish_icon from '../../../assets/icon-park-solid_fish-one.svg';
 import paw_icon from '../../../assets/openmoji_paw-prints.svg';
 import profile_icon from '../../../assets/Group 20.svg';
+import useMountEffect from '../../../hook/useMountEffect';
 
 type Props = {
   img_url?: string,
@@ -180,8 +181,6 @@ const Right = styled.div`
     display: block;
   }
 `;
-
-const useMountEffect = (fun) => useEffect(fun, [fun]);
 
 function Header() {
   const [isLoaded, setIsLoaded] = useState(false);
