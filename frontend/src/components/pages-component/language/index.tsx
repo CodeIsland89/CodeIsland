@@ -81,19 +81,19 @@ const Text = styled.div`
 `;
 
 function LanguageBlock({ img_url, content }: Props) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const router = useRouter();
   const currentPath = router.pathname;
 
-  const handleLoading = () => {
-    setIsLoading(true);
+  const handleLoaded = () => {
+    setIsLoaded(true);
   };
 
-  useMountEffect(handleLoading);
+  useMountEffect(handleLoaded);
 
   // 預載入動畫
   return (
-    <div style={{ display: isLoading ? 'block' : 'none' }}>
+    <div style={{ display: isLoaded ? 'block' : 'none' }}>
       <Container href={`${currentPath}/${content.title}`}>
         <StyledImage src={img_url} alt="" priority />
         <Content>

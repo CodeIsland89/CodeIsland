@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { LanguageBlock, Main } from '../../components/pages-component/language';
-import Header from '../../components/shared-component/header';
+import Header from '../../components/layouts/header';
 import img_language from '../../assets/test/language.svg';
 import useMountEffect from '../../hook/useMountEffect';
 
 export default function Index() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const languageList = [{
     content: {
       title: 'JavaScript',
@@ -48,14 +48,14 @@ export default function Index() {
     img_url: 'https://www.w3.org/People/mimasa/test/imgformat/img/w3c_home.png',
   }];
 
-  const handleLoading = () => {
-    setIsLoading(true);
+  const handleLoaded = () => {
+    setIsLoaded(true);
   };
 
-  useMountEffect(handleLoading);
+  useMountEffect(handleLoaded);
 
   return (
-    <div style={{ display: isLoading ? 'block' : 'none' }}>
+    <div style={{ display: isLoaded ? 'block' : 'none' }}>
       <Header />
       <Main>
         {languageList.map((data) => (
