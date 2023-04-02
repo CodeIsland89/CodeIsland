@@ -1,20 +1,24 @@
-import React from "react";
-import BackgroundButton from ".";
+import React from 'react';
+import BackgroundButton from '.';
 
 export default {
   component: BackgroundButton,
-  title: "BackgroundButton",
+  title: 'BackgroundButton',
 };
 
-const Template = (args: { string: string }) => {
+type Props = {
+  string: string;
+};
+
+function Template({ string } : Props) {
   return (
     <BackgroundButton>
-      {args.string}
+      {string}
     </BackgroundButton>
-  )
+  );
 }
 
-export const Default = Template.bind({})
+export const Default = Template.bind({});
 Default.args = {
-  string: "button text here"
-}
+  string: 'button text here',
+};

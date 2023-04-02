@@ -18,6 +18,7 @@
       "components": [ "Link" ],
       "specialLink": [ "to" ]
       }],
-    "linebreak-style": ["off", "windows"]
+    "linebreak-style": ["off", "windows"],
+    "react/jsx-props-no-spreading": "off"
   }
 }

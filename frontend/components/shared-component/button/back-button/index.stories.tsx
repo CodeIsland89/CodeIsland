@@ -1,21 +1,26 @@
-import React from "react";
-import BackButton from ".";
+import React from 'react';
+import BackButton from '.';
 
 export default {
   component: BackButton,
-  title: "BackButton",
+  title: 'BackButton',
 };
 
-const Template = (args: { string: string, href: string }) => { 
+type Props = {
+  string: string;
+  href: string;
+};
+
+function Template({ href, string } : Props) {
   return (
-    <BackButton href={args.href}>
-      {args.string}
+    <BackButton href={href}>
+      {string}
     </BackButton>
-  )
+  );
 }
 
-export const Default = Template.bind({})
+export const Default = Template.bind({});
 Default.args = {
-  string: "button text here",
-  href: "/",
-}
+  string: 'button text here',
+  href: '/',
+};
