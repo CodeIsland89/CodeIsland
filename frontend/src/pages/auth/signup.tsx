@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React from 'react';
 import Link from 'next/link';
 import { InputRow } from '../../components/pages-component/auth/login';

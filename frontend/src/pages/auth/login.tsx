@@ -25,6 +25,7 @@ export default function LoginPage() {
       localStorage.setItem('token', token);
     } catch (error) {
       console.error(error);
+      // eslint-disable-next-line no-alert
       alert('登入失敗，請重新登入');
     }
   };
