@@ -1,6 +1,7 @@
 import { ValidationChain, checkSchema } from 'express-validator'
-import hashString from '../utils/hashString'
-import { Ctx } from './../types/context'
+import hashString from '../../utils/hashString'
+import { Ctx } from './../../types/context'
+import findOneMember from '../../services/findOneMember.service'
 
 export default function loginValidation (ctx: Ctx): ValidationChain[] {
   return checkSchema({
@@ -15,15 +16,15 @@ export default function loginValidation (ctx: Ctx): ValidationChain[] {
       custom: {
         options: async (email: string, { req }) => {
           const { prisma } = ctx
-          const member = await prisma.member.findUnique({
-            where: {
-              email
-            }
+
+          const member = await findOneMember(prisma, {
+            email
           })
 
           if (member === null) {
             throw new Error('Member not found')
           }
+
           if (member.password !== hashString(req.body.password)) {
             throw new Error('Password is not correct')
           }

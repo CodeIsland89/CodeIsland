@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken'
-import { createMemberRequestBody } from './../types/createMemberType'
-import { Ctx } from './../types/context'
+import { createMemberRequestBody } from '../../types/endpoints/createMember.type'
+import { Ctx } from '../../types/context'
 import { checkSchema, ValidationChain } from 'express-validator'
-import checkDataExistInDatabase from '../helpers/isDataExistInDatabase'
-import getErrorMessage from '../utils/getErrorMessage'
+import getErrorMessage from '../../utils/getErrorMessage'
+import isDataExistInDatabase from '../../services/isDataExistInDatabase.service'
 
 export default function createMemberValidation (ctx: Ctx): ValidationChain[] {
   return checkSchema({
@@ -18,20 +18,21 @@ export default function createMemberValidation (ctx: Ctx): ValidationChain[] {
       custom: {
         options: async (token, { req }) => {
           try {
-            const createMemberData = jwt.verify(
+            const { createMemberJSON } = jwt.verify(
               token as string,
               process.env.JWT_SECRET as string
-            ) as createMemberRequestBody
+            ) as { createMemberJSON: createMemberRequestBody }
 
-            const isExist = await checkDataExistInDatabase(ctx, 'member', {
-              email: createMemberData.email
+            const isExist = await isDataExistInDatabase(ctx, 'member', {
+              email: createMemberJSON.email
             })
+
             if (isExist) throw new Error('Email is already exists')
             req.locals = {
               createMemberData: {
-                email: createMemberData.email,
-                password: createMemberData.password,
-                nickname: createMemberData.nickname
+                email: createMemberJSON.email,
+                password: createMemberJSON.password,
+                nickname: createMemberJSON.nickname
               }
             }
             return true
