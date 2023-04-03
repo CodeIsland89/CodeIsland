@@ -59,7 +59,7 @@ export default function Index() {
       <Header />
       <Main>
         {languageList.map((data) => (
-          <LanguageBlock img_url={img_language} content={data.content} />
+          <LanguageBlock img_url={img_language} content={data.content} key={data.content.title} />
         ))}
       </Main>
     </div>
