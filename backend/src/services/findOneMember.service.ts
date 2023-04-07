@@ -1,9 +1,24 @@
-import { Member, PrismaClient, Prisma } from '@prisma/client'
+import {
+  Member,
+  PrismaClient,
+  Prisma,
+  MemberIsland,
+  Profile,
+  Role
+} from '@prisma/client'
+
+type MixedMemberType =
+  | (Member & {
+    MemberIsland: MemberIsland[]
+    Profile: Profile | null
+    Role: Role[]
+  })
+  | null
 
 export default async function findOneMember (
   prisma: PrismaClient,
   where: Prisma.MemberWhereUniqueInput
-): Promise<Member> {
+): Promise<MixedMemberType> {
   const member = await prisma.member.findUnique({
     where,
     include: {
