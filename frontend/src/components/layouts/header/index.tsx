@@ -219,8 +219,7 @@ function Header() {
               <Profile />
             </div>
           </Right>
-          {isHovering
-        && <Sidebar />}
+          {isHovering && <Sidebar />}
         </RightContainer>
       </StyleHeader>
     </div>
