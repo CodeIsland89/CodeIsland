@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import color from '../../../../global/theme/color';
-import UnlockIcon from '../../../../assets/test/UnlockIcon.svg';
-import LockIcon from '../../../../assets/test/LockIcon.svg';
+import UnlockIcon from '../../../../assets/UnlockIcon.svg';
+import LockIcon from '../../../../assets/LockIcon.svg';
 
 type Props = {
   isLock?: false | true;
