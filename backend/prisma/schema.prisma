@@ -144,7 +144,7 @@ model Choice {
   choice_id     Int     @id @default(autoincrement())
   quiz_id   Int
   choice_content   String 
-  is_correct  String
+  is_correct  Boolean
   quiz      Quiz  @relation(fields: [quiz_id], references: [quiz_id])
   @@unique([quiz_id, choice_id, is_correct])
 }
