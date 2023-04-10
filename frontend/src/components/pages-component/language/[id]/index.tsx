@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
+import Link from 'next/link';
 import color from '../../../../global/theme/color';
 import UnlockIcon from '../../../../assets/UnlockIcon.svg';
 import LockIcon from '../../../../assets/LockIcon.svg';
@@ -9,12 +10,16 @@ type Props = {
   isLock?: false | true;
   progress?: number;
   title?: string;
+  id?: string;
 };
 
 const circularWidth = 8; // 整體進度條大小
 const circularProgressBarWidth = 1; // 進度條大小
 
-const StyleChapter = styled.div`
+const StyleChapter = styled(Link)`
+  color: ${color.black};
+  text-decoration: none;
+
   display: flex;
   height: 10rem;
   align-items: center;
@@ -100,9 +105,11 @@ function ChapterContent({ title } : Props) {
   );
 }
 
-function Chapter({ progress = 0, isLock, title } : Props) {
+function Chapter({
+  progress = 0, isLock, title, id,
+} : Props) {
   return (
-    <StyleChapter>
+    <StyleChapter href={`/chapter/${id}`}>
       {isLock ? <LockCircularProgress /> : <CircularProgress progress={progress} />}
       <ChapterContent title={title} />
     </StyleChapter>
@@ -119,11 +126,11 @@ const StyleChapters = styled.div`
 function Chapters() {
   return (
     <StyleChapters>
-      <Chapter progress={33} title="JavaScript Basic" />
-      <Chapter isLock title="Fundamentals" />
-      <Chapter isLock title="Fundamentals" />
-      <Chapter isLock title="Fundamentals" />
-      <Chapter isLock title="Fundamentals" />
+      <Chapter progress={33} title="JavaScript Basic" id="1" />
+      <Chapter isLock title="Fundamentals" id="2" />
+      <Chapter isLock title="Fundamentals" id="3" />
+      <Chapter isLock title="Fundamentals" id="4" />
+      <Chapter isLock title="Fundamentals" id="5" />
     </StyleChapters>
   );
 }
