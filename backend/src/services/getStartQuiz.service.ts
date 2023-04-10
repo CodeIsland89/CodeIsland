@@ -6,8 +6,7 @@ export default async function getStartQuiz (
 ): Promise<Quiz> {
   const startQuiz = await prisma.quiz.findFirst({
     where: {
-      lesson_id: lessonId,
-      quiz_order: 0
+      lesson_id: lessonId
     }
   })
   if (startQuiz == null) {

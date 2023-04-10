@@ -52,8 +52,6 @@ export default async function getMemberSolvedQuizCountOfIsland (
   })
 
   if (latestSolvedQuiz === null) throw new Error('latestSolvedQuiz is null')
-  const totalSolvedQuizCount =
-    solvedQuizCountBeforeCurrentChapter + Number(latestSolvedQuiz.quiz_order)
 
-  return totalSolvedQuizCount
+  return solvedQuizCountBeforeCurrentChapter
 }

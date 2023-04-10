@@ -23,8 +23,6 @@ async function createJavaScriptCourse (): Promise<void> {
             quiz_title: 'JavaScript_Quiz1',
             quiz_describe: 'JavaScript_Quiz1_description',
             quiz_teach_content: 'JavaScript_Quiz1_teach_content',
-            quiz_type: 'TESTSET',
-            quiz_order: 0,
             lesson: {
               create: {
                 lesson_name: 'JavaScript_Lesson1',

@@ -44,7 +44,7 @@ model Action {
 model Island {
   island_id   Int       @id @default(autoincrement())
   island_name String    @unique
-  island_describe String @unique
+  island_describe String @db.LongText
   img_source_url  String   @unique
   Chapter     Chapter[]
   MemberIsland MemberIsland[]
