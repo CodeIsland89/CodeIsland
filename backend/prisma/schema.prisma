@@ -44,7 +44,7 @@ model Action {
 model Island {
   island_id   Int       @id @default(autoincrement())
   island_name String    @unique
-  island_describe String @unique
+  island_describe String @db.LongText
   img_source_url  String   @unique
   Chapter     Chapter[]
   MemberIsland MemberIsland[]
@@ -90,15 +90,14 @@ model Quiz {
   quiz_id     Int     @id @default(autoincrement())
   quiz_title String @unique
   quiz_describe   String 
-  quiz_type QuizType
   quiz_teach_content String
-  quiz_order  Int
   lesson     Lesson  @relation(fields: [lesson_id], references: [lesson_id])
   lesson_id  Int
   Cloze     Cloze[]
+  Choice    Choice[]
   TestsetProfile TestSetProfile?
   MemberIsland MemberIsland[]
-  @@unique([lesson_id, quiz_order])
+  @@unique([lesson_id])
 }
 
 model TestSetProfile {
@@ -139,4 +138,13 @@ model Cloze {
   cloze_order    Int 
   quiz      Quiz  @relation(fields: [quiz_id], references: [quiz_id])
   @@unique([quiz_id, cloze_order])
+}
+
+model Choice {
+  choice_id     Int     @id @default(autoincrement())
+  quiz_id   Int
+  choice_content   String 
+  is_correct  Boolean
+  quiz      Quiz  @relation(fields: [quiz_id], references: [quiz_id])
+  @@unique([quiz_id, choice_id, is_correct])
 }
