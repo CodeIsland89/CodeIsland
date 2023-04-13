@@ -6,6 +6,8 @@ import getUserProfileHandler from '../handler/getUserProfile.handler'
 import { getUserProfileRequest } from '../types/endpoints/getUserProfle.type'
 import getIslandMemberProgressValidation from '../validations/endpoints/getIslandMemberProgress.validation'
 import getIslandMemberProgressHandler from '../handler/getIslandMemberProgress.handler'
+import getAllIslandInfoValidation from '../validations/endpoints/getAllIslandInfo.validation'
+import getAllIslandInfoHandler from '../handler/getAllIslandInfo.handler'
 import changeNicknameValidation from '../validations/endpoints/changeNickname.validation'
 import changeNicknameHandler from '../handler/changeNickname.handler'
 import sendResetPasswordEmailValidation from './../validations/endpoints/sendResetPasswordEmail.validation'
@@ -100,9 +102,6 @@ export default (ctx: Ctx, app: Express): expressRouter => {
           "data": [
             {
               "island_id": 1,
-              "island_name": "JavaScript",
-              "island_description": "JavaScript is a programming language that conforms to the ECMAScript specification. JavaScript is high-level, often just-in-time compiled, and multi-paradigm. It has curly-bracket syntax, dynamic typing, prototype-based object-orientation, and first-class functions.",
-              "island_image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/800px-JavaScript-logo.png",
               "island_solved_quiz_count": 1,
               "island_total_quiz_count": 1
             }
@@ -129,6 +128,47 @@ export default (ctx: Ctx, app: Express): expressRouter => {
     }
   )
 
+  router.post(
+    '/getAllIslandInfo',
+    getAllIslandInfoValidation(ctx),
+    valdationResultMiddleware,
+    async (req: Request, res: Response) => {
+      await getAllIslandInfoHandler(req as getUserProfileRequest, res, ctx)
+      /*
+      #swagger.responses[200] = {
+        description: '成功取得資訊',
+        schema: {
+          "message": "Success getIslands's data",
+          "data": [
+            {
+              "island_id": 1,
+              "island_name": "JavaScript",
+              "island_description": "JavaScript is a programming language that conforms to the ECMAScript specification. JavaScript is high-level, often just-in-time compiled, and multi-paradigm. It has curly-bracket syntax, dynamic typing, prototype-based object-orientation, and first-class functions.",
+              "island_image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/800px-JavaScript-logo.png",
+              "island_total_quiz_count": 1
+            }
+          ],
+          "error": ""
+        }
+      }
+
+      #swagger.responses[400] = {
+        description: '輸入的資料有誤',
+        schema: {
+          errors: 'JWT is not valid format'
+        }
+      }
+
+      #swagger.responses[500] = {
+        description: '因為伺服器的問題，無法發送信件',
+        schema: {
+          message: 'Internal Server Error',
+          errors: 'Error message here'
+        }
+      }
+     */
+    }
+  )
   router.patch(
     '/changeNickname',
     changeNicknameValidation(ctx),
