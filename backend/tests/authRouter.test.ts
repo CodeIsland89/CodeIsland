@@ -59,6 +59,11 @@ describe('userRelated Test', () => {
     expect(response.status).toBe(200)
   })
 
+  it('should getAllIslandInfo', async () => {
+    const response = await request.post('/api/user/getAllIslandInfo')
+    expect(response.status).toBe(200)
+  })
+
   it('should changeNickname', async () => {
     const response = await request
       .patch('/api/user/changeNickname')
