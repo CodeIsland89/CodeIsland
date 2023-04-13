@@ -19,7 +19,6 @@
     "prisma/*.ts",
     "app.ts",
     ".eslintrc.js",
-    "swagger.ts",
-    "src/handler/getAllIslandInfo.handler.ts"
+    "swagger.ts"
   ]
 }

@@ -6,7 +6,6 @@ import getUserProfileHandler from '../handler/getUserProfile.handler'
 import { getUserProfileRequest } from '../types/endpoints/getUserProfle.type'
 import getIslandMemberProgressValidation from '../validations/endpoints/getIslandMemberProgress.validation'
 import getIslandMemberProgressHandler from '../handler/getIslandMemberProgress.handler'
-import getAllIslandInfoValidation from '../validations/endpoints/getAllIslandInfo.validation'
 import getAllIslandInfoHandler from '../handler/getAllIslandInfo.handler'
 import changeNicknameValidation from '../validations/endpoints/changeNickname.validation'
 import changeNicknameHandler from '../handler/changeNickname.handler'
@@ -130,7 +129,6 @@ export default (ctx: Ctx, app: Express): expressRouter => {
 
   router.post(
     '/getAllIslandInfo',
-    getAllIslandInfoValidation(ctx),
     valdationResultMiddleware,
     async (req: Request, res: Response) => {
       await getAllIslandInfoHandler(req as getUserProfileRequest, res, ctx)

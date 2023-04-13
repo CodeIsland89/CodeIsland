@@ -3,7 +3,7 @@ import { Response } from 'express'
 import { Ctx } from '../types/context'
 import getErrorMessage from '../utils/getErrorMessage'
 import { getUserProfileRequest } from '../types/endpoints/getUserProfle.type'
-import getMemberSolvedQuizCountOfIsland from '../services/getMemberSolvedQuizCountOfIsland.service'
+import getTotalQuizOfIsland from '../services/getTotalQuizOfIsland.service'
 import getAllIsland from '../services/getAllIsland.service'
 
 export default async function getIslandMemberProgressHandler (
@@ -13,25 +13,21 @@ export default async function getIslandMemberProgressHandler (
 ): Promise<void> {
   try {
     const { prisma } = ctx
-    const { member } = req.locals
-
     const islands = await getAllIsland(prisma)
 
     const data: getAllIslandInfoEndpointResponse[] = await Promise.all(
       islands.map(async (island) => {
-        const memberIslandSolvedQuizCount =
-          await getMemberSolvedQuizCountOfIsland(
-            prisma,
-            member.member_id,
-            island.island_id
-          )
+        const getTotalQuizOfIslandCount = await getTotalQuizOfIsland(
+          prisma,
+          island.island_id
+        )
 
         return {
           island_id: island.island_id,
           island_name: island.island_name,
           island_description: island.island_describe,
           island_image_url: island.img_source_url,
-          island_solved_quiz_count: memberIslandSolvedQuizCount
+          island_total_quiz_count: getTotalQuizOfIslandCount
         }
       })
     )
