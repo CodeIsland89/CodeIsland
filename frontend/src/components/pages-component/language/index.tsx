@@ -51,7 +51,6 @@ const Container = styled(Link)`
 const StyledImage = styled(Image)`
   width: 12rem;
   height: 9rem;
-  // background-color: ${color.grey_500};
   border-top-left-radius: 0.2rem;
   border-bottom-left-radius: 0.2rem;
 `;
@@ -85,16 +84,14 @@ function LanguageBlock({ img_url, content }: Props) {
 
   // 預載入動畫
   return (
-    <div>
-      <Container href={`${currentPath}/${content.title}`}>
-        <StyledImage src={img_url} alt="" priority />
-        <Content>
-          <Title>{content.title}</Title>
-          <Text>{content.text}</Text>
-          <ProgressBar value={content.value} max={content.max} />
-        </Content>
-      </Container>
-    </div>
+    <Container href={`${currentPath}/${content.title}`}>
+      <StyledImage src={img_url} width={20} height={20} alt={content.text} priority />
+      <Content>
+        <Title>{content.title}</Title>
+        <Text>{content.text}</Text>
+        <ProgressBar value={content.value} max={content.max} />
+      </Content>
+    </Container>
   );
 }
 

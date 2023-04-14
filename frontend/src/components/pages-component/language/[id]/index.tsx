@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import Image from 'next/image';
 import Link from 'next/link';
 import color from '../../../../global/theme/color';
 import UnlockIcon from '../../../../assets/UnlockIcon.svg';
@@ -56,10 +55,6 @@ const StyleCircularProgress = styled.div`
       background-color: ${color.grey_100};
   }
 
-  .circular-progress-image {
-    height: 5rem;
-    width: 5rem;
-  }
 `;
 
 function CircularProgress({ progress } : Props) {
@@ -69,7 +64,7 @@ function CircularProgress({ progress } : Props) {
         className="circular-progress"
         style={{ background: `conic-gradient(${color.yellow_600} ${progress * 3.6}deg, ${color.grey_300} 0deg)` }}
       >
-        <Image alt="" src={UnlockIcon} width={1} height={1} className="circular-progress-image" priority />
+        <UnlockIcon />
       </div>
     </StyleCircularProgress>
   );
@@ -81,7 +76,7 @@ function LockCircularProgress() {
       <div
         className="circular-progress-lock"
       >
-        <Image alt="" src={LockIcon} width={1} height={1} className="circular-progress-image" priority />
+        <LockIcon />
       </div>
     </StyleCircularProgress>
   );
