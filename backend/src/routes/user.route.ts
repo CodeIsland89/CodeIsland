@@ -127,7 +127,7 @@ export default (ctx: Ctx, app: Express): expressRouter => {
     }
   )
 
-  router.post(
+  router.get(
     '/getAllIslandInfo',
     valdationResultMiddleware,
     async (req: Request, res: Response) => {

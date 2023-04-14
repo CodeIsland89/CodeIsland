@@ -497,7 +497,7 @@
       }
     },
     "/user/getAllIslandInfo": {
-      "post": {
+      "get": {
         "tags": [
           "user"
         ],
