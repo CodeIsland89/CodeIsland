@@ -10,7 +10,6 @@ import sidebar_logout_icon from '../../../assets/ic_outline-log-out.svg';
 import fish_icon from '../../../assets/icon-park-solid_fish-one.svg';
 import paw_icon from '../../../assets/openmoji_paw-prints.svg';
 import profile_icon from '../../../assets/Group 20.svg';
-import useMountEffect from '../../../hook/useMountEffect';
 
 type Props = {
   img_url?: string,
@@ -183,7 +182,6 @@ const Right = styled.div`
 `;
 
 function Header() {
-  const [isLoaded, setIsLoaded] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseOver = () => {
@@ -194,15 +192,9 @@ function Header() {
     setIsHovering(false);
   };
 
-  const handleLoaded = () => {
-    setIsLoaded(true);
-  };
-
-  useMountEffect(handleLoaded);
-
   // 預載入動畫
   return (
-    <div style={{ display: isLoaded ? 'block' : 'none' }}>
+    <div>
       <StyleHeader>
         <Left>
           <HeaderLogo src={header_logo} alt="" priority />

@@ -1,11 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import color from '../../../global/theme/color';
 import ProgressBar from '../../shared-component/progress_bar';
-import useMountEffect from '../../../hook/useMountEffect';
 
 type Props = {
   img_url?: string,
@@ -81,19 +80,12 @@ const Text = styled.div`
 `;
 
 function LanguageBlock({ img_url, content }: Props) {
-  const [isLoaded, setIsLoaded] = useState(false);
   const router = useRouter();
   const currentPath = router.pathname;
 
-  const handleLoaded = () => {
-    setIsLoaded(true);
-  };
-
-  useMountEffect(handleLoaded);
-
   // 預載入動畫
   return (
-    <div style={{ display: isLoaded ? 'block' : 'none' }}>
+    <div>
       <Container href={`${currentPath}/${content.title}`}>
         <StyledImage src={img_url} alt="" priority />
         <Content>
