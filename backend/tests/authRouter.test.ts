@@ -60,7 +60,7 @@ describe('userRelated Test', () => {
   })
 
   it('should getAllIslandInfo', async () => {
-    const response = await request.post('/api/user/getAllIslandInfo')
+    const response = await request.get('/api/island/getAllIslandInfo')
     expect(response.status).toBe(200)
   })
 

@@ -15,6 +15,10 @@
     {
       "name": "user",
       "description": "user router"
+    },
+    {
+      "name": "island",
+      "description": "island router"
     }
   ],
   "schemes": [
@@ -496,98 +500,6 @@
         }
       }
     },
-    "/user/getAllIslandInfo": {
-      "get": {
-        "tags": [
-          "user"
-        ],
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "成功取得資訊",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "Success getIslands's data"
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "island_id": {
-                        "type": "number",
-                        "example": 1
-                      },
-                      "island_name": {
-                        "type": "string",
-                        "example": "JavaScript"
-                      },
-                      "island_description": {
-                        "type": "string",
-                        "example": "JavaScript is a programming language that conforms to the ECMAScript specification. JavaScript is high-level, often just-in-time compiled, and multi-paradigm. It has curly-bracket syntax, dynamic typing, prototype-based object-orientation, and first-class functions."
-                      },
-                      "island_image_url": {
-                        "type": "string",
-                        "example": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/800px-JavaScript-logo.png"
-                      },
-                      "island_total_quiz_count": {
-                        "type": "number",
-                        "example": 1
-                      }
-                    }
-                  }
-                },
-                "error": {
-                  "type": "string",
-                  "example": ""
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "400": {
-            "description": "輸入的資料有誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "errors": {
-                  "type": "string",
-                  "example": "JWT is not valid format"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "500": {
-            "description": "因為伺服器的問題，無法發送信件",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "Internal Server Error"
-                },
-                "errors": {
-                  "type": "string",
-                  "example": "Error message here"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
-      }
-    },
     "/user/changeNickname": {
       "patch": {
         "tags": [
@@ -830,6 +742,98 @@
           },
           "500": {
             "description": "因為伺服器的問題，導致重設密碼失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Internal Server Error"
+                },
+                "errors": {
+                  "type": "string",
+                  "example": "Error message here"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/island/getAllIslandInfo": {
+      "get": {
+        "tags": [
+          "island"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功取得資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Success getIslands's data"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "island_id": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "island_name": {
+                        "type": "string",
+                        "example": "JavaScript"
+                      },
+                      "island_description": {
+                        "type": "string",
+                        "example": "JavaScript is a programming language that conforms to the ECMAScript specification. JavaScript is high-level, often just-in-time compiled, and multi-paradigm. It has curly-bracket syntax, dynamic typing, prototype-based object-orientation, and first-class functions."
+                      },
+                      "island_image_url": {
+                        "type": "string",
+                        "example": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/800px-JavaScript-logo.png"
+                      },
+                      "island_total_quiz_count": {
+                        "type": "number",
+                        "example": 1
+                      }
+                    }
+                  }
+                },
+                "error": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "輸入的資料有誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "string",
+                  "example": "JWT is not valid format"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "因為伺服器的問題，無法發送信件",
             "schema": {
               "type": "object",
               "properties": {
