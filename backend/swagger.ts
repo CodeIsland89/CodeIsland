@@ -29,6 +29,10 @@ const doc = {
     {
       name: 'user',
       description: 'user router'
+    },
+    {
+      name: 'island',
+      description: 'island router'
     }
   ]
 }

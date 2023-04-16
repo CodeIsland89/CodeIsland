@@ -2,6 +2,7 @@ import { Express, Router } from 'express'
 import { Ctx } from './../types/context'
 import authRouter from './auth.route'
 import userRouter from './user.route'
+import islandRouter from './island.route'
 
 export default (ctx: Ctx, app: Express): Router => {
   const router = Router()
@@ -17,6 +18,12 @@ export default (ctx: Ctx, app: Express): Router => {
     '/user',
     userRouter(ctx, app)
     // #swagger.tags = ['user']
+  )
+
+  router.use(
+    '/island',
+    islandRouter(ctx, app)
+    // #swagger.tags = ['island']
   )
 
   return router

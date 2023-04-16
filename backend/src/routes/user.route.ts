@@ -100,9 +100,6 @@ export default (ctx: Ctx, app: Express): expressRouter => {
           "data": [
             {
               "island_id": 1,
-              "island_name": "JavaScript",
-              "island_description": "JavaScript is a programming language that conforms to the ECMAScript specification. JavaScript is high-level, often just-in-time compiled, and multi-paradigm. It has curly-bracket syntax, dynamic typing, prototype-based object-orientation, and first-class functions.",
-              "island_image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/800px-JavaScript-logo.png",
               "island_solved_quiz_count": 1,
               "island_total_quiz_count": 1
             }
