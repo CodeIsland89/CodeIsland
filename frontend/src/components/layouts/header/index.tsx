@@ -26,7 +26,6 @@ const StyleHeader = styled.div`
   border-bottom-width: 0.05rem;
   border-bottom-style: solid;
   border-color: ${color.grey_400};
-  margin-bottom: 2rem;
 `;
 
 const HeaderLogo = styled(HeaderLogoSVG)`
