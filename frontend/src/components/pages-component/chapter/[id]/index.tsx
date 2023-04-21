@@ -25,7 +25,7 @@ const LessonCardContainer = styled.div`
 `;
 
 type StyledComponentIsUnlockedProps = {
-  isunlocked: boolean;
+  $isunlocked: boolean;
 };
 
 const StyledLessonCard = styled.div<StyledComponentIsUnlockedProps>`
@@ -46,14 +46,14 @@ const StyledLessonCard = styled.div<StyledComponentIsUnlockedProps>`
     box-shadow: 0.2rem 0.2rem 0.4rem ${color.grey_800};
     transition: all 0.2s ease-in;
   }
-  background-color: ${(props) => (props.isunlocked ? color.white : color.grey_200)};
+  background-color: ${(props) => (props.$isunlocked ? color.white : color.grey_200)};
 `;
 
 const StyledLessonCardIcon = styled(JavascriptIcon)<StyledComponentIsUnlockedProps>`
   width: 3rem;
   height: 3rem;
   margin-right: 0.5rem;
-  filter: grayscale(${(props) => (props.isunlocked ? 0 : 1)});
+  filter: grayscale(${(props) => (props.$isunlocked ? 0 : 1)});
 `;
 
 const StyledLessonCardTitle = styled.span<StyledComponentIsUnlockedProps>`
@@ -63,7 +63,7 @@ const StyledLessonCardTitle = styled.span<StyledComponentIsUnlockedProps>`
   font-weight: 600;
   font-size: 20px;
   line-height: 24px;
-  color: ${(props) => (props.isunlocked ? color.black : color.grey_400)};
+  color: ${(props) => (props.$isunlocked ? color.black : color.grey_400)};
 `;
 
 const StyledButtonContainer = styled.div`
@@ -80,13 +80,13 @@ const StyledButton = styled(Link)<StyledComponentIsUnlockedProps>`
   padding: 0px 1rem;
   width: 5rem;
   height: 2rem;
-  border: 0.5px solid ${(props) => (props.isunlocked ? props.color : color.grey_400)};
+  border: 0.5px solid ${(props) => (props.$isunlocked ? props.color : color.grey_400)};
   border-radius: 5px;
   text-decoration: none;
-  color: ${(props) => (props.isunlocked ? props.color : color.grey_400)};
+  color: ${(props) => (props.$isunlocked ? props.color : color.grey_400)};
   transition: all 0.2s ease-in;
 
-  ${(props) => (props.isunlocked && `&:hover {
+  ${(props) => (props.$isunlocked && `&:hover {
     outline: 1px double ${props.color};
     }`
   )}
@@ -103,16 +103,16 @@ function LessonCard({
   lessonId, quizId, title, isUnlocked,
 }: LessonCardProps) {
   return (
-    <StyledLessonCard isunlocked={isUnlocked}>
-      <StyledLessonCardIcon isunlocked={isUnlocked} />
-      <StyledLessonCardTitle isunlocked={isUnlocked}>
+    <StyledLessonCard $isunlocked={isUnlocked}>
+      <StyledLessonCardIcon $isunlocked={isUnlocked} />
+      <StyledLessonCardTitle $isunlocked={isUnlocked}>
         {title}
       </StyledLessonCardTitle>
       <StyledButtonContainer>
         <StyledButton
           href={`/review/${lessonId}`}
           color={color.lessonReviewButton}
-          isunlocked={isUnlocked}
+          $isunlocked={isUnlocked}
           as={isUnlocked ? Link : 'div'}
         >
           Review
@@ -120,7 +120,7 @@ function LessonCard({
         <StyledButton
           href={`/quiz/${quizId}`}
           color={color.lessonQuizButton}
-          isunlocked={isUnlocked}
+          $isunlocked={isUnlocked}
           as={isUnlocked ? Link : 'div'}
         >
           Quiz
