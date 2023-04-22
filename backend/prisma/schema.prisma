@@ -53,10 +53,10 @@ model Island {
 model MemberIsland {
   member_id   Int
   island_id   Int
-  latest_solved_quiz_id Int
+  Current_quiz_progress Int
   member      Member @relation(fields: [member_id], references: [member_id])
   island      Island @relation(fields: [island_id], references: [island_id])
-  quiz Quiz @relation(fields: [latest_solved_quiz_id], references: [quiz_id])
+  quiz Quiz @relation(fields: [Current_quiz_progress], references: [quiz_id])
   @@id([member_id, island_id])
 }
 
