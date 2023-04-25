@@ -27,7 +27,7 @@ export default async function getIslandMemberProgressHandler (
     )
 
     res.status(200).json({
-      message: "Success getIslands's data",
+      message: "Success getChapters's data",
       data,
       error: ''
     })
