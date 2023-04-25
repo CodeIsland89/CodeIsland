@@ -4,11 +4,6 @@ export default async function getAllChapter (
   islandId: number
 ): Promise<Chapter[]> {
   const chapters = await prisma.chapter.findMany({
-    include: {
-      Lesson: true
-    }
-  })
-  const island = await prisma.island.findUnique({
     where: {
       island_id: islandId
     }

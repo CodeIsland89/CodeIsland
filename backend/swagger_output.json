@@ -853,6 +853,101 @@
           }
         }
       }
+    },
+    "/chapter/getchapterInfo/{islandId}": {
+      "get": {
+        "tags": [
+          "chapter"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "islandId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功取得資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Success getIslands's data"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "chapter_id": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "chapter_name": {
+                        "type": "string",
+                        "example": "JavaScript_chapter1"
+                      },
+                      "chapter_detail": {
+                        "type": "string",
+                        "example": "Declaring variables is fundamental to learning a programming language"
+                      },
+                      "chapter_order": {
+                        "type": "number",
+                        "example": 0
+                      }
+                    }
+                  }
+                },
+                "error": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "輸入的資料有誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "string",
+                  "example": "JWT is not valid format"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "因為伺服器的問題，無法發送信件",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Internal Server Error"
+                },
+                "errors": {
+                  "type": "string",
+                  "example": "Error message here"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
