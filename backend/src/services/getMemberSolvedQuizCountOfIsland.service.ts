@@ -41,7 +41,7 @@ export default async function getMemberSolvedQuizCountOfIsland (
       lesson: {
         chapter: {
           chapter_order: {
-            lte: latestSolvedChapter?.chapter_order
+            lt: latestSolvedChapter?.chapter_order
           },
           island: {
             island_id: islandId
