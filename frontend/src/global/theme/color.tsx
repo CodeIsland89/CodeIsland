@@ -295,5 +295,8 @@ const color = {
 
   white: '#FFFFFF',
   black: '#000000',
+
+  lessonReviewButton: '#74BEB5',
+  lessonQuizButton: '#F687A2',
 };
 export default color;
