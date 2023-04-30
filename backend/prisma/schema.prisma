@@ -3,29 +3,32 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model Member {
-  member_id      Int     @id @default(autoincrement())
-  email          String  @unique
-  password       String
-  is_enabled     Boolean @default(true)
-  MemberIsland   MemberIsland[]
-  Profile        Profile?
-  Role           Role[]
+  member_id                    Int                            @id @default(autoincrement())
+  email                        String                         @unique
+  password                     String
+  is_enabled                   Boolean                        @default(true)
+  MemberIsland                 MemberIsland[]
+  Profile                      Profile?
+  Role                         Role[]
   MemberTestProfilePerformance MemberTestProfilePerformance[]
 }
 
 model Profile {
-  member_id    Int     @id
-  member       Member  @relation(fields: [member_id], references: [member_id])
+  member_id      Int     @id
+  member         Member  @relation(fields: [member_id], references: [member_id])
   continuous_day Int     @default(0)
-  exp          Int     @default(0)
-  gem          Int     @default(0)
-  nickname     String
-  img_source_url   String?
+  exp            Int     @default(0)
+  gem            Int     @default(0)
+  nickname       String
+  img_source_url String?
+
+  @@index([member_id])
 }
 
 model Role {
@@ -36,49 +39,55 @@ model Role {
 }
 
 model Action {
-  action_id   Int      @id @default(autoincrement())
-  action_name String   @unique
+  action_id   Int    @id @default(autoincrement())
+  action_name String @unique
   Role        Role[]
 }
 
 model Island {
-  island_id   Int       @id @default(autoincrement())
-  island_name String    @unique
-  island_describe String @db.LongText
-  img_source_url  String   @unique
-  Chapter     Chapter[]
-  MemberIsland MemberIsland[]
+  island_id       Int            @id @default(autoincrement())
+  island_name     String         @unique
+  island_describe String         @db.LongText
+  img_source_url  String         @unique
+  Chapter         Chapter[]
+  MemberIsland    MemberIsland[]
 }
 
 model MemberIsland {
-  member_id   Int
-  island_id   Int
+  member_id             Int
+  island_id             Int
   latest_solved_quiz_id Int
-  member      Member @relation(fields: [member_id], references: [member_id])
-  island      Island @relation(fields: [island_id], references: [island_id])
-  quiz Quiz @relation(fields: [latest_solved_quiz_id], references: [quiz_id])
+  member                Member @relation(fields: [member_id], references: [member_id])
+  island                Island @relation(fields: [island_id], references: [island_id])
+  quiz                  Quiz   @relation(fields: [latest_solved_quiz_id], references: [quiz_id])
+
   @@id([member_id, island_id])
+  @@index([member_id])
+  @@index([island_id])
+  @@index([latest_solved_quiz_id])
 }
 
 model Chapter {
-  chapter_id     Int    @id @default(autoincrement())
-  chapter_name   String @unique
+  chapter_id     Int      @id @default(autoincrement())
+  chapter_name   String   @unique
   chapter_detail String
-  chapter_order  Int  @unique
-  island         Island @relation(fields: [island_id], references: [island_id])
+  chapter_order  Int      @unique
+  island         Island   @relation(fields: [island_id], references: [island_id])
   island_id      Int
-  Lesson     Lesson[]
+  Lesson         Lesson[]
+
   @@unique([island_id, chapter_order])
 }
 
 model Lesson {
-  lesson_id     Int      @id @default(autoincrement())
-  lesson_name   String   @unique
-  lesson_describe String @unique
-  lesson_order  Int
-  chapter       Chapter  @relation(fields: [chapter_id], references: [chapter_id])
-  chapter_id    Int
-  Quiz      Quiz[]
+  lesson_id       Int     @id @default(autoincrement())
+  lesson_name     String  @unique
+  lesson_describe String  @unique
+  lesson_order    Int
+  chapter         Chapter @relation(fields: [chapter_id], references: [chapter_id])
+  chapter_id      Int
+  Quiz            Quiz[]
+
   @@unique([chapter_id, lesson_order])
 }
 
@@ -86,65 +95,74 @@ enum QuizType {
   TESTSET
   CLOZE
 }
+
 model Quiz {
-  quiz_id     Int     @id @default(autoincrement())
-  quiz_title String @unique
-  quiz_describe   String 
+  quiz_id            Int             @id @default(autoincrement())
+  quiz_title         String          @unique
+  quiz_describe      String
   quiz_teach_content String
-  lesson     Lesson  @relation(fields: [lesson_id], references: [lesson_id])
-  lesson_id  Int
-  Cloze     Cloze[]
-  Choice    Choice[]
-  TestsetProfile TestSetProfile?
-  MemberIsland MemberIsland[]
+  lesson             Lesson          @relation(fields: [lesson_id], references: [lesson_id])
+  lesson_id          Int
+  Cloze              Cloze[]
+  Choice             Choice[]
+  TestsetProfile     TestSetProfile?
+  MemberIsland       MemberIsland[]
+
   @@unique([lesson_id])
 }
 
 model TestSetProfile {
-  quiz Quiz @relation(fields: [quiz_id], references: [quiz_id])
-  quiz_id Int @id
-  standard_answer_code String @unique
-  function_name String @unique
-  exhibit_code String @unique
-  TestSet    TestSet[]
+  quiz                         Quiz                           @relation(fields: [quiz_id], references: [quiz_id])
+  quiz_id                      Int                            @id
+  standard_answer_code         String                         @unique
+  function_name                String                         @unique
+  exhibit_code                 String                         @unique
+  TestSet                      TestSet[]
   MemberTestProfilePerformance MemberTestProfilePerformance[]
+  @@index([quiz_id])
 }
 
 model MemberTestProfilePerformance {
-  record_id Int @id @default(autoincrement())
-  member_id Int
-  quiz_id Int
-  execution_code String
-  memory_cost Int
-  execution_time Int
-  is_successful Boolean
-  member Member @relation(fields: [member_id], references: [member_id])
+  record_id        Int            @id @default(autoincrement())
+  member_id        Int
+  quiz_id          Int
+  execution_code   String
+  memory_cost      Int
+  execution_time   Int
+  is_successful    Boolean
+  member           Member         @relation(fields: [member_id], references: [member_id])
   test_set_profile TestSetProfile @relation(fields: [quiz_id], references: [quiz_id])
+  @@index([member_id])
+  @@index([quiz_id])
 }
 
 model TestSet {
-  testset_id     Int     @id @default(autoincrement())
-  testset_profile      TestSetProfile  @relation(fields: [testset_profile_id], references: [quiz_id])
-  testset_profile_id   Int
-  input          String
-  output         String
+  testset_id         Int            @id @default(autoincrement())
+  testset_profile    TestSetProfile @relation(fields: [testset_profile_id], references: [quiz_id])
+  testset_profile_id Int
+  input              String
+  output             String
+
   @@unique([input, output])
+  @@index([testset_profile_id])
 }
 
 model Cloze {
-  cloze_id     Int     @id @default(autoincrement())
-  quiz_id   Int
-  cloze_content   String
-  cloze_order    Int 
-  quiz      Quiz  @relation(fields: [quiz_id], references: [quiz_id])
+  cloze_id      Int    @id @default(autoincrement())
+  quiz_id       Int
+  cloze_content String
+  cloze_order   Int
+  quiz          Quiz   @relation(fields: [quiz_id], references: [quiz_id])
+
   @@unique([quiz_id, cloze_order])
 }
 
 model Choice {
-  choice_id     Int     @id @default(autoincrement())
-  quiz_id   Int
-  choice_content   String 
-  is_correct  Boolean
-  quiz      Quiz  @relation(fields: [quiz_id], references: [quiz_id])
+  choice_id      Int     @id @default(autoincrement())
+  quiz_id        Int
+  choice_content String
+  is_correct     Boolean
+  quiz           Quiz    @relation(fields: [quiz_id], references: [quiz_id])
+
   @@unique([quiz_id, choice_id, is_correct])
 }
