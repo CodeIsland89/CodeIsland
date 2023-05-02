@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import color from '../../../../global/theme/color';
-import UnlockIcon from '../../../../assets/UnlockIcon.svg';
+import UnlockIcon from '../../../../assets/UnLockIcon.svg';
 import LockIcon from '../../../../assets/LockIcon.svg';
 
 type Props = {
