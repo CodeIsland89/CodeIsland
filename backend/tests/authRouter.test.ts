@@ -86,6 +86,13 @@ describe('userRelated Test', () => {
     expect(response.status).toBe(200)
   })
 
+  it('should getChapterMemberProgress', async () => {
+    const response = await request
+      .get('/api/user/getChapterMemberProgress/1')
+      .set('Authorization', `Bearer ${userToken}`)
+    expect(response.status).toBe(200)
+  })
+
   const resetPasswordTokenInfo = { email }
   const resetPasswordToken = jwt.sign(
     resetPasswordTokenInfo,

@@ -6,6 +6,8 @@ import getUserProfileHandler from '../handler/getUserProfile.handler'
 import { getUserProfileRequest } from '../types/endpoints/getUserProfle.type'
 import getIslandMemberProgressValidation from '../validations/endpoints/getIslandMemberProgress.validation'
 import getIslandMemberProgressHandler from '../handler/getIslandMemberProgress.handler'
+import getChaptersMemberProgressHandler from '../handler/getChaptersMemberProgress.handler'
+import getChaptersMemberProgressValidation from '../validations/endpoints/getChaptersMemberProgress.validation'
 import changeNicknameValidation from '../validations/endpoints/changeNickname.validation'
 import changeNicknameHandler from '../handler/changeNickname.handler'
 import sendResetPasswordEmailValidation from './../validations/endpoints/sendResetPasswordEmail.validation'
@@ -102,6 +104,61 @@ export default (ctx: Ctx, app: Express): expressRouter => {
               "island_id": 1,
               "island_solved_quiz_count": 1,
               "island_total_quiz_count": 1
+            }
+          ],
+          "error": ""
+        }
+      }
+
+      #swagger.responses[400] = {
+        description: '輸入的資料有誤',
+        schema: {
+          errors: 'JWT is not valid format'
+        }
+      }
+
+      #swagger.responses[500] = {
+        description: '因為伺服器的問題，無法發送信件',
+        schema: {
+          message: 'Internal Server Error',
+          errors: 'Error message here'
+        }
+      }
+     */
+    }
+  )
+
+  router.get(
+    '/getChapterMemberProgress/:islandId',
+    getChaptersMemberProgressValidation(ctx),
+    valdationResultMiddleware,
+    async (req: Request, res: Response) => {
+      await getChaptersMemberProgressHandler(
+        req as getUserProfileRequest,
+        res,
+        ctx
+      )
+      /*
+        #swagger.summary = '使用token取得使用者與每個章節的資訊',
+        #swagger.parameters['Authorization'] = {
+          in: 'header',
+          description: '在Authorization欄位輸入Bearer + token',
+          required: true,
+          schema: {
+            Authorization: 'Bearer token'
+          }
+        }
+      */
+
+      /*
+      #swagger.responses[200] = {
+        description: '成功取得資訊',
+        schema: {
+          "message": "Success getChaters's data",
+          "data": [
+            {
+              "chapter_id": 1,
+              "chapter_is_onlock_count": 1,
             }
           ],
           "error": ""

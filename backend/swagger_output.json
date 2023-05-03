@@ -500,6 +500,103 @@
         }
       }
     },
+    "/user/getChapterMemberProgress": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "使用token取得使用者與每個章節的資訊",
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "在Authorization欄位輸入Bearer + token",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Authorization": {
+                  "type": "string",
+                  "example": "Bearer token"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功取得資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Success getChaters's data"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "chapter_id": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "chapter_is_onlock_count": {
+                        "type": "number",
+                        "example": 1
+                      }
+                    }
+                  }
+                },
+                "error": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "輸入的資料有誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "string",
+                  "example": "JWT is not valid format"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "因為伺服器的問題，無法發送信件",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Internal Server Error"
+                },
+                "errors": {
+                  "type": "string",
+                  "example": "Error message here"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
     "/user/changeNickname": {
       "patch": {
         "tags": [
@@ -854,7 +951,7 @@
         }
       }
     },
-    "/chapter/getchapterInfo/{islandId}": {
+    "/chapter/getChaptersInfo/{islandId}": {
       "get": {
         "tags": [
           "chapter"
@@ -876,7 +973,7 @@
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "Success getIslands's data"
+                  "example": "Success getChapter's data"
                 },
                 "data": {
                   "type": "array",
@@ -919,7 +1016,7 @@
               "properties": {
                 "errors": {
                   "type": "string",
-                  "example": "JWT is not valid format"
+                  "example": "islandId is not valid format"
                 }
               },
               "xml": {
