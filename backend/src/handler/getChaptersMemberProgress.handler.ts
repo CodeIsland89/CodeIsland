@@ -58,7 +58,6 @@ export default async function getChaptersMemberProgressHandler (
         }
       }
     )
-    // 5/3再從這裡重新開始
     // 用for迴圈判斷是否將章節鎖起來
 
     const chaptersWithUnLock: getChaptersMemberProgress[] = chapters.map(

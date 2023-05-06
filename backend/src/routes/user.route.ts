@@ -139,6 +139,17 @@ export default (ctx: Ctx, app: Express): expressRouter => {
         ctx
       )
       /*
+        #swagger.parameters['params'] = {
+          in: 'params',
+          description: '在params欄位輸入islandId',
+          required: true,
+          schema: {
+            islandId: 1
+          }
+        }
+      */
+
+      /*
         #swagger.summary = '使用token取得使用者與每個章節的資訊',
         #swagger.parameters['Authorization'] = {
           in: 'header',
