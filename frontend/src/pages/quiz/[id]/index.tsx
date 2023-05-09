@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
 import Link from 'next/link';
+import Editor from '../../../components/shared-component/editor';
 import Header from '../../../components/layouts/header';
 import color from '../../../global/theme/color';
 import PrevIcon from '../../../assets/PrevIcon.svg';
@@ -80,7 +81,6 @@ const Next = styled(Link)`
 
 const data = {
   title: '1-1 Creating Variables',
-  fileName: 'script.js',
 };
 
 const BackButton = styled(Link)`
@@ -111,7 +111,7 @@ function PlayButton() {
 }
 
 export default function Index() {
-  const { title, fileName } = data;
+  const { title } = data;
   const source = `
   ## 1-1-1 Var用途
   var 宣告是全局作用域或函式作用域，而且var 變數可以在其範圍内更新和重新宣告!\n
@@ -140,13 +140,10 @@ export default function Index() {
             </Article>
             <Question>
               <Title style={{ backgroundColor: 'white', display: 'flex', justifyContent: 'space-between' }}>
-                <div>
-                  {fileName}
-                </div>
+                <div />
                 <PlayButton />
               </Title>
-              {/* code-editor 待 Feature-EditorFrontend 合併後再補上 */}
-              <div style={{ backgroundColor: color.blue_grey_700, height: '15rem' }} />
+              <Editor />
               {/* 用途不明 */}
               <div style={{ height: '1.5rem' }} />
               <Output>Output</Output>
