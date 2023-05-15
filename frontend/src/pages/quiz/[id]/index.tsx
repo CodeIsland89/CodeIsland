@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
 import Link from 'next/link';
+import Split from 'react-split';
 import Editor from '../../../components/shared-component/editor';
 import Header from '../../../components/layouts/header';
 import color from '../../../global/theme/color';
@@ -25,19 +26,11 @@ const Article = styled.div`
 `;
 
 const Question = styled.div`
-  flex: 2;
+  // flex: 2;
   display: flex;
-  flex-flow: column;
+  flex-direction: column;
   & > *:not(:first-child) {
     border-top: 1px solid ${color.grey_300};
-  }
-`;
-
-const Box = styled.div`
-  display: flex;
-  flex: 1;
-  & > *:not(:first-child) {
-    border-left: 1px solid ${color.grey_300};
   }
 `;
 
@@ -97,6 +90,36 @@ const StyledPlayButton = styled.button`
   cursor: pointer;
 `;
 
+const Splitter = styled(Split)`
+  display: flex;
+  flex: 1;
+  :not(.vertical) {
+    flex-direction: row;
+    & > *:not(:first-child) {
+      border-left: 1px solid ${color.grey_300};
+    }
+  }
+  .vertical {
+    flex-direction: column;
+  }
+
+  .gutter {
+    background-color: #eee;
+    background-repeat: no-repeat;
+    background-position: 50%;
+  }
+
+  .gutter.gutter-horizontal {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+    cursor: col-resize;
+  }
+  
+  .gutter.gutter-vertical {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
+    cursor: row-resize;
+}
+`;
+
 function PlayButton() {
   const onPlay = () => {
     console.log('play');
@@ -128,7 +151,17 @@ export default function Index() {
       <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
         <Header />
         <Container className="">
-          <Box>
+          <Splitter
+            sizes={[33, 67]}
+            minSize={300}
+            expandToMin={false}
+            gutterSize={10}
+            gutterAlign="center"
+            snapOffset={30}
+            dragInterval={1}
+            direction="horizontal"
+            cursor="col-resize"
+          >
             <Article>
               <Title>
                 <BackButton href="/quiz">
@@ -143,12 +176,25 @@ export default function Index() {
                 <div />
                 <PlayButton />
               </Title>
-              <Editor />
-              {/* 用途不明 */}
-              <div style={{ height: '1.5rem' }} />
-              <Output>Output</Output>
+              <Splitter
+                sizes={[70, 30]}
+                minSize={30}
+                expandToMin={false}
+                gutterSize={10}
+                gutterAlign="center"
+                snapOffset={10}
+                dragInterval={1}
+                direction="vertical"
+                cursor="col-resize"
+                className="vertical"
+              >
+                <Editor />
+                <Output>
+                  Output
+                </Output>
+              </Splitter>
             </Question>
-          </Box>
+          </Splitter>
           <Bottom>
             <Prev href="."><PrevIcon /></Prev>
             <div style={{ fontSize: '1.2rem' }}>1/?</div>

@@ -39,7 +39,7 @@ function CodeEditor({ className = '' }: CodeEditorProps) {
 const StyledElement = styled(CodeEditor)`
   .editor {
     counter-reset: line;
-    height: 15rem;
+    min-height: 3rem;
   }
   .editor #codeArea {
     outline: none;

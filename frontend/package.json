@@ -22,6 +22,7 @@
     "react-dom": "18.2.0",
     "react-markdown": "8.0.4",
     "react-simple-code-editor": "^0.13.1",
+    "react-split": "^2.0.14",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
