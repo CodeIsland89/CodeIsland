@@ -37,6 +37,8 @@ function CodeEditor({ className = '' }: CodeEditorProps) {
 }
 
 const StyledElement = styled(CodeEditor)`
+  overflow: hidden;
+  
   .editor {
     counter-reset: line;
     min-height: 3rem;
