@@ -9,7 +9,9 @@ import Header from '../../../components/layouts/header';
 import color from '../../../global/theme/color';
 import PrevIcon from '../../../assets/PrevIcon.svg';
 import NextIcon from '../../../assets/NextIcon.svg';
+
 import PlayIcon from '../../../assets/PlayIcon.svg';
+import RestartIcon from '../../../assets/RestartIcon.svg';
 
 const Container = styled.div`
   display: flex;
@@ -51,6 +53,9 @@ const Title = styled.div`
   align-items: center;
   padding-left: 2rem;
   padding-right: 2rem;
+  * {
+    height: 100%;
+  }
 `;
 
 const ArticleContent = styled(ReactMarkdown)`
@@ -81,12 +86,11 @@ const BackButton = styled(Link)`
   text-decoration: none;
 `;
 
-const StyledPlayButton = styled.button`
+const StyledButton = styled.button`
+  height: 100%;
   background-color: transparent;
   border: none;
   padding: 0;
-  height: fit-content;
-  width: fit-content;
   cursor: pointer;
 `;
 
@@ -120,6 +124,19 @@ const Splitter = styled(Split)`
 }
 `;
 
+function RestartButton() {
+  const onRestart = () => {
+    console.log('restart');
+    // 將程式碼傳給後端
+  };
+
+  return (
+    <StyledButton onClick={onRestart}>
+      <RestartIcon />
+    </StyledButton>
+  );
+}
+
 function PlayButton() {
   const onPlay = () => {
     console.log('play');
@@ -127,9 +144,9 @@ function PlayButton() {
   };
 
   return (
-    <StyledPlayButton onClick={onPlay}>
+    <StyledButton onClick={onPlay}>
       <PlayIcon />
-    </StyledPlayButton>
+    </StyledButton>
   );
 }
 
@@ -145,6 +162,8 @@ export default function Index() {
 
   函數作用域是指在函數内部宣告的變數或函數，只能在函數内部訪問。當函數執行完畢後，這些變數和函數將被銷毀。
   `;
+
+  const defaultCode = 'function add(a, b) {\n  return a + b;\n}';
 
   return (
     <div>
@@ -174,7 +193,10 @@ export default function Index() {
             <Question>
               <Title style={{ backgroundColor: 'white', display: 'flex', justifyContent: 'space-between' }}>
                 <div />
-                <PlayButton />
+                <div>
+                  <RestartButton />
+                  <PlayButton />
+                </div>
               </Title>
               <Splitter
                 sizes={[70, 30]}
@@ -188,7 +210,7 @@ export default function Index() {
                 cursor="col-resize"
                 className="vertical"
               >
-                <Editor />
+                <Editor defaultCode={defaultCode} />
                 <Output>
                   Output
                 </Output>

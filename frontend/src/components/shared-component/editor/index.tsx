@@ -11,11 +11,11 @@ const hightlightWithLineNumbers = (input, language) => highlight(input, language
   .map((line, i) => `<span class='editorLineNumber'>${i + 1}</span>${line}`)
   .join('\n');
 
-type CodeEditorProps = { className?: string };
+type CodeEditorProps = { className?: string, defaultCode?: string };
 
-function CodeEditor({ className = '' }: CodeEditorProps) {
+function CodeEditor({ className = '', defaultCode = '' }: CodeEditorProps) {
   const [code, setCode] = React.useState(
-    'function add(a, b) {\n  return a + b;\n}',
+    defaultCode,
   );
 
   return (
