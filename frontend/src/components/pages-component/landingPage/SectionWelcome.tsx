@@ -171,12 +171,6 @@ const StyledComputerSVG = styled(ComputerSVG)`
   margin: auto;
   max-height: 400px;
   max-width: 400px;
-  
-  @media (max-width: 768px) {
-    max-height: 200px;
-    max-width: 200px;
-    
-  }
 `;
 
 export default function SectionWelecome() {
