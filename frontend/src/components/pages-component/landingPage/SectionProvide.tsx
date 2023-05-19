@@ -8,12 +8,12 @@ const Section = styled.section`
   align-items: center;
   width: 70%;
   margin: auto;
-  flex-wrap: wrap;
+  flex-wrap: wrap-reverse;
   padding: 25px 0 100px 0;
 
   @media (max-width: 768px) {
     width: 90%;
-    flex-direction: column;
+    padding-bottom: 25px;
   }
 `;
 
@@ -24,6 +24,10 @@ const TextBlock = styled.div`
   width: 50%;
   margin: auto;
   flex-basis: 500px;
+
+  @media (max-width: 768px) {
+    width: 80%;
+  }
 `;
 
 const StyledSVG = styled(SVG)`
@@ -40,6 +44,7 @@ const SectionTitle = styled.h2`
   font-size: 36px;
   line-height: 44px;
   color: #444444;
+
 `;
 
 const SectionContent = styled.span`
