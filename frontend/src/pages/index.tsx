@@ -4,6 +4,7 @@ import SectionWelecome from '../components/pages-component/landingPage/SectionWe
 import SectionProvide from '../components/pages-component/landingPage/SectionProvide';
 import SectionUnLimited from '../components/pages-component/landingPage/SectionUnLimited';
 import SectionExecute from '../components/pages-component/landingPage/SectionExecute';
+import Footer from '../components/pages-component/landingPage/Footer';
 
 const PageContainer = styled.div`
   width: 100vw;
@@ -19,6 +20,7 @@ export default function Index() {
       <SectionProvide />
       <SectionUnLimited />
       <SectionExecute />
+      <Footer />
     </PageContainer>
   );
 }
