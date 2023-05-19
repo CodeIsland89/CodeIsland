@@ -11,9 +11,21 @@ const hightlightWithLineNumbers = (input, language) => highlight(input, language
   .map((line, i) => `<span class='editorLineNumber'>${i + 1}</span>${line}`)
   .join('\n');
 
-type CodeEditorProps = { className?: string, defaultCode?: string };
+type CodeEditorProps = {
+  className?: string,
+  defaultCode?: string,
+  isDarkTheme?: boolean,
+  margin?: number,
+  padding?: number
+};
 
-function CodeEditor({ className = '', defaultCode = '' }: CodeEditorProps) {
+function CodeEditor({
+  className = '',
+  defaultCode = '',
+  isDarkTheme = false,
+  margin = 0,
+  padding = 10,
+}: CodeEditorProps) {
   const [code, setCode] = React.useState(
     defaultCode,
   );
@@ -24,12 +36,15 @@ function CodeEditor({ className = '', defaultCode = '' }: CodeEditorProps) {
         value={code}
         onValueChange={(value) => setCode(value)}
         highlight={(value) => hightlightWithLineNumbers(value, languages.js)}
-        padding={10}
+        padding={padding}
         textareaId="codeArea"
         className="editor"
         style={{
           fontFamily: '"Fira code", "Fira Mono", monospace',
           fontSize: 18,
+          margin,
+          color: isDarkTheme ? '#ffffff' : '#000000',
+          backgroundColor: isDarkTheme ? '#1F364A' : 'transparent',
         }}
       />
     </div>
@@ -58,6 +73,7 @@ const StyledElement = styled(CodeEditor)`
     width: 40px;
     font-weight: 100;
   }
+
 `;
 
 export default StyledElement;
