@@ -5,6 +5,7 @@ import Editor from '../../shared-component/editor';
 import color from '../../../global/theme/color';
 import PlayIcon from '../../../assets/PlayIcon.svg';
 import RestartIcon from '../../../assets/RestartIcon.svg';
+import Select from '../../shared-component/select';
 
 const Section = styled.section`
   display: flex;
@@ -192,8 +193,7 @@ export default function SectionExecute() {
       </TextBlock>
       <EditorBlock>
         <OperateBlock>
-          {/* dropdown later */}
-          <div />
+          <Select />
           <ButtonContainer>
             <StyledButton
               onClick={onPlay}
