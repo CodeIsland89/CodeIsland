@@ -1,10 +1,10 @@
 import { PrismaClient } from '@prisma/client'
-export default async function getMemberSolvedQuizCountOfIsland (
+export default async function getMemberSolvedLessonCountOfIsland (
   prisma: PrismaClient,
   memberId: number,
   islandId: number
 ): Promise<number> {
-  const memberProgressOfIsland = await prisma.memberIsland.findUnique({
+  const memberProgressOfIsland = await prisma.memberIslandProgress.findUnique({
     where: {
       member_id_island_id: {
         member_id: memberId,
@@ -17,16 +17,10 @@ export default async function getMemberSolvedQuizCountOfIsland (
     throw new Error('MemberProgressOfIsland is null')
   }
 
-  const latestSolvedQuizId = memberProgressOfIsland.latest_solved_quiz_id
-  const latestSolvedQuiz = await prisma.quiz.findUnique({
-    where: {
-      quiz_id: latestSolvedQuizId
-    }
-  })
-
+  const latestSolvedLessonId = memberProgressOfIsland.latest_solved_lesson_id
   const latestSolvedLesson = await prisma.lesson.findUnique({
     where: {
-      lesson_id: latestSolvedQuizId
+      lesson_id: latestSolvedLessonId
     }
   })
 
@@ -36,22 +30,18 @@ export default async function getMemberSolvedQuizCountOfIsland (
     }
   })
 
-  const solvedQuizCountBeforeCurrentChapter = await prisma.quiz.count({
+  const solvedLessonCountBeforeCurrentChapter = await prisma.lesson.count({
     where: {
-      lesson: {
-        chapter: {
-          chapter_order: {
-            lte: latestSolvedChapter?.chapter_order
-          },
-          island: {
-            island_id: islandId
-          }
+      Chapter: {
+        chapter_order: {
+          lte: latestSolvedChapter?.chapter_order
+        },
+        Island: {
+          island_id: islandId
         }
       }
     }
   })
 
-  if (latestSolvedQuiz === null) throw new Error('latestSolvedQuiz is null')
-
-  return solvedQuizCountBeforeCurrentChapter
+  return solvedLessonCountBeforeCurrentChapter
 }

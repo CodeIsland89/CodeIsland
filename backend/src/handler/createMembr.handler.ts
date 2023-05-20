@@ -5,7 +5,6 @@ import getErrorMessage from '../utils/getErrorMessage'
 import createMember from '../services/createMember.service'
 import getStartChapter from '../services/getStartChapter.service'
 import getStartLesson from '../services/getStartLesson.service'
-import getStartQuiz from '../services/getStartQuiz.service'
 
 export default async function createMemberHandler (
   req: createMemberRequestWithLocals,
@@ -31,26 +30,21 @@ export default async function createMemberHandler (
           firstChapterByIsland.chapter_id
         )
 
-        const firstQuizByLesson = await getStartQuiz(
-          prisma,
-          firstLessonByChapter.lesson_id
-        )
-
-        await prisma.memberIsland.create({
+        await prisma.memberIslandProgress.create({
           data: {
-            island: {
+            Island: {
               connect: {
                 island_id: island.island_id
               }
             },
-            member: {
+            Member: {
               connect: {
                 member_id: newMember.member_id
               }
             },
-            quiz: {
+            Lesson: {
               connect: {
-                quiz_id: firstQuizByLesson.quiz_id
+                lesson_id: firstLessonByChapter.lesson_id
               }
             }
           }

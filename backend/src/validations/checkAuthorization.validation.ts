@@ -24,9 +24,13 @@ export default function checkAuthorization (ctx: Ctx): {
         try {
           const { prisma } = ctx
           const { id: memberID } = getDecodedToken(req as Request)
-          const member = await findOneMember(prisma, {
-            member_id: memberID
-          })
+          const member = await findOneMember(
+            prisma,
+            {
+              member_id: memberID
+            },
+            false
+          )
 
           req.locals = {
             ...req.locals,
