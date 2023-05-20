@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs';
 import 'prismjs/components/prism-javascript';
@@ -29,6 +29,10 @@ function CodeEditor({
   const [code, setCode] = React.useState(
     defaultCode,
   );
+
+  useEffect(() => {
+    setCode(defaultCode);
+  }, [defaultCode]);
 
   return (
     <div className={className}>

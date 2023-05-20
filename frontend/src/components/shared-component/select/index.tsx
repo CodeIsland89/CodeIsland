@@ -34,12 +34,27 @@ const StyledOption = styled.option`
   
 `;
 
-export default function Select() {
+type SelectItem = {
+  value: string;
+  label: string;
+};
+
+type SelectProps = {
+  items: SelectItem[];
+  onChange: (value: string) => void;
+};
+
+export default function Select({ items, onChange }: SelectProps) {
   return (
-    <StyledSelect>
-      <StyledOption value="Javascript">Javascript</StyledOption>
-      <StyledOption value="Python">Python</StyledOption>
-      <StyledOption value="PHP">PHP</StyledOption>
+    <StyledSelect onChange={(e) => onChange(e.target.value)}>
+      {items.map((item) => (
+        <StyledOption
+          key={item.value}
+          value={item.value}
+        >
+          {item.label}
+        </StyledOption>
+      ))}
     </StyledSelect>
   );
 }

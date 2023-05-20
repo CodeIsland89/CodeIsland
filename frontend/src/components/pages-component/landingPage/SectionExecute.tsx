@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Split from 'react-split';
 import Editor from '../../shared-component/editor';
@@ -63,7 +63,7 @@ const EditorBlock = styled.div`
   width: 100%;
   border-radius: 5px;
   min-height: 500px;
-  padding: 0 2rem;
+  padding: 2rem 2rem;
 
   & > *:not(:first-child) {
     border-top: 1px solid ${color.grey_300};
@@ -173,8 +173,52 @@ const OutputResultLabel = styled.span`
   color: rgba(85, 85, 85, 0.8);
 `;
 
+const IconLabel = styled.span`
+  font-family: 'B612 Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #79A0C9;
+`;
+
+type LanguageItem = {
+  languageName: string;
+  judge_id: number;
+  default_code: string;
+};
+
+const LANGUAGE_LIST: LanguageItem[] = [
+  {
+    languageName: 'JavaScript',
+    judge_id: 63,
+    default_code: 'console.log("Hello World")',
+  },
+  {
+    languageName: 'Python',
+    judge_id: 70,
+    default_code: 'print("Hello World")',
+  },
+  {
+    languageName: 'PHP',
+    judge_id: 68,
+    default_code: 'echo "Hello World"',
+  },
+  {
+    languageName: 'Java',
+    judge_id: 62,
+    default_code: 'System.out.println("Hello World")',
+  },
+  {
+    languageName: 'C',
+    judge_id: 50,
+    default_code: '#include <stdio.h>\nint main() {\n  printf("Hello World");\n  return 0;\n}',
+  },
+];
+
 export default function SectionExecute() {
-  const defaultCode = 'function add(a, b) {\n  return a + b;\n}';
+  const [selectedLanguage, setSelectedLanguage] = useState<LanguageItem>(LANGUAGE_LIST[0]);
+
   const onPlay = () => {
     console.log('play');
     // 將程式碼傳給後端
@@ -183,6 +227,19 @@ export default function SectionExecute() {
     console.log('restart');
     // 將程式碼傳給後端
   };
+
+  const selectProps = LANGUAGE_LIST.map((item) => ({
+    label: item.languageName,
+    value: String(item.judge_id),
+  }));
+
+  const onLanguageChange = (value: string) => {
+    const selected = LANGUAGE_LIST.find((item) => String(item.judge_id) === value);
+    if (selected) {
+      setSelectedLanguage(selected);
+    }
+  };
+
   return (
     <Section id="execute-section">
       <TextBlock>
@@ -193,7 +250,7 @@ export default function SectionExecute() {
       </TextBlock>
       <EditorBlock>
         <OperateBlock>
-          <Select />
+          <Select items={selectProps} onChange={onLanguageChange} />
           <ButtonContainer>
             <StyledButton
               onClick={onPlay}
@@ -202,17 +259,9 @@ export default function SectionExecute() {
               }}
             >
               <PlayIcon width="30px" height="30px" />
-              <span style={{
-                fontFamily: 'B612 Mono',
-                fontStyle: 'normal',
-                fontWeight: 400,
-                fontSize: '16px',
-                lineHeight: '19px',
-                color: '#79A0C9',
-              }}
-              >
+              <IconLabel>
                 Run
-              </span>
+              </IconLabel>
             </StyledButton>
             <StyledButton
               onClick={onRestart}
@@ -221,17 +270,9 @@ export default function SectionExecute() {
               }}
             >
               <RestartIcon width="30px" height="30px" fill="#555555" />
-              <span style={{
-                fontFamily: 'B612 Mono',
-                fontStyle: 'normal',
-                fontWeight: 400,
-                fontSize: '16px',
-                lineHeight: '19px',
-                color: '#79A0C9',
-              }}
-              >
+              <IconLabel>
                 Reset
-              </span>
+              </IconLabel>
             </StyledButton>
           </ButtonContainer>
         </OperateBlock>
@@ -247,7 +288,8 @@ export default function SectionExecute() {
           dragInterval={1}
         >
           <Editor
-            defaultCode={defaultCode}
+            defaultCode={selectedLanguage.default_code}
+            padding={40}
             isDarkTheme
           />
           <OutputBlock>
