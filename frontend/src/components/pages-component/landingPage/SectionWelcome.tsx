@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import Link from 'next/link';
 import ComputerSVG from '../../../assets/Computer.svg';
 
 const StyledSection = styled.section`
@@ -54,7 +53,7 @@ const StyledHrefSection = styled.ul`
   }
 `;
 
-const StyledHomeSectionLink = styled(Link)`
+const StyledHomeSectionLink = styled.button`
   text-decoration: none;
   font-family: 'Arial';
   font-style: normal;
@@ -62,13 +61,16 @@ const StyledHomeSectionLink = styled(Link)`
   font-size: 20px;
   line-height: 23px;
   color: #FFFFFF;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 
   @media (max-width: 768px) {
     font-size: 16px;
   }
 `;
 
-const StyledTrySectionLink = styled(Link)`
+const StyledTrySectionLink = styled.button`
   text-decoration: none;
   font-family: 'B612';
   font-style: normal;
@@ -79,6 +81,8 @@ const StyledTrySectionLink = styled(Link)`
   background: #FFFFFF;
   border-radius: 50px;
   padding: 5px 40px;
+  cursor: pointer;
+  border: none;
 
   @media (max-width: 768px) {
     font-size: 16px;
@@ -174,17 +178,24 @@ const StyledComputerSVG = styled(ComputerSVG)`
 `;
 
 export default function SectionWelecome() {
+  const scrollToSection = (sectionId: string) => {
+    const sectionElement = document.getElementById(sectionId);
+    if (sectionElement) {
+      sectionElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <StyledSection>
+    <StyledSection id="welcome-section">
       <StyledHeader>
         <StyledLogoText>
           Code Island
         </StyledLogoText>
         <StyledHrefSection>
-          <StyledHomeSectionLink href="/">
+          <StyledHomeSectionLink onClick={() => scrollToSection('welcome-section')}>
             首頁
           </StyledHomeSectionLink>
-          <StyledTrySectionLink href="/">
+          <StyledTrySectionLink onClick={() => scrollToSection('execute-section')}>
             試試看
           </StyledTrySectionLink>
         </StyledHrefSection>
