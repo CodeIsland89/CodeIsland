@@ -223,9 +223,12 @@ export default function SectionExecute() {
     console.log('play');
     // 將程式碼傳給後端
   };
-  const onRestart = () => {
-    console.log('restart');
-    // 將程式碼傳給後端
+  const onReset = () => {
+    const selected = LANGUAGE_LIST.find(
+      (item) => item.judge_id === selectedLanguage.judge_id,
+    );
+
+    setSelectedLanguage({ ...selected, default_code: `\n${selected.default_code}` });
   };
 
   const selectProps = LANGUAGE_LIST.map((item) => ({
@@ -264,7 +267,7 @@ export default function SectionExecute() {
               </IconLabel>
             </StyledButton>
             <StyledButton
-              onClick={onRestart}
+              onClick={onReset}
               style={{
                 borderColor: '#79A0C9',
               }}
