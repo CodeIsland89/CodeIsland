@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Head from 'next/head';
 import SectionWelecome from '../components/pages-component/landingPage/SectionWelcome';
 import SectionProvide from '../components/pages-component/landingPage/SectionProvide';
 import SectionUnLimited from '../components/pages-component/landingPage/SectionUnLimited';
@@ -15,12 +16,25 @@ const PageContainer = styled.div`
 
 export default function Index() {
   return (
-    <PageContainer>
-      <SectionWelecome />
-      <SectionProvide />
-      <SectionUnLimited />
-      <SectionExecute />
-      <Footer />
-    </PageContainer>
+    <>
+      <Head>
+        <title>
+          CodeIsland - Your best partner in programming
+        </title>
+        <meta
+          name="description"
+          content="CodeIsland is a platform that helps you to learn programming in a fun way."
+          key="desc"
+        />
+      </Head>
+      <PageContainer>
+        <SectionWelecome />
+        <SectionProvide />
+        <SectionUnLimited />
+        <SectionExecute />
+        <Footer />
+      </PageContainer>
+
+    </>
   );
 }
