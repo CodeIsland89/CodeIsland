@@ -3,7 +3,7 @@ import { createMemberRequestBody } from '../../types/endpoints/createMember.type
 import { Ctx } from '../../types/context'
 import { checkSchema, ValidationChain } from 'express-validator'
 import getErrorMessage from '../../utils/getErrorMessage'
-import isDataExistInDatabase from '../../services/isDataExistInDatabase.service'
+import findOneMember from '../../services/findOneMember.service'
 
 export default function createMemberValidation (ctx: Ctx): ValidationChain[] {
   return checkSchema({
@@ -23,11 +23,11 @@ export default function createMemberValidation (ctx: Ctx): ValidationChain[] {
               process.env.JWT_SECRET as string
             ) as { createMemberJSON: createMemberRequestBody }
 
-            const isExist = await isDataExistInDatabase(ctx, 'member', {
+            const isExist = await findOneMember(ctx.prisma, {
               email: createMemberJSON.email
             })
 
-            if (isExist) throw new Error('Email is already exists')
+            if (isExist !== null) throw new Error('Email is already exists')
             req.locals = {
               createMemberData: {
                 email: createMemberJSON.email,

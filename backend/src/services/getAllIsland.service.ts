@@ -6,11 +6,7 @@ export default async function getAllIsland (
     include: {
       Chapter: {
         include: {
-          Lesson: {
-            include: {
-              Quiz: true
-            }
-          }
+          Lesson: true
         }
       }
     }

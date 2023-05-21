@@ -1,6 +1,6 @@
 import { checkSchema, ValidationChain } from 'express-validator'
-import checkDataExistInDatabase from '../../services/isDataExistInDatabase.service'
 import { Ctx } from '../../types/context'
+import findOneMember from '../../services/findOneMember.service'
 
 export default function sendRegisterValidation (ctx: Ctx): ValidationChain[] {
   return checkSchema({
@@ -10,10 +10,8 @@ export default function sendRegisterValidation (ctx: Ctx): ValidationChain[] {
       },
       custom: {
         options: async (value, { req }) => {
-          const isExist = await checkDataExistInDatabase(ctx, 'member', {
-            email: value
-          })
-          if (isExist) throw new Error('Email is already exists')
+          const isExist = await findOneMember(ctx.prisma, { email: value })
+          if (isExist !== null) throw new Error('Email is already exists')
           return true
         },
         errorMessage: 'Email is already exists'
