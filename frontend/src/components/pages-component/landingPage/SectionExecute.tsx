@@ -104,6 +104,7 @@ const Splitter = styled(Split)`
   flex-direction: column;
   flex: 1;
   width: 100%;
+  height: inherit;
   margin-top: 10px;
 
   .gutter {
@@ -280,37 +281,40 @@ export default function SectionExecute() {
             </StyledButton>
           </ButtonContainer>
         </OperateBlock>
-        <Splitter
-          className="vertical"
-          direction="vertical"
-          sizes={[60, 40]}
-          minSize={10}
-          expandToMin={false}
-          gutterSize={20}
-          gutterAlign="center"
-          snapOffset={10}
-          dragInterval={1}
-        >
-          <Editor
-            defaultCode={selectedLanguage.default_code}
-            padding={40}
-            isDarkTheme
-          />
-          <OutputBlock>
-            <OutputResultCard>
-              <OutputResultTitle>執行成功</OutputResultTitle>
-              <OutputResultNumberContainer>
-                <OutputResultNumber>執行時間：0.1s</OutputResultNumber>
-                <OutputResultNumber>記憶體使用量：0.1KB</OutputResultNumber>
-              </OutputResultNumberContainer>
-            </OutputResultCard>
-            <OutputResultLabel>標準輸出</OutputResultLabel>
-            <Card style={{ marginTop: '15px' }}>
-              <p>1</p>
-              <p>2</p>
-            </Card>
-          </OutputBlock>
-        </Splitter>
+        <div style={{ height: '15rem' }}>
+          <Splitter
+            className="vertical"
+            direction="vertical"
+            sizes={[60, 40]}
+            minSize={50}
+            expandToMin={false}
+            gutterSize={20}
+            gutterAlign="center"
+            snapOffset={10}
+            dragInterval={1}
+          >
+            <Editor
+              defaultCode={selectedLanguage.default_code}
+              isDarkTheme
+            />
+            <div>
+              <OutputBlock>
+                <OutputResultCard>
+                  <OutputResultTitle>執行成功</OutputResultTitle>
+                  <OutputResultNumberContainer>
+                    <OutputResultNumber>執行時間：0.1s</OutputResultNumber>
+                    <OutputResultNumber>記憶體使用量：0.1KB</OutputResultNumber>
+                  </OutputResultNumberContainer>
+                </OutputResultCard>
+                <OutputResultLabel>標準輸出</OutputResultLabel>
+                <Card style={{ marginTop: '15px' }}>
+                  <p>1</p>
+                  <p>2</p>
+                </Card>
+              </OutputBlock>
+            </div>
+          </Splitter>
+        </div>
       </EditorBlock>
     </Section>
   );

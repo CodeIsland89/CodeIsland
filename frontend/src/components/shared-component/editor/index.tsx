@@ -61,6 +61,7 @@ const StyledElement = styled(CodeEditor)`
   .editor {
     counter-reset: line;
     min-height: 3rem;
+    height: 100%;
   }
   .editor #codeArea {
     outline: none;
