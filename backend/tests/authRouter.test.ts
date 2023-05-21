@@ -1,7 +1,11 @@
 import jwt from 'jsonwebtoken'
-import request from './index'
+import { request, server } from './index'
 import getRandomString from '../src/utils/getRandomString'
 import hashString from '../src/utils/hashString'
+
+afterAll(() => {
+  server.close()
+})
 
 describe('userRelated Test', () => {
   const email = `${getRandomString(15)}@gmail.com`

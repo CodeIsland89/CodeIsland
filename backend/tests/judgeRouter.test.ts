@@ -1,4 +1,8 @@
-import request from './index'
+import { request, server } from './index'
+
+afterAll(() => {
+  server.close()
+})
 
 describe('judge related Test', () => {
   it('should get quickJudgeResult', async () => {
