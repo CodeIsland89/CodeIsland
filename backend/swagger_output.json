@@ -853,6 +853,128 @@
           }
         }
       }
+    },
+    "/judge/quickJudge": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功取得程式執行結果",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "stdout": {
+                      "type": "string",
+                      "example": "hello world"
+                    },
+                    "stderr": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "memory": {
+                      "type": "number",
+                      "example": 100
+                    },
+                    "time": {
+                      "type": "number",
+                      "example": 2
+                    }
+                  }
+                },
+                "error": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "程式編譯失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Compile Error"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "stdout": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "stderr": {
+                      "type": "string",
+                      "example": "Compile Error reason"
+                    },
+                    "memory": {
+                      "type": "number",
+                      "example": 100
+                    },
+                    "time": {
+                      "type": "number",
+                      "example": 2
+                    }
+                  }
+                },
+                "error": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "無效的Language_id",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "string",
+                  "example": "Not a valid language_id"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "因為伺服器的問題，無法發送信件",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Internal Server Error"
+                },
+                "errors": {
+                  "type": "string",
+                  "example": "Error message here"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
