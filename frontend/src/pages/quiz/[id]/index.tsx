@@ -1,5 +1,5 @@
 /* eslint-disable react/no-children-prop */
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
 import Link from 'next/link';
@@ -163,7 +163,7 @@ export default function Index() {
   函數作用域是指在函數内部宣告的變數或函數，只能在函數内部訪問。當函數執行完畢後，這些變數和函數將被銷毀。
   `;
 
-  const defaultCode = 'function add(a, b) {\n  return a + b;\n}';
+  const [code, setCode] = useState('function add(a, b) {\n  return a + b;\n}');
 
   return (
     <div>
@@ -210,7 +210,7 @@ export default function Index() {
                 cursor="col-resize"
                 className="vertical"
               >
-                <Editor defaultCode={defaultCode} />
+                <Editor code={code} setCode={setCode} />
                 <Output>
                   Output
                 </Output>

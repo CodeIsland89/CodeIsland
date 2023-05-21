@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs';
 import 'prismjs/components/prism-javascript';
@@ -12,6 +12,8 @@ const hightlightWithLineNumbers = (input, language) => highlight(input, language
   .join('\n');
 
 type CodeEditorProps = {
+  code: string,
+  setCode: (code: string) => void,
   className?: string,
   defaultCode?: string,
   isDarkTheme?: boolean,
@@ -20,20 +22,13 @@ type CodeEditorProps = {
 };
 
 function CodeEditor({
+  code,
+  setCode,
   className = '',
-  defaultCode = '',
   isDarkTheme = false,
   margin = 0,
   padding = 10,
 }: CodeEditorProps) {
-  const [code, setCode] = React.useState(
-    defaultCode,
-  );
-
-  useEffect(() => {
-    setCode(defaultCode);
-  }, [defaultCode]);
-
   return (
     <div className={className}>
       <Editor

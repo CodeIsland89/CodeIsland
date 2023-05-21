@@ -6,6 +6,7 @@ import color from '../../../global/theme/color';
 import PlayIcon from '../../../assets/PlayIcon.svg';
 import RestartIcon from '../../../assets/RestartIcon.svg';
 import Select from '../../shared-component/select';
+import quickJudgeService, { QuickJudgeResult } from '../../../service/quickJudge.service';
 
 const Section = styled.section`
   display: flex;
@@ -219,18 +220,26 @@ const LANGUAGE_LIST: LanguageItem[] = [
 ];
 
 export default function SectionExecute() {
+  const [code, setCode] = useState('console.log("hello world")');
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageItem>(LANGUAGE_LIST[0]);
+  const [executeStatus, setExecuteStatus] = useState<QuickJudgeResult>({
+    message: '執行成功',
+    data: {
+      stdout: 'Hello World',
+      stderr: '',
+      time: 0,
+      memory: 0,
+    },
+    error: '',
+  });
 
-  const onPlay = () => {
-    console.log('play');
-    // 將程式碼傳給後端
+  const onPlay = async () => {
+    const data = await quickJudgeService(code, selectedLanguage.judge_id);
+    setExecuteStatus(data);
   };
-  const onReset = () => {
-    const selected = LANGUAGE_LIST.find(
-      (item) => item.judge_id === selectedLanguage.judge_id,
-    );
 
-    setSelectedLanguage({ ...selected, default_code: `\n${selected.default_code}` });
+  const onReset = () => {
+    setCode(selectedLanguage.default_code);
   };
 
   const selectProps = LANGUAGE_LIST.map((item) => ({
@@ -242,6 +251,7 @@ export default function SectionExecute() {
     const selected = LANGUAGE_LIST.find((item) => String(item.judge_id) === value);
     if (selected) {
       setSelectedLanguage(selected);
+      setCode(selected.default_code);
     }
   };
 
@@ -294,23 +304,41 @@ export default function SectionExecute() {
             dragInterval={1}
           >
             <Editor
+              code={code}
+              setCode={setCode}
               defaultCode={selectedLanguage.default_code}
               isDarkTheme
             />
             <div>
               <OutputBlock>
                 <OutputResultCard>
-                  <OutputResultTitle>執行成功</OutputResultTitle>
+                  <OutputResultTitle>{executeStatus.message}</OutputResultTitle>
                   <OutputResultNumberContainer>
-                    <OutputResultNumber>執行時間：0.1s</OutputResultNumber>
-                    <OutputResultNumber>記憶體使用量：0.1KB</OutputResultNumber>
+                    <OutputResultNumber>
+                      執行時間：
+                      {executeStatus.data.time}
+                      s
+                    </OutputResultNumber>
+                    <OutputResultNumber>
+                      記憶體使用量：
+                      {executeStatus.data.memory}
+                      KB
+                    </OutputResultNumber>
                   </OutputResultNumberContainer>
                 </OutputResultCard>
                 <OutputResultLabel>標準輸出</OutputResultLabel>
                 <Card style={{ marginTop: '15px' }}>
-                  <p>1</p>
-                  <p>2</p>
+                  {executeStatus.data.stdout.split('\n').map((item) => <p>{item}</p>)}
                 </Card>
+                {executeStatus.data.stderr !== ''
+                  && (
+                  <>
+                    <OutputResultLabel>標準輸出</OutputResultLabel>
+                    <Card style={{ marginTop: '15px' }}>
+                      {executeStatus.data.stderr.split('\n').map((item) => <p>{item}</p>)}
+                    </Card>
+                  </>
+                  )}
               </OutputBlock>
             </div>
           </Splitter>
