@@ -23,7 +23,7 @@ app.use('/api', router)
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 // Server Run Success info
-app.listen(ctx.config.port, () => {
+const server = app.listen(ctx.config.port, () => {
   if (isDeveloping()) {
     console.info(
       `🚀 Prisma Server ready at: http://localhost:${ctx.config.port}`
@@ -31,4 +31,4 @@ app.listen(ctx.config.port, () => {
   }
 })
 
-export default app
+export default server

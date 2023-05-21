@@ -3,4 +3,4 @@ import supertest from 'supertest'
 
 const request = supertest(server)
 
-export default request
+export { request, server }
