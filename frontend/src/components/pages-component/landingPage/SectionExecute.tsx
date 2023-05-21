@@ -77,6 +77,7 @@ const OperateBlock = styled.div`
   justify-content: space-between;
   align-items: center;
   border-bottom: 0.5px solid rgba(85, 85, 85, 0.5);
+  flex-wrap: wrap;
   * {
     height: 100%;
   }

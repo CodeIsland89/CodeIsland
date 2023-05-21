@@ -5,5 +5,10 @@ import { AppProps } from 'next/app';
 import '../global/css/global.css';
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <Component {...pageProps} />
+    </>
+  );
 }

@@ -86,7 +86,7 @@ const StyledTrySectionLink = styled.button`
 
   @media (max-width: 768px) {
     font-size: 16px;
-    padding: 4px 30px;
+    padding: 4px 20px;
   }
 
 `;
