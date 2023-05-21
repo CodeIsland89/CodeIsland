@@ -10,11 +10,12 @@
     "swagger-autogen": "ts-node swagger.ts",
     "lint-staged": "lint-staged",
     "eslintInit": "eslint --init",
-    "test": "jest --silent false --watch"
+    "test": "jest --silent false --watch --detectOpenHandles"
   },
   "dependencies": {
     "@prisma/client": "4.8.0",
     "@types/node": "18.11.18",
+    "axios": "^1.4.0",
     "cors": "2.8.5",
     "dotenv": "^16.0.3",
     "express": "4.18.2",

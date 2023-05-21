@@ -7,8 +7,13 @@ export default function valdationResultMiddleware (
   next: NextFunction
 ): void {
   const errors = validationResult(req)
+
+  const customErrorStatus: number | undefined = req.locals?.customErrorStatus
+
   if (!errors.isEmpty()) {
-    res.status(400).json({ errors: errors.array()[0].msg })
+    res
+      .status(customErrorStatus !== undefined ? customErrorStatus : 400)
+      .json({ errors: errors.array()[0].msg })
   } else {
     next()
   }

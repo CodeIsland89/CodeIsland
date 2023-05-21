@@ -855,9 +855,33 @@
       }
     },
     "/judge/quickJudge": {
-      "get": {
+      "post": {
+        "tags": [
+          "judge"
+        ],
+        "summary": "快速執行程式",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "程式碼與語言編號",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "language_id": {
+                  "type": "number",
+                  "example": 70
+                },
+                "source_code": {
+                  "type": "string",
+                  "example": "print(hello world)"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "成功取得程式執行結果",
@@ -955,7 +979,7 @@
             }
           },
           "500": {
-            "description": "因為伺服器的問題，無法發送信件",
+            "description": "因為伺服器的問題，導致錯誤訊息發生",
             "schema": {
               "type": "object",
               "properties": {
