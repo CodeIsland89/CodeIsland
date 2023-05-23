@@ -212,11 +212,6 @@ const LANGUAGE_LIST: LanguageItem[] = [
     default_code: 'echo "Hello World"',
   },
   {
-    languageName: 'Java',
-    judge_id: 62,
-    default_code: 'System.out.println("Hello World")',
-  },
-  {
     languageName: 'C',
     judge_id: 50,
     default_code: '#include <stdio.h>\nint main() {\n  printf("Hello World");\n  return 0;\n}',
