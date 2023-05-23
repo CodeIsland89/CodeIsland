@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Split from 'react-split';
 import Editor from '../../shared-component/editor';
@@ -7,6 +7,7 @@ import PlayIcon from '../../../assets/PlayIcon.svg';
 import RestartIcon from '../../../assets/RestartIcon.svg';
 import Select from '../../shared-component/select';
 import quickJudgeService, { QuickJudgeResult } from '../../../service/quickJudge.service';
+import LoadingSpinner from '../../shared-component/loading/loadingSpinner';
 
 const Section = styled.section`
   display: flex;
@@ -56,7 +57,11 @@ const SectionContent = styled.span`
   color: #444444;
 `;
 
-const EditorBlock = styled.div`
+type EditorBlockProps = {
+  isLoading: boolean
+};
+
+const EditorBlock = styled.div<EditorBlockProps>`
   display: flex;
   flex-direction: column;
   background: #F3F3F3;
@@ -65,6 +70,13 @@ const EditorBlock = styled.div`
   border-radius: 5px;
   min-height: 500px;
   padding: 2rem 2rem;
+  position: relative;
+
+  & > * {
+    pointer-events: ${(props) => (props.isLoading ? 'none' : 'auto')}
+    opacity: ${(props) => (props.isLoading ? 0.5 : 1)};
+  }
+
 
   & > *:not(:first-child) {
     border-top: 1px solid ${color.grey_300};
@@ -220,6 +232,8 @@ const LANGUAGE_LIST: LanguageItem[] = [
 
 export default function SectionExecute() {
   const [code, setCode] = useState('console.log("hello world")');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [coolDown, setCoolDown] = useState<number>(0);
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageItem>(LANGUAGE_LIST[0]);
   const [executeStatus, setExecuteStatus] = useState<QuickJudgeResult>({
     message: '',
@@ -234,8 +248,11 @@ export default function SectionExecute() {
   });
 
   const onPlay = async () => {
+    setIsLoading(true);
     const data = await quickJudgeService(code, selectedLanguage.judge_id);
     setExecuteStatus(data);
+    setIsLoading(false);
+    setCoolDown(10);
   };
 
   const onReset = () => {
@@ -255,6 +272,14 @@ export default function SectionExecute() {
     }
   };
 
+  useEffect(() => {
+    if (coolDown > 0) {
+      setTimeout(() => {
+        setCoolDown((prev) => prev - 1);
+      }, 1000);
+    }
+  }, [coolDown]);
+
   return (
     <Section id="execute-section">
       <TextBlock>
@@ -263,7 +288,16 @@ export default function SectionExecute() {
           不用擔心環境問題，也不用安裝各種套件。
         </SectionContent>
       </TextBlock>
-      <EditorBlock>
+      <EditorBlock isLoading={isLoading}>
+        {isLoading && (
+          <LoadingSpinner customStyle={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%,-50%)',
+          }}
+          />
+        )}
         <OperateBlock>
           <Select items={selectProps} onChange={onLanguageChange} />
           <ButtonContainer>
@@ -271,12 +305,29 @@ export default function SectionExecute() {
               onClick={onPlay}
               style={{
                 borderColor: '#79A0C9',
+                pointerEvents: coolDown === 0 ? 'auto' : 'none',
               }}
             >
-              <PlayIcon width="30px" height="30px" />
-              <IconLabel>
-                Run
-              </IconLabel>
+              {coolDown === 0 ? (
+                <>
+                  <PlayIcon width="30px" height="30px" />
+                  <IconLabel>
+                    Run
+                  </IconLabel>
+                </>
+              ) : (
+                <>
+                  <LoadingSpinner customStyle={{
+                    width: '30px',
+                    height: '30px',
+                  }}
+                  />
+                  <IconLabel>
+                    Cooldown...
+                    {coolDown}
+                  </IconLabel>
+                </>
+              )}
             </StyledButton>
             <StyledButton
               onClick={onReset}
