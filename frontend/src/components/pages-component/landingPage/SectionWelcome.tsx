@@ -22,9 +22,9 @@ const StyledHeader = styled.header`
   padding: 20px 15% 5% 15%;
 
   @media (max-width: 768px) {
+    display: none;
     padding: 0 5%;
   }
-
 `;
 
 const StyledLogoText = styled.span`
@@ -34,10 +34,6 @@ const StyledLogoText = styled.span`
   font-size: 28px;
   line-height: 34px;
   color: #FFFFFF;
-
-  @media (max-width: 768px) {
-    font-size: 24px;
-  }
 `;
 
 const StyledHrefSection = styled.ul`
@@ -47,10 +43,6 @@ const StyledHrefSection = styled.ul`
   align-items: center;
   height: 40px;
   gap: 40px;
-
-  @media (max-width: 768px) {
-    gap: 20px;
-  }
 `;
 
 const StyledHomeSectionLink = styled.button`
@@ -124,10 +116,6 @@ const SectionTitleWelcome = styled.h1`
   transform: translateX(-60px);
   width: 100%;
 
-  @media (max-width: 768px) {
-    font-size: 36px;
-  }
-
 `;
 
 const SectionTitleCodeIsland = styled.h1`
@@ -141,9 +129,6 @@ const SectionTitleCodeIsland = styled.h1`
   transform: translateX(60px);
   width: 100%;
 
-  @media (max-width: 768px) {
-    font-size: 36px;
-  }
 `;
 
 const StyledLoginButton = styled.button` // 之後要改成Link 連到真的登入頁面

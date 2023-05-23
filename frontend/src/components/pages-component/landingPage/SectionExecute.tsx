@@ -46,6 +46,10 @@ const SectionTitle = styled.h2`
   line-height: 44px;
   color: #444444;
 
+  @media (max-width: 500px) {
+    font-size: 24px;
+  }
+
 `;
 
 const SectionContent = styled.span`
@@ -55,6 +59,11 @@ const SectionContent = styled.span`
   font-size: 24px;
   line-height: 35px;  
   color: #444444;
+
+  @media (max-width: 500px) {
+    font-size: 20px;
+  }
+
 `;
 
 type EditorBlockProps = {
@@ -73,7 +82,7 @@ const EditorBlock = styled.div<EditorBlockProps>`
   position: relative;
 
   & > * {
-    pointer-events: ${(props) => (props.isLoading ? 'none' : 'auto')}
+    pointer-events: ${(props) => (props.isLoading ? 'none' : 'auto')};
     opacity: ${(props) => (props.isLoading ? 0.5 : 1)};
   }
 

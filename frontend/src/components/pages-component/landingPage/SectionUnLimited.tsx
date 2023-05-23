@@ -42,6 +42,10 @@ const SectionTitle = styled.h2`
   font-size: 36px;
   line-height: 44px;
   color: #444444;
+
+  @media (max-width: 500px) {
+    font-size: 24px;
+  }
 `;
 
 const SectionContent = styled.span`
@@ -51,6 +55,11 @@ const SectionContent = styled.span`
   font-size: 24px;
   line-height: 35px;  
   color: #444444;
+
+  @media (max-width: 500px) {
+    font-size: 20px;
+  }
+
 `;
 
 const StyledSVG = styled(SVG)`

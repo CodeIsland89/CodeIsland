@@ -9,6 +9,12 @@ const StyledFooter = styled.footer`
   justify-content: space-between;
   align-items: center;
   padding: 0 10%;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+  }
+  
 `;
 
 const StyledCodeIslandSpan = styled.span`
@@ -17,7 +23,6 @@ const StyledCodeIslandSpan = styled.span`
   font-weight: 700;
   font-size: 24px;
   line-height: 29px;
-
   color: #FFFFFF;
 `;
 
