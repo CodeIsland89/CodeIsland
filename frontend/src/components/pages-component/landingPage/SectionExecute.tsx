@@ -142,13 +142,17 @@ const OutputResultCard = styled(Card)`
   flex-wrap: wrap;
 `;
 
-const OutputResultTitle = styled.h3`
+type TitleProps = {
+  fontColor: `#${string}`
+};
+
+const OutputResultTitle = styled.h3<TitleProps>`
   font-family: 'B612';
   font-style: normal;
   font-weight: 400;
   font-size: 32px;
   margin: auto 0;
-  color: rgba(238, 72, 72, 0.8);
+  color: ${(props) => props.fontColor};
 `;
 
 const OutputResultNumberContainer = styled.div`
@@ -223,7 +227,8 @@ export default function SectionExecute() {
   const [code, setCode] = useState('console.log("hello world")');
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageItem>(LANGUAGE_LIST[0]);
   const [executeStatus, setExecuteStatus] = useState<QuickJudgeResult>({
-    message: '執行成功',
+    message: '',
+    fontColor: '#000000',
     data: {
       stdout: 'Hello World',
       stderr: '',
@@ -312,7 +317,11 @@ export default function SectionExecute() {
             <div>
               <OutputBlock>
                 <OutputResultCard>
-                  <OutputResultTitle>{executeStatus.message}</OutputResultTitle>
+                  <OutputResultTitle
+                    fontColor={executeStatus.fontColor}
+                  >
+                    {executeStatus.message}
+                  </OutputResultTitle>
                   <OutputResultNumberContainer>
                     <OutputResultNumber>
                       執行時間：
@@ -328,16 +337,16 @@ export default function SectionExecute() {
                 </OutputResultCard>
                 <OutputResultLabel>標準輸出</OutputResultLabel>
                 <Card style={{ marginTop: '15px' }}>
-                  {executeStatus.data.stdout.split('\n').map((item) => <p>{item}</p>)}
+                  {executeStatus.data.stdout.split('\n').map((item) => <p key={item}>{item}</p>)}
                 </Card>
                 {executeStatus.data.stderr !== ''
                   && (
-                  <>
-                    <OutputResultLabel>標準輸出</OutputResultLabel>
-                    <Card style={{ marginTop: '15px' }}>
-                      {executeStatus.data.stderr.split('\n').map((item) => <p>{item}</p>)}
-                    </Card>
-                  </>
+                    <>
+                      <OutputResultLabel>標準輸出</OutputResultLabel>
+                      <Card style={{ marginTop: '15px' }}>
+                        {executeStatus.data.stderr.split('\n').map((item) => <p key={item}>{item}</p>)}
+                      </Card>
+                    </>
                   )}
               </OutputBlock>
             </div>
