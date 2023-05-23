@@ -8,7 +8,7 @@ const Section = styled.section`
   align-items: center;
   width: 70%;
   margin: auto;
-  flex-wrap: wrap-reverse;
+  flex-wrap: wrap;
   padding: 25px 0 100px 0;
 
   @media (max-width: 768px) {

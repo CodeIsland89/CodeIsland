@@ -77,7 +77,6 @@ export default function SectionUnLimited() {
   return (
     <Section>
       <StyledWrapper>
-        <StyledSVG />
         <TextBlock>
           <SectionTitle>這裡不會限制你的想像力</SectionTitle>
           <SectionContent>
@@ -85,6 +84,7 @@ export default function SectionUnLimited() {
             只要您的輸出答案與預期相符就好
           </SectionContent>
         </TextBlock>
+        <StyledSVG />
       </StyledWrapper>
     </Section>
   );

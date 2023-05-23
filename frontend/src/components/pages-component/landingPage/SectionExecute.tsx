@@ -21,7 +21,8 @@ const Section = styled.section`
   @media (max-width: 1285px) {
     width: 90%;
     padding-bottom: 25px;
-    flex-wrap: wrap-reverse;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 25px;
   }
 `;
