@@ -356,17 +356,17 @@ export default function SectionExecute() {
             display: 'flex',
           }}
         >
-          <Editor
-            code={code}
-            setCode={setCode}
-            defaultCode={selectedLanguage.default_code}
-            isDarkTheme
-            customStyle={{
-              flexGrow: 1,
-              overflowY: 'scroll',
-              maxHeight: '200px',
-            }}
-          />
+          <div style={{ maxHeight: '200px', overflow: 'auto' }}>
+            <Editor
+              code={code}
+              setCode={setCode}
+              defaultCode={selectedLanguage.default_code}
+              isDarkTheme
+              customStyle={{
+                flexGrow: 1,
+              }}
+            />
+          </div>
           <OutputBlock>
             <OutputResultCard>
               <OutputResultTitle
