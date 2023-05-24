@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs';
 import 'prismjs/components/prism-javascript';
@@ -18,7 +18,8 @@ type CodeEditorProps = {
   defaultCode?: string,
   isDarkTheme?: boolean,
   margin?: number,
-  padding?: number
+  padding?: number,
+  customStyle?: CSSProperties
 };
 
 function CodeEditor({
@@ -28,6 +29,7 @@ function CodeEditor({
   isDarkTheme = false,
   margin = 0,
   padding = 10,
+  customStyle = {},
 }: CodeEditorProps) {
   return (
     <div className={className}>
@@ -44,6 +46,7 @@ function CodeEditor({
           margin,
           color: isDarkTheme ? '#ffffff' : '#000000',
           backgroundColor: isDarkTheme ? '#1F364A' : 'transparent',
+          ...customStyle,
         }}
       />
     </div>

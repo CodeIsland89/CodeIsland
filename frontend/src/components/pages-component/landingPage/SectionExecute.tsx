@@ -342,68 +342,71 @@ export default function SectionExecute() {
             </StyledButton>
           </ButtonContainer>
         </OperateBlock>
-        <div style={{ height: '15rem' }}>
-          <Splitter
-            className="vertical"
-            direction="vertical"
-            sizes={[60, 40]}
-            minSize={50}
-            expandToMin={false}
-            gutterSize={20}
-            gutterAlign="center"
-            snapOffset={10}
-            dragInterval={1}
-          >
-            <Editor
-              code={code}
-              setCode={setCode}
-              defaultCode={selectedLanguage.default_code}
-              isDarkTheme
-            />
-            <div>
-              <OutputBlock>
-                <OutputResultCard>
-                  <OutputResultTitle
-                    fontColor={executeStatus.fontColor}
-                  >
-                    {executeStatus.message}
-                  </OutputResultTitle>
-                  <OutputResultNumberContainer>
-                    <OutputResultNumber>
-                      執行時間：
-                      {executeStatus.data.time}
-                      s
-                    </OutputResultNumber>
-                    <OutputResultNumber>
-                      記憶體使用量：
-                      {executeStatus.data.memory}
-                      KB
-                    </OutputResultNumber>
-                  </OutputResultNumberContainer>
-                </OutputResultCard>
-                {
-                  executeStatus.data.stdout !== '' && (
-                  <>
-                    <OutputResultLabel>標準輸出</OutputResultLabel>
-                    <Card style={{ marginTop: '15px' }}>
-                      {executeStatus.data.stdout.split('\n').map((item) => <p key={item}>{item}</p>)}
-                    </Card>
-                  </>
-                  )
-                }
-                {executeStatus.data.stderr !== ''
+        <Splitter
+          className="vertical"
+          direction="vertical"
+          sizes={[60, 40]}
+          minSize={50}
+          expandToMin={false}
+          gutterSize={20}
+          gutterAlign="center"
+          snapOffset={10}
+          dragInterval={1}
+          style={{
+            display: 'flex',
+          }}
+        >
+          <Editor
+            code={code}
+            setCode={setCode}
+            defaultCode={selectedLanguage.default_code}
+            isDarkTheme
+            customStyle={{
+              flexGrow: 1,
+              overflowY: 'scroll',
+              maxHeight: '200px',
+            }}
+          />
+          <OutputBlock>
+            <OutputResultCard>
+              <OutputResultTitle
+                fontColor={executeStatus.fontColor}
+              >
+                {executeStatus.message}
+              </OutputResultTitle>
+              <OutputResultNumberContainer>
+                <OutputResultNumber>
+                  執行時間：
+                  {executeStatus.data.time}
+                  s
+                </OutputResultNumber>
+                <OutputResultNumber>
+                  記憶體使用量：
+                  {executeStatus.data.memory}
+                  KB
+                </OutputResultNumber>
+              </OutputResultNumberContainer>
+            </OutputResultCard>
+            {executeStatus.data.stdout !== ''
+                   && (
+                   <>
+                     <OutputResultLabel>標準輸出</OutputResultLabel>
+                     <Card style={{ marginTop: '15px' }}>
+                       {executeStatus.data.stdout.split('\n').map((item) => <p key={item}>{item}</p>)}
+                     </Card>
+                   </>
+                   )}
+            {executeStatus.data.stderr !== ''
                   && (
                     <>
-                      <OutputResultLabel>標準輸出</OutputResultLabel>
+                      <OutputResultLabel>標準錯誤輸出</OutputResultLabel>
                       <Card style={{ marginTop: '15px' }}>
                         {executeStatus.data.stderr.split('\n').map((item) => <p key={item}>{item}</p>)}
                       </Card>
                     </>
                   )}
-              </OutputBlock>
-            </div>
-          </Splitter>
-        </div>
+          </OutputBlock>
+        </Splitter>
       </EditorBlock>
     </Section>
   );
