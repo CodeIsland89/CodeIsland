@@ -228,16 +228,6 @@ const LANGUAGE_LIST: LanguageItem[] = [
     judge_id: 70,
     default_code: 'print("Hello World")',
   },
-  {
-    languageName: 'PHP',
-    judge_id: 68,
-    default_code: 'echo "Hello World"',
-  },
-  {
-    languageName: 'C',
-    judge_id: 50,
-    default_code: '#include <stdio.h>\nint main() {\n  printf("Hello World");\n  return 0;\n}',
-  },
 ];
 
 export default function SectionExecute() {
