@@ -305,7 +305,7 @@ export default function SectionExecute() {
               onClick={onPlay}
               style={{
                 borderColor: '#79A0C9',
-                pointerEvents: coolDown === 0 ? 'auto' : 'none',
+                pointerEvents: (coolDown === 0 && !isLoading) ? 'auto' : 'none',
               }}
             >
               {coolDown === 0 ? (
