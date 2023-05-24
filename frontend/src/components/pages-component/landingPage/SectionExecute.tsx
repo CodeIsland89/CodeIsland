@@ -231,7 +231,7 @@ const LANGUAGE_LIST: LanguageItem[] = [
 ];
 
 export default function SectionExecute() {
-  const [code, setCode] = useState('console.log("hello world")');
+  const [code, setCode] = useState(LANGUAGE_LIST[0].default_code);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [coolDown, setCoolDown] = useState<number>(0);
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageItem>(LANGUAGE_LIST[0]);
@@ -239,7 +239,7 @@ export default function SectionExecute() {
     message: '',
     fontColor: '#000000',
     data: {
-      stdout: 'Hello World',
+      stdout: '',
       stderr: '',
       time: 0,
       memory: 0,
@@ -381,10 +381,16 @@ export default function SectionExecute() {
                     </OutputResultNumber>
                   </OutputResultNumberContainer>
                 </OutputResultCard>
-                <OutputResultLabel>標準輸出</OutputResultLabel>
-                <Card style={{ marginTop: '15px' }}>
-                  {executeStatus.data.stdout.split('\n').map((item) => <p key={item}>{item}</p>)}
-                </Card>
+                {
+                  executeStatus.data.stdout !== '' && (
+                  <>
+                    <OutputResultLabel>標準輸出</OutputResultLabel>
+                    <Card style={{ marginTop: '15px' }}>
+                      {executeStatus.data.stdout.split('\n').map((item) => <p key={item}>{item}</p>)}
+                    </Card>
+                  </>
+                  )
+                }
                 {executeStatus.data.stderr !== ''
                   && (
                     <>
