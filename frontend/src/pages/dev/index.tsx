@@ -9,15 +9,37 @@ const question = 'const a = {} ; \n const b = {} ; \n const c = {} + {} ; \n'; /
 const options = [1, 2, 3, 5, 4]; // 選項
 const correctAnswers = [1, 0, 3, 4]; // 正確答案
 
+const findClozeBlockLength = (str) => {
+  const clozeBlockRegex = /({})/g;
+  const clozeBlock = str.match(clozeBlockRegex);
+  return clozeBlock ? clozeBlock.length : 0;
+};
+
 export default function Index() {
-  const [selectedAnswers, setSelectedAnswers] = useState([]); // 選擇的答案
+  const clozeBlockLength = findClozeBlockLength(question); // 欄位數量
+  const [selectedAnswers, setSelectedAnswers] = useState(new Array(clozeBlockLength).fill('')); // 選擇的答案
 
   const handleSelect = (e) => {
     const { name } = e.target;
+    const filledBlockLength = selectedAnswers.filter((answer) => answer !== '').length; // 已填答案數量
     if (selectedAnswers.includes(name)) {
-      setSelectedAnswers((prev) => prev.filter((answer) => answer !== name));
-    } else if (selectedAnswers.length < correctAnswers.length) { // 如果答案數量少於正確答案數量才能繼續選擇其他答案
-      setSelectedAnswers((prev) => [...prev, name]);
+      const index = selectedAnswers.indexOf(name);
+      // set index element replace by ''
+      setSelectedAnswers((prev) => [
+        ...prev.slice(0, index),
+        '',
+        ...prev.slice(index + 1),
+      ]);
+    } else if (filledBlockLength < correctAnswers.length) { // 如果答案數量少於正確答案數量才能繼續選擇其他答案
+      const emptyIndex = selectedAnswers.indexOf('');
+      if (emptyIndex !== -1) {
+        // set emptyIndex element replace by name
+        setSelectedAnswers((prev) => [
+          ...prev.slice(0, emptyIndex),
+          name,
+          ...prev.slice(emptyIndex + 1),
+        ]);
+      }
     }
   };
 
