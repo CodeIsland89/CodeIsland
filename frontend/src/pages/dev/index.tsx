@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import reactStringReplace from 'react-string-replace';
+import findKeyByValue from '../../global/function/findKeyByValue';
 
 const newLineRegex = /(\n)/g; // 換行代號
 const fieldRegex = /({})/g; // 欄位代號
@@ -10,14 +11,21 @@ const options = [1, 2, 3, 5, 4]; // 選項
 const correctAnswers = [1, 0, 3, 4]; // 正確答案
 
 export default function Index() {
-  const [selectedAnswers, setSelectedAnswers] = useState([]); // 選擇的答案
+  const [selectedAnswers, setSelectedAnswers] = useState({}); // 選擇的答案
 
   const handleSelect = (e) => {
     const { name } = e.target;
-    if (selectedAnswers.includes(name)) {
-      setSelectedAnswers((prev) => prev.filter((answer) => answer !== name));
-    } else if (selectedAnswers.length < correctAnswers.length) { // 如果答案數量少於正確答案數量才能繼續選擇其他答案
-      setSelectedAnswers((prev) => [...prev, name]);
+    const { length } = Object.values(selectedAnswers).filter((value) => value !== null); // 扣除被取消的欄位
+    if (Object.values(selectedAnswers).includes(name)) {
+      const key = findKeyByValue(selectedAnswers, name);
+      setSelectedAnswers({ ...selectedAnswers, [key]: null });
+    } else if (length < correctAnswers.length) { // 如果答案數量少於正確答案數量才能繼續選擇其他答案
+      const key = findKeyByValue(selectedAnswers, null);
+      if (key !== null) { // 依順序填入（如果有被取消的欄位）
+        setSelectedAnswers({ ...selectedAnswers, [key]: name });
+      } else { // 依順序填入
+        setSelectedAnswers({ ...selectedAnswers, [length]: name });
+      }
     }
   };
 
@@ -73,7 +81,7 @@ export default function Index() {
       name={`op-${index}`}
       onClick={(e) => handleSelect(e)}
       className={
-        selectedAnswers.includes(`op-${index}`) ? 'selected' : ''
+      (findKeyByValue(selectedAnswers, `op-${index}`) !== null) ? 'selected' : ''
       }
     >
       {option}
