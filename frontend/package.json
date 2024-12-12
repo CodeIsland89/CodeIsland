@@ -17,9 +17,12 @@
   "dependencies": {
     "@svgr/webpack": "^7.0.0",
     "next": "13.1.1",
+    "prismjs": "^1.29.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-markdown": "8.0.4",
+    "react-simple-code-editor": "^0.13.1",
+    "react-split": "^2.0.14",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
@@ -33,6 +36,7 @@
     "@storybook/react": "^6.5.15",
     "@storybook/testing-library": "^0.0.13",
     "@types/node": "18.11.18",
+    "@types/prismjs": "^1.26.0",
     "@types/react": "18.0.26",
     "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.48.1",
